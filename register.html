@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Enhanced registration form with modern design elements">
+    <meta name="author" content="">
+    <title>Register - Modern UI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Enhanced styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            animation: gradientBG 15s ease infinite;
+            background-size: 400% 400%;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .container {
+            width: 90%;
+            height: 90%;
+            max-width: 520px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(20px);
+            animation: float 0.7s ease-out forwards;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes float {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .form-section {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+            transform: scale(0);
+            animation: popIn 0.5s cubic-bezier(0.26, 1.36, 0.68, 1) 0.3s forwards;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        .logo i {
+            font-size: 40px;
+            color: #6e8efb;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 600;
+            opacity: 0;
+            animation: slideDown 0.5s ease-in-out 0.5s forwards;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            opacity: 0;
+            animation: slideRight 0.5s ease-in-out forwards;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: slideRight 0.5s ease-in-out forwards;
+        }
+
+        .input-group-item {
+            flex: 1;
+            position: relative;
+        }
+
+        .form-group:nth-child(1), .input-group:nth-child(1) {
+            animation-delay: 0.6s;
+        }
+
+        .form-group:nth-child(2), .input-group:nth-child(2) {
+            animation-delay: 0.8s;
+        }
+
+        .form-group:nth-child(3), .input-group:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes slideRight {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            background: rgba(235, 235, 235, 0.8);
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(110, 142, 251, 0.4);
+            background: white;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 16px;
+        }
+
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 15px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: 0.3s;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 10px rgba(110, 142, 251, 0.3);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out 1.4s forwards;
+            margin-bottom: 20px;
+        }
+
+        button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover:before {
+            left: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(110, 142, 251, 0.4);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #999;
+            font-size: 13px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out 1.6s forwards;
+        }
+
+        .divider:before, .divider:after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #ddd;
+            margin: 0 10px;
+        }
+
+        .login-link {
+            font-size: 14px;
+            margin-top: 15px;
+            color: #666;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out 2s forwards;
+        }
+
+        .login-link a {
+            color: #6e8efb;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .login-link a:hover {
+            color: #a777e3;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+            }
+
+            .form-section {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .input-group {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="form-section">
+        <div class="logo">
+            <i class="fas fa-user-plus"></i>
+        </div>
+        <h1>Create an Account!</h1>
+        <form id="registerForm">
+            <div class="input-group">
+                <div class="input-group-item">
+                    <input type="text" id="firstName" placeholder="First Name" required>
+                    <span class="input-icon"><i class="fas fa-user"></i></span>
+                </div>
+                <div class="input-group-item">
+                    <input type="date" id="dob" placeholder="Date of Birth" required>
+                    <span class="input-icon"><i class="fas fa-calendar-alt"></i></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="email" id="email" placeholder="Email Address" required>
+                <span class="input-icon"><i class="fas fa-envelope"></i></span>
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-item">
+                    <input type="password" id="password" placeholder="Password" required>
+                    <span class="input-icon"><i class="fas fa-lock"></i></span>
+                </div>
+                <div class="input-group-item">
+                    <input type="password" id="repeatPassword" placeholder="Repeat Password" required>
+                    <span class="input-icon"><i class="fas fa-shield-alt"></i></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <select id="role" required>
+                    <option value="" disabled selected>Select Role</option>
+                    <option value="USER">User</option>
+                    <option value="ADMIN">Admin</option>
+                </select>
+            </div>
+
+            <button type="submit">Register Account</button>
+<!--
+
+            <div class="divider">or sign up with</div>
+-->
+
+          <!--  <div class="social-buttons">
+                <button type="button" class="google"><i class="fab fa-google"></i> Google</button>
+                <button type="button" class="facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
+            </div>-->
+
+            <div class="login-link">
+                Already have an account? <a href="login.html">Login!</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById("registerForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const firstName = document.getElementById("firstName").value;
+        const dob = document.getElementById("dob").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const repeatPassword = document.getElementById("repeatPassword").value;
+        const role = document.getElementById("role").value;
+
+        if (password !== repeatPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
+        const formData = {
+            firstName: firstName,
+            dob: dob,
+            email: email,
+            password: password,
+            role: role
+        };
+
+        // This is where you would normally send the data to your server
+        console.log("Registration data:", formData);
+        alert("Registration Successful!");
+        // Redirect to login page
+        window.location.href = "login.html";
+    });
+</script>
+</body>
+
+</html>
