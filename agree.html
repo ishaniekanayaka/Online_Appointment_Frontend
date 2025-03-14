@@ -219,8 +219,8 @@
     </div>
 
     <div class="buttons">
-        <a href="/register.html" id="agreeLink">
-            <button class="btn agree-btn" id="agreeBtn">I Agree</button>
+        <a href="login.html">
+            <button class="btn agree-btn" id="agreeBtn" >I Agree</button>
         </a>
         <button class="btn cancel-btn" onclick="cancel()">Cancel</button>
     </div>
@@ -230,8 +230,10 @@
     const agreeCheckbox = document.getElementById('agreeCheckbox');
     const agreeBtn = document.getElementById('agreeBtn');
 
-    agreeCheckbox.addEventListener('change', function() {
-        agreeBtn.disabled = !this.checked;
+    document.getElementById('agreeBtn').addEventListener('click', function() {
+        if (!this.disabled) {
+            window.location.href = "register.html";
+        }
     });
 
     function cancel() {

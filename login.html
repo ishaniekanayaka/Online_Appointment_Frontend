@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Enhanced login form with modern design elements">
+    <meta name="author" content="">
+    <title>Login - Modern UI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Enhanced styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            animation: gradientBG 15s ease infinite;
+            background-size: 400% 400%;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(20px);
+            animation: float 0.7s ease-out forwards;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes float {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .form-section {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+            transform: scale(0);
+            animation: popIn 0.5s cubic-bezier(0.26, 1.36, 0.68, 1) 0.3s forwards;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        .logo i {
+            font-size: 40px;
+            color: #6e8efb;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 600;
+            opacity: 0;
+            animation: slideDown 0.5s ease-in-out 0.5s forwards;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            opacity: 0;
+            animation: slideRight 0.5s ease-in-out forwards;
+        }
+
+        .form-group:nth-child(1) {
+            animation-delay: 0.6s;
+        }
+
+        .form-group:nth-child(2) {
+            animation-delay: 0.8s;
+        }
+
+        .form-group:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes slideRight {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            background: rgba(235, 235, 235, 0.8);
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(110, 142, 251, 0.4);
+            background: white;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 16px;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out 1.2s forwards;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+        }
+
+        #customCheck {
+            width: auto;
+            margin-right: 8px;
+            accent-color: #6e8efb;
+        }
+
+        .forgot-link {
+            color: #6e8efb;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .forgot-link:hover {
+            color: #a777e3;
+            text-decoration: underline;
+        }
+
+        button {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: 0.3s;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 10px rgba(110, 142, 251, 0.3);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out 1.4s forwards;
+        }
+
+        button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover:before {
+            left: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(110, 142, 251, 0.4);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #999;
+            font-size: 13px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out 1.6s forwards;
+        }
+
+        .divider:before, .divider:after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #ddd;
+            margin: 0 10px;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out 1.8s forwards;
+        }
+
+        .google, .facebook {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 48%;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .google {
+            background: #db4437;
+            box-shadow: 0 4px 10px rgba(219, 68, 55, 0.3);
+        }
+
+        .facebook {
+            background: #1877f2;
+            box-shadow: 0 4px 10px rgba(24, 119, 242, 0.3);
+        }
+
+        .google:hover, .facebook:hover {
+            transform: translateY(-2px);
+        }
+
+        .google:hover {
+            box-shadow: 0 6px 15px rgba(219, 68, 55, 0.4);
+        }
+
+        .facebook:hover {
+            box-shadow: 0 6px 15px rgba(24, 119, 242, 0.4);
+        }
+
+        .register-link {
+            font-size: 14px;
+            margin-top: 15px;
+            color: #666;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out 2s forwards;
+        }
+
+        .register-link a {
+            color: #6e8efb;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .register-link a:hover {
+            color: #a777e3;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+            }
+
+            .form-section {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="form-section">
+        <div class="logo">
+            <i class="fas fa-user-circle"></i>
+        </div>
+        <h1>Welcome Back!</h1>
+        <form id="loginForm" class="user">
+            <div class="form-group">
+                <input type="email" id="email" aria-describedby="emailHelp"
+                       placeholder="Email Address">
+                <span class="input-icon"><i class="fas fa-envelope"></i></span>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" placeholder="Password">
+                <span class="input-icon"><i class="fas fa-lock"></i></span>
+            </div>
+            <div class="remember-forgot">
+                <div class="remember">
+                    <input type="checkbox" id="customCheck">
+                    <label for="customCheck">Remember Me</label>
+                </div>
+                <a href="#" class="forgot-link">Forgot Password?</a>
+            </div>
+
+            <button type="submit">Login</button>
+
+            <div class="divider">or continue with</div>
+
+            <div class="social-buttons">
+                <button type="button" class="google"><i class="fab fa-google"></i> Google</button>
+                <button type="button" class="facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
+            </div>
+
+            <div class="register-link">
+                Don't have an account? <a href="register.html">Register Now</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        if (email === "" || password === "") {
+            alert("Please fill in all fields.");
+            return;
+        }
+
+        const loginData = {
+            email: email,
+            password: password
+        };
+
+        // This is where you would normally send the data to your server
+        console.log("Login data:", loginData);
+        alert("Login Successful!");
+        // Uncomment to redirect to dashboard
+        // window.location.href = "dashboard.html";
+    });
+</script>
+</body>
+
+</html>
