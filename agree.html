@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreement Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            text-align: center;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .header-icon {
+            font-size: 50px;
+            color: #764ba2;
+            margin-bottom: 10px;
+            animation: bounce 1.5s infinite;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .agreement-box {
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f9f9f9;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .agreement-text p {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .agreement-text h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #764ba2;
+            text-decoration: underline;
+            margin-bottom: 8px;
+        }
+
+        .agreement-text p {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .agreement-text ul {
+            margin-left: 20px;
+            padding-left: 10px;
+        }
+
+        .agreement-text ul li {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+
+        .checkbox-container input {
+            margin-right: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .agree-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .agree-btn:disabled {
+            background: #bbb;
+            cursor: not-allowed;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .cancel-btn {
+            background: #ddd;
+            color: #333;
+        }
+
+        .btn:hover:not(:disabled) {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 500px) {
+            .buttons {
+                flex-direction: column;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <i class="fas fa-file-contract header-icon"></i>
+    <h2>Terms & Conditions</h2>
+    <p class="subtitle">Please review and agree to our terms before proceeding.</p>
+
+    <div class="agreement-box">
+        <div class="agreement-text">
+            <h3>1. Introduction</h3>
+            <p>Welcome to MeetUpPro! These Terms of Service ("Terms") govern your access to and use of MeetUpPro's website, services, and applications (collectively, the "Services"). By accessing or using our Services, you agree to be bound by these Terms.</p>
+
+            <h3>2. Appointment Scheduling Services</h3>
+            <p>MeetUpPro provides an online platform that enables users to schedule, manage, and coordinate appointments and meetings. By using our Services, you acknowledge and agree to the following:</p>
+            <ul>
+                <li>You are responsible for any information you provide through our Services.</li>
+                <li>You will use the Services in compliance with all applicable laws and regulations.</li>
+                <li>We reserve the right to modify, suspend, or discontinue any aspect of our Services at any time.</li>
+            </ul>
+
+            <h3>3. User Accounts</h3>
+            <p>To access certain features of our Services, you may need to create an account. When creating an account, you agree to:</p>
+            <ul>
+                <li>Provide accurate, current, and complete information.</li>
+                <li>Maintain and promptly update your account information.</li>
+                <li>Keep your account credentials secure and confidential.</li>
+                <li>Notify us immediately of any unauthorized use of your account.</li>
+            </ul>
+
+            <h3>4. Privacy Policy</h3>
+            <p>Your privacy is important to us. Our Privacy Policy explains how we collect, use, and protect your personal information. By using our Services, you consent to our collection and use of personal information as described in our Privacy Policy.</p>
+
+            <h3>5. Intellectual Property</h3>
+            <p>All content, features, and functionality of our Services, including but not limited to text, graphics, logos, icons, images, audio clips, digital downloads, data compilations, and software, are the exclusive property of MeetUpPro or its licensors and are protected by copyright, trademark, and other intellectual property laws.</p>
+
+            <h3>6. Limitation of Liability</h3>
+            <p>To the maximum extent permitted by law, MeetUpPro shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of (or inability to access or use) our Services.</p>
+
+            <h3>7. Termination</h3>
+            <p>We may terminate or suspend your account and access to our Services at our sole discretion, without notice, for conduct that we believe violates these Terms or is harmful to other users, us, or third parties, or for any other reason.</p>
+
+            <h3>8. Changes to Terms</h3>
+            <p>We may revise these Terms from time to time. The most current version will always be posted on our website. By continuing to use our Services after any changes, you accept and agree to the revised Terms.</p>
+
+            <div class="agreement-footer">
+                <p>By using MeetUpPro services, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="checkbox-container">
+        <input type="checkbox" id="agreeCheckbox">
+        <label for="agreeCheckbox">I agree to the Terms & Conditions</label>
+    </div>
+
+    <div class="buttons">
+        <a href="register.html" id="agreeLink">
+            <button class="btn agree-btn" id="agreeBtn" disabled>I Agree</button>
+        </a>
+        <button class="btn cancel-btn" onclick="cancel()">Cancel</button>
+    </div>
+</div>
+
+<script>
+    const agreeCheckbox = document.getElementById('agreeCheckbox');
+    const agreeBtn = document.getElementById('agreeBtn');
+
+    agreeCheckbox.addEventListener('change', function() {
+        agreeBtn.disabled = !this.checked;
+    });
+
+    function cancel() {
+        alert("You have declined the agreement.");
+        window.location.href = "index.html";
+    }
+</script>
+</body>
+</html>
