@@ -347,7 +347,7 @@
                 <a href="#" class="forgot-link">Forgot Password?</a>
             </div>
 
-            <button type="submit">Login</button>
+            <button type="submit" id="loginButton">Login</button>
 
             <div class="divider">or continue with</div>
 
@@ -357,36 +357,13 @@
             </div>
 
             <div class="register-link">
-                Don't have an account? <a href="register.html">Register Now</a>
+                Don't have an account? <a href="register.html" >Register Now</a>
             </div>
         </form>
     </div>
 </div>
 
-<script>
-    document.getElementById("loginForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        if (email === "" || password === "") {
-            alert("Please fill in all fields.");
-            return;
-        }
-
-        const loginData = {
-            email: email,
-            password: password
-        };
-
-        // This is where you would normally send the data to your server
-        console.log("Login data:", loginData);
-        alert("Login Successful!");
-        // Uncomment to redirect to dashboard
-        // window.location.href = "dashboard.html";
-    });
-</script>
+<script src="js/login/login.js"></script>
 </body>
 
 </html>
