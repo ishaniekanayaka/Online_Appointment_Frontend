@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeetHive Registration</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .login-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .login-image {
+            background: linear-gradient(135deg, #FF8000 0%, #FF4500 100%);
+            min-height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hand-overlay {
+            position: relative;
+            width: 80%;
+            text-align: center;
+        }
+
+        .hand-image {
+            max-width: 80%;
+            filter: brightness(0.9);
+        }
+
+        .form-container {
+            padding: 25px;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            max-width: 80px;
+            margin-bottom: 5px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 2px;
+            font-size: 14px;
+        }
+
+        .form-control {
+            border-radius: 6px;
+            padding: 8px 12px;
+            border: 1px solid #e1e1e1;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            border-color: #FF8000;
+            box-shadow: 0 0 0 0.2rem rgba(255, 128, 0, 0.25);
+        }
+
+        .btn-primary {
+            background-color: #FF8000;
+            border: none;
+            border-radius: 6px;
+            padding: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #E67300;
+            transform: translateY(-2px);
+        }
+
+        .form-text {
+            color: #6c757d;
+            font-size: 12px;
+        }
+
+        .create-account {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .create-link {
+            color: #FF8000;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .row-compact {
+            margin-right: -8px;
+            margin-left: -8px;
+        }
+
+        .row-compact > [class*="col-"] {
+            padding-right: 8px;
+            padding-left: 8px;
+        }
+
+        h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        h5 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .mb-compact {
+            margin-bottom: 12px;
+        }
+
+        /* Animation classes */
+        .slide-in-right {
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.7s ease-out;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.03);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row login-container">
+        <div class="col-lg-5 col-md-4 p-0 login-image d-none d-md-flex">
+            <div class="hand-overlay">
+                <img src="images/anna-rosar-ew-olGvgCCs-unsplash.jpg/400/250" alt="Hands holding rope" class="hand-image">
+                <h4 class="text-white mt-3">Join the MeetHive Community</h4>
+            </div>
+        </div>
+        <div class="col-lg-7 col-md-8 col-sm-12 form-container">
+            <div class="logo-container animate__animated animate__fadeIn">
+                <img src="images/anna-rosar-ew-olGvgCCs-unsplash.jpg/80/80" alt="MeetHive Logo" class="logo">
+                <h4>The MeetHive Community</h4>
+            </div>
+
+            <h5 class="text-center fade-in-up">Create your account</h5>
+
+            <form id="registrationForm">
+                <div class="row row-compact">
+                    <div class="col-md-6 mb-compact slide-in-right" style="animation-delay: 0.1s">
+                        <label for="fullName" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="fullName" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="col-md-6 mb-compact slide-in-right" style="animation-delay: 0.2s">
+                        <label for="dateOfBirth" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" id="dateOfBirth" required>
+                    </div>
+                </div>
+
+                <div class="row row-compact">
+                    <div class="col-md-6 mb-compact slide-in-right" style="animation-delay: 0.3s">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="col-md-6 mb-compact slide-in-right" style="animation-delay: 0.4s">
+                        <label for="mobileNumber" class="form-label">Mobile Number</label>
+                        <input type="tel" class="form-control" id="mobileNumber" placeholder="Enter your mobile number" required>
+                    </div>
+                </div>
+
+                <div class="mb-compact slide-in-right" style="animation-delay: 0.5s">
+                    <label for="address" class="form-label">Address</label>
+                    <textarea class="form-control" id="address" rows="2" placeholder="Enter your address" required></textarea>
+                </div>
+
+                <div class="mb-compact slide-in-right" style="animation-delay: 0.6s">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Create a strong password" required>
+                    <div class="form-text">Password must be at least 8 characters long</div>
+                </div>
+
+                <div class="d-grid gap-2 mt-3 fade-in-up" style="animation-delay: 0.8s">
+                    <button type="submit" class="btn btn-primary pulse">Register Now</button>
+                </div>
+
+                <div class="create-account fade-in-up" style="animation-delay: 1s">
+                    Already have an account? <a href="#" class="create-link">Login now</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Form validation
+        const form = document.getElementById('registrationForm');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Basic validation
+            const password = document.getElementById('password').value;
+
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long');
+                return;
+            }
+
+            // Success animation
+            const button = document.querySelector('.btn-primary');
+            button.innerHTML = 'Registration Successful!';
+            button.classList.remove('pulse');
+            button.classList.add('animate__animated', 'animate__bounceIn');
+
+            // In a real scenario, you would submit the form data to your server here
+            setTimeout(() => {
+                alert('Registration successful! Welcome to MeetHive!');
+            }, 1000);
+        });
+
+        // Add focus animation
+        const inputs = document.querySelectorAll('.form-control');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.classList.add('animate__animated', 'animate__pulse');
+                this.style.animationDuration = '0.5s';
+            });
+
+            input.addEventListener('blur', function() {
+                this.classList.remove('animate__animated', 'animate__pulse');
+            });
+        });
+    });
+</script>
+</body>
+</html>

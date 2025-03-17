@@ -29,19 +29,7 @@ document.getElementById("registerForm").addEventListener("submit", function (eve
         },
         body: JSON.stringify(user)
     })
-       /* .then(response => response.json())
-        .then(data => {
-            if (data.code === 201) {
-                alert("Registration successful!");
-                window.location.href = "../../login.html";
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(error => {
-            console.error("Error during registration:", error);
-            alert("Registration failed. Please try again.");
-        });*/
+
         .then(response => response.json())
         .then(data => {
             console.log("Response Data:", data);  // Debugging
@@ -55,6 +43,7 @@ document.getElementById("registerForm").addEventListener("submit", function (eve
 
 });
 
+/*
 document.getElementById("loginButton").addEventListener("click", function() {
     window.location.href = "index.html";
-});
+});*/

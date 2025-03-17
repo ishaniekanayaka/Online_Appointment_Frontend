@@ -1,45 +1,54 @@
-document.getElementById("loginButton").addEventListener("click",function (event) {
+document.getElementById("loginButton").addEventListener("click", function (event) {
     event.preventDefault();
 
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value.trim();
 
-    if (email === "" || password === "") {
+    if (!email || !password) {
         alert("Please enter both email and password.");
         return;
     }
 
-
-    let user = {
-        email: email,
-        password: password
-    };
+    let user = { email, password };
 
     fetch("http://localhost:8080/api/v1/auth/authenticate", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user)
     })
         .then(response => response.json())
-        .then(data => {
-            if (data.code === 201) {
+        .then(response => {
+            if (response.code === 201 && response.data.token) {
+                // Store token properly
+                localStorage.setItem("authToken", response.data.token);
 
-                localStorage.setItem("authToken", data.data.token);
+                // Fetch user role
+                fetch("http://localhost:8080/api/v1/admin/checkRole", {
+                    method: "GET",
+                    headers: { "Authorization": `Bearer ${response.data.token}` }
+                })
+                    .then(response => response.json())
+                    .then(roleData => {
+                        console.log("Role:", roleData.role);
 
-                window.location.href = "dashboard.html";
+                        if (roleData.role === "ADMIN") {
+                            window.location.href = "admin_dashboard.html";  // Redirect to Admin Dashboard
+                        } else if (roleData.role === "USER") {
+                            window.location.href = "../../forget_password.html";  // Redirect to User Dashboard
+                        } else {
+                            alert("User role not recognized.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching role:", error);
+                        alert("Failed to determine user role.");
+                    });
             } else {
-                alert(data.message);
+                alert(response.message || "Login failed.");
             }
         })
         .catch(error => {
-            console.error("Error during login:", error);
+            console.error("Login error:", error);
             alert("Login failed. Please try again.");
         });
 });
-/*document.getElementById("registerButton").addEventListener("click", function(event) {
-    event.preventDefault();
-    window.location.href = "register.html";
-});*/
-
