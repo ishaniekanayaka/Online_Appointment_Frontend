@@ -32,7 +32,7 @@ document.getElementById("loginButton").addEventListener("click", function (event
                         console.log("Role:", roleData.role);
 
                         if (roleData.role === "ADMIN") {
-                            window.location.href = "admin_dashboard.html";  // Redirect to Admin Dashboard
+                            window.location.href = "../../admin_dashboard.html";  // Redirect to Admin Dashboard
                         } else if (roleData.role === "USER") {
                             window.location.href = "../../forget_password.html";  // Redirect to User Dashboard
                         } else {

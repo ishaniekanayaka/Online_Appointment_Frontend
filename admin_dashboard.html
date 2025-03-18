@@ -898,10 +898,11 @@
                     <i class="fas fa-clipboard-list"></i>
                     <span>My Meetings</span>
                 </div>
-                <div class="nav-item">
+                <div class="nav-item" onclick="navigateToCategory()">
                     <i class="fas fa-user-group"></i>
                     <span>Meeting Room</span>
                 </div>
+
             </div>
 
             <div class="nav-section">
@@ -1124,67 +1125,6 @@
     </div>
 </div>
 
-<!-- Dropdowns -->
-<!--<div class="dropdown" id="notification-dropdown">
-    <div class="dropdown-header">Notifications</div>
-    <div class="dropdown-content">
-        <div class="dropdown-item">
-            <div class="dropdown-item-icon"><i class="fas fa-bell"></i></div>
-            <div class="dropdown-item-content">
-                <div class="dropdown-item-title">New Meeting Scheduled</div>
-                <div class="dropdown-item-text">You have a new meeting scheduled for tomorrow at 10:00 AM.</div>
-                <div class="dropdown-item-time">2 hours ago</div>
-            </div>
-        </div>
-        <div class="dropdown-item">
-            <div class="dropdown-item-icon"><i class="fas fa-bell"></i></div>
-            <div class="dropdown-item-content">
-                <div class="dropdown-item-title">Team Member Added</div>
-                <div class="dropdown-item-text">A new team member has been added to your project.</div>
-                <div class="dropdown-item-time">5 hours ago</div>
-            </div>
-        </div>
-    </div>
-    <div class="dropdown-footer">View All Notifications</div>
-</div>
-
-<div class="dropdown" id="settings-dropdown">
-    <div class="dropdown-header">Settings</div>
-    <div class="dropdown-content">
-        <div class="settings-section">
-            <div class="settings-section-title">Theme</div>
-            <div class="mode-toggle">
-                <span>Dark Mode</span>
-                <div class="toggle-switch" id="dark-mode-toggle"></div>
-            </div>
-            <div class="theme-colors">
-                <div class="theme-color indigo active"></div>
-                <div class="theme-color blue"></div>
-                <div class="theme-color green"></div>
-                <div class="theme-color red"></div>
-                <div class="theme-color amber"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="dropdown user-dropdown" id="user-dropdown">
-    <div class="dropdown-content">
-        <div class="user-dropdown-item">
-            <i class="fas fa-user"></i>
-            <span>Profile</span>
-        </div>
-        <div class="user-dropdown-item">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-        </div>
-        <div class="divider"></div>
-        <div class="user-dropdown-item">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Logout</span>
-        </div>
-    </div>
-</div>-->
 <div class="dropdown" id="notification-dropdown">
     <div class="dropdown-header">Notifications</div>
     <div class="dropdown-content">
@@ -1520,6 +1460,9 @@
         });
     });
 
+    function navigateToCategory() {
+        window.location.href = '/categoryNew.html'; // Adjust the path if necessary
+    }
 
 </script>
 </body>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+</head>
+
+<body class="container mt-4">
+<h2 class="mb-3">Manage Category</h2>
+
+<div class="card p-3 mb-4">
+    <form id="itemForm">
+        <div class="row">
+            <div class="col-md-6 mb-2">
+                <label for="id" class="form-label">Code</label>
+                <input type="text" id="id" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-2">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" id="name" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-2">
+                <label for="description" class="form-label">Description</label>
+                <input type="text" id="description" class="form-control">
+            </div>
+            <div class="col-md-6 mb-2">
+                <label for="image" class="form-label">Image</label>
+                <input type="file" id="image" class="form-control" accept="image/*" onchange="previewImage(event)">
+                <img id="imagePreview" src="#" alt="Image preview" style="max-width: 100px; margin-top: 10px;">
+            </div>
+
+        </div>
+        <button type="button" class="btn btn-primary mt-2" onclick="updateCategory()">Update</button>
+        <button type="button" class="btn btn-danger mt-2" onclick="deleteCategory()">Delete</button>
+        <!--<button type="button" class="btn btn-success mt-2" onclick="saveItem()">Save</button>
+        <button type="button" class="btn btn-primary mt-2" onclick="updateItem()">Update</button>
+        <button type="button" class="btn btn-danger mt-2" onclick="deleteItem()">Delete</button>
+        <button type="button" class="btn btn-warning mt-2" onclick="clearForm()">Clear</button>
+        <button type="button" class="btn btn-secondary mt-2" onclick="goBack()">Back</button>-->
+        <div class="d-grid gap-2">
+            <button type="button" class="btn btn-primary" id="saveBtn" onclick="saveCategory()">
+                <i class="fas fa-save me-2"></i>Save Category
+            </button>
+            <button type="button" class="btn btn-secondary" id="resetBtn" onclick="resetcategory()">
+                <i class="fas fa-undo me-2"></i>Reset Form
+            </button>
+        </div>
+    </form>
+</div>
+
+<h3>Saved category</h3>
+<table class="table table-bordered">
+    <thead class="table-dark">
+    <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Image</th>
+        <!-- Added date column -->
+    </tr>
+    </thead>
+    <tbody id="categoryTableBody"></tbody>
+</table>
+<script src="js/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function() {
+        getAllCategory();
+    });
+
+    function saveCategory() {
+        const authToken = localStorage.getItem('authToken')
+
+        let id = $('#id').val().trim();
+        let name = $('#name').val().trim();
+        let description = $('#description').val().trim();
+        let image = $('#image').val().trim();
+
+        if (!id || !name || ! description || ! image) {
+            alert("All fields are required!");
+            return;
+        }
+
+        let item = { id, name, description, image };
+
+        $.ajax({
+            url: "http://localhost:8080/api/v1/category/save",
+            method: "POST",
+            headers: {"Authorization": `Bearer ${authToken}`},
+            contentType: "application/json",
+            data: JSON.stringify(item),
+            success: function() {
+                alert("Category Saved Successfully!");
+                getAllItems();
+            },
+            error: function(xhr, status, error) {
+                console.error("Save error:", status, error, xhr.responseText);
+                alert("Error saving item!");
+            }
+        });
+    }
+
+    function updateCategory() {
+        const authToken = localStorage.getItem('authToken')
+        let id = $('#id').val().trim();
+        let name = $('#name').val().trim();
+        let description = $('#description').val().trim();
+        let image = $('#image').val().trim();
+
+        if (!id) {
+            alert("category Code is required to update!");
+            return;
+        }
+
+        let item = { id, name, description, image };
+
+        $.ajax({
+            url: "http://localhost:8080/api/v1/category/update",
+            method: "PUT",
+            headers: {"Authorization": `Bearer ${authToken}`},
+            contentType: "application/json",
+            data: JSON.stringify(item),
+            success: function() {
+                alert("category Updated Successfully!");
+                getAllItems();
+            },
+            error: function(xhr, status, error) {
+                console.error("Update error:", status, error, xhr.responseText);
+                alert("Error updating item!");
+            }
+        });
+    }
+
+    function deleteCategory() {
+        const authToken = localStorage.getItem('authToken')
+        let id = $('#id').val().trim();
+
+        if (!id) {
+            alert("Category Code is required to delete!");
+            return;
+        }
+
+        $.ajax({
+            url: `http://localhost:8080/api/v1/category/delete/${id}`,
+            method: "DELETE",
+            headers: {"Authorization": `Bearer ${authToken}`},
+            success: function() {
+                alert("Category Deleted Successfully!");
+                getAllCategory();
+                clearForm();
+            },
+            error: function(xhr, status, error) {
+                console.error("Delete error:", status, error, xhr.responseText);
+                alert("Error deleting item!");
+            }
+        });
+    }
+
+    const getAllCategory = () => {
+        const authToken = localStorage.getItem('authToken')
+        let tableBody = $('#categoryTableBody');
+        $.ajax({
+            url: "http://localhost:8080/api/v1/category/getAll",
+            method: "GET",
+            dataType: "json",
+            headers: {"Authorization": `Bearer ${authToken}`},
+            success: (resp) => {
+                console.log("API Response:", resp);
+
+                tableBody.empty();
+
+                let categories = Array.isArray(resp) ? resp : resp.data;
+                if (!Array.isArray(categories)) {
+                    console.error("Invalid response format", resp);
+                    alert("Unexpected data format received from the server!");
+                    return;
+                }
+
+                categories.forEach(category => {
+                    tableBody.append(`
+                            <tr>
+                                <td>${category.id}</td>
+                                <td>${category.name}</td>
+                                <td>${category.description}</td>
+                                <td><img src="${category.image}" alt="${category.name}" width="100"></td>
+
+                            </tr>
+                        `);
+                });
+            },
+            error: (xhr, status, error) => {
+                console.error("Error fetching items:", status, error, xhr.responseText);
+                alert("Error loading item data!");
+            }
+        });
+    };
+
+    function clearForm() {
+        const authToken = localStorage.getItem('authToken')
+        $('#id, #name, #description, #image,#imagePreview').val('');
+    }
+
+    function goBack() {
+        window.location.href = '../index.html';
+    }
+
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const output = document.getElementById('imagePreview');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    $(document).ready(function() {
+        getAllCategory();
+
+        $('#categoryTableBody').on('click', 'tr', function() {
+            let row = $(this).find('td');
+            $('#id').val(row.eq(0).text());
+            $('#name').val(row.eq(1).text());
+            $('#description').val(row.eq(2).text());
+            $('#image').val(row.eq(3).find('img').attr('src'));
+        });
+    });
+</script>
+</body>
+
+</html>
