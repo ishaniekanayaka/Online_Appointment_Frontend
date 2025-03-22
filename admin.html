@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-black: #212121;
+            --primary-orange: #813271;
+            --primary-white: #FFFFFF;
+            --secondary-blue: #03A9F4;
+            --secondary-green: #4CAF50;
+            --background-color: #FFFFFF;
+            --text-color: #212121;
+            --sidebar-bg: #212121;
+            --sidebar-text: #FFFFFF;
+            --card-bg: #FFFFFF;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode {
+            --background-color: #121212;
+            --text-color: #FFFFFF;
+            --sidebar-bg: #1F1F1F;
+            --sidebar-text: #FFFFFF;
+            --card-bg: #1F1F1F;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .sidebar {
+            height: 100vh;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 20px;
+            position: fixed;
+            width: 250px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .sidebar .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: var(--primary-orange);
+        }
+
+        .sidebar .nav-link {
+            color: var(--sidebar-text);
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: var(--primary-orange);
+        }
+
+        .sidebar .nav-link.active {
+            background-color: var(--primary-orange);
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .logo-container {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-orange);
+        }
+
+        .navbar {
+            background-color: var(--background-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, background-color 0.3s;
+            background-color: var(--card-bg);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 40px;
+            color: var(--secondary-blue);
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .dropdown-toggle::after {
+            display: none; /* Hide the default dropdown arrow */
+        }
+
+
+        .btn-outline-primary {
+            color: var(--secondary-blue);
+            border-color: var(--secondary-blue);
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--secondary-blue);
+            color: var(--primary-white);
+        }
+
+        .theme-toggle-btn {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        h2{
+            color: purple;
+        }
+    </style>
+</head>
+<body>
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="logo-container">
+        <i class="fas fa-users-gear" style="font-size: 24px; color: var(--primary-orange); margin-right: 10px; margin-top: -30px"></i>
+        <div class="logo">MeetUpPro</div>
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" href="#" data-content="dashboard"><i class="fas fa-home me-2"></i>Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-content="updateUser"><i class="fas fa-user-edit me-2"></i>Update User</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-content="members"><i class="fas fa-users me-2"></i>Category</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-content="meetings"><i class="fas fa-calendar-alt me-2"></i>Subcategory</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-content="events"><i class="fas fa-calendar-check me-2"></i>Events</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-content="eventFacility"><i class="fas fa-building me-2"></i>Event Facility</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-content="eventType"><i class="fas fa-tags me-2"></i>Event Type</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-content="meetingAttendance"><i class="fas fa-clipboard-list me-2"></i>Meeting Attendance</a>
+        </li>
+    </ul>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <span class="navbar-brand" style="color: #0f5132">Welcome, Admin</span>
+            <div class="d-flex align-items-center">
+                <form class="d-flex me-3">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </form>
+                <!-- Theme Toggle Button -->
+                <button class="btn btn-outline-secondary theme-toggle-btn" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <!-- Profile Dropdown -->
+                <div class="dropdown">
+                    <a class="dropdown-toggle d-flex align-items-center text-decoration-none" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://via.placeholder.com/40" alt="Profile" class="profile-img me-2">
+                        <span>John Doe</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="/login.html"><i class="fas fa-user me-2"></i>Profile</a></li>
+                        <li><a class="dropdown-item" href="register.html"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dynamic Content Area -->
+    <div id="dynamicContent" class="mt-4">
+        <!-- Default Dashboard Content -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card text-center p-4">
+                    <i class="fas fa-users card-icon"></i>
+                    <h5 class="mt-3">Users</h5>
+                    <p class="text-muted">Total: 1,234</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center p-4">
+                    <i class="fas fa-chart-line card-icon"></i>
+                    <h5 class="mt-3">Revenue</h5>
+                    <p class="text-muted">$12,345</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center p-4">
+                    <i class="fas fa-shopping-cart card-icon"></i>
+                    <h5 class="mt-3">Orders</h5>
+                    <p class="text-muted">Total: 567</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center p-4">
+                    <i class="fas fa-tasks card-icon"></i>
+                    <h5 class="mt-3">Tasks</h5>
+                    <p class="text-muted">Completed: 89%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/Admin/admin.js"></script>
+<script src="js/jquery.js"></script>
+
+<!--<script>
+    // Function to load dynamic content
+    function loadContent(contentId) {
+        const dynamicContent = document.getElementById('dynamicContent');
+        let content = '';
+
+        switch (contentId) {
+            case 'updateUser':
+                content = `
+
+                    <div id="loadingOverlay" class="position-fixed top-0 start-0 w-100 h-100 bg-white bg-opacity-75 d-flex justify-content-center align-items-center d-none" style="z-index: 9999;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="successToast">
+        <div class="d-flex">
+            <div class="toast-body">
+                Operation completed successfully!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <div class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" id="errorToast">
+        <div class="d-flex">
+            <div class="toast-body" id="errorToastMessage">
+                An error occurred.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-sm border-0 rounded-3 animate__animated animate__fadeIn">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                    <h5 class="mb-0 fw-bold">Users</h5>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                        <i class="fas fa-plus me-1"></i> Add User
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="position-relative mb-4">
+                        <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <i class="fas fa-search text-muted"></i>
+                                </span>
+                            <input type="text" class="form-control border-start-0" id="searchInput" placeholder="Search users...">
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle" id="userTable">
+                            <thead class="bg-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody id="userTableBody">
+                            &lt;!&ndash; Table data will be populated dynamically &ndash;&gt;
+                            </tbody>
+                        </table>
+                        <div id="emptyState" class="text-center py-5 text-muted">
+                            <i class="fas fa-users-slash fs-1 mb-3"></i>
+                            <p>No users found</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+&lt;!&ndash; Add User Modal &ndash;&gt;
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title fw-bold" id="addUserModalLabel">Add New User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dob" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" id="dob" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role">
+                            <option value="USER">USER</option>
+                            <option value="ADMIN">ADMIN</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveUserBtn">Save User</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+&lt;!&ndash; Edit User Modal &ndash;&gt;
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title fw-bold" id="editUserModalLabel">Edit User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm">
+                    <input type="hidden" id="editUserId">
+                    <div class="mb-3">
+                        <label for="editName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="editName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="editEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDob" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" id="editDob" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPW" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="editPW" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRole" class="form-label">Role</label>
+                        <select class="form-select" id="editRole">
+                            <option value="USER">USER</option>
+                            <option value="ADMIN">ADMIN</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="updateUserBtn">Update User</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+&lt;!&ndash; Delete Confirmation Modal &ndash;&gt;
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title fw-bold" id="deleteUserModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this user? This action cannot be undone.</p>
+                <input type="hidden" id="deleteUserId">
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+                    `;
+                break;
+            case 'members':
+                content = `
+
+                <h2 class="mb-4 form-header animate__animated animate__fadeIn">Manage Categories</h2>
+        content = \`<h2 class="mb-4 form-header animate__animated animate__fadeIn">Manage SubCategories</h2>
+`;
+                break;
+            case 'meetings':
+                content = `<h2 class="mb-4 form-header animate__animated animate__fadeIn">Manage SubCategories</h2>
+`;
+                break;
+            case 'events':
+                content = `<h3>Events Content</h3>`;
+                break;
+            case 'eventFacility':
+                content = `<h3>Event Facility Content</h3>`;
+                break;
+            case 'eventType':
+                content = `<h3>Event Type Content</h3>`;
+                break;
+            case 'meetingAttendance':
+                content = `<h3>Meeting Attendance Content</h3>`;
+                break;
+            default:
+                content = `
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card text-center p-4">
+                                    <i class="fas fa-users card-icon"></i>
+                                    <h5 class="mt-3">Users</h5>
+                                    <p class="text-muted">Total: 1,234</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-center p-4">
+                                    <i class="fas fa-chart-line card-icon"></i>
+                                    <h5 class="mt-3">Revenue</h5>
+                                    <p class="text-muted">$12,345</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-center p-4">
+                                    <i class="fas fa-shopping-cart card-icon"></i>
+                                    <h5 class="mt-3">Orders</h5>
+                                    <p class="text-muted">Total: 567</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-center p-4">
+                                    <i class="fas fa-tasks card-icon"></i>
+                                    <h5 class="mt-3">Tasks</h5>
+                                    <p class="text-muted">Completed: 89%</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+        }
+
+        dynamicContent.innerHTML = content;
+    }
+
+    // Function to toggle theme
+    function toggleTheme() {
+        const body = document.body;
+        body.classList.toggle('dark-mode');
+        const themeIcon = document.querySelector('.theme-toggle-btn i');
+
+        // Toggle between moon and sun icons for dark/light mode
+        if (body.classList.contains('dark-mode')) {
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        } else {
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        }
+    }
+
+    // Add event listeners to sidebar links
+    document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            // Remove active class from all links
+            document.querySelectorAll('.sidebar .nav-link').forEach(link => link.classList.remove('active'));
+            // Add active class to the clicked link
+            this.classList.add('active');
+            // Load the corresponding content
+            const contentId = this.getAttribute('data-content');
+            loadContent(contentId);
+        });
+    });
+
+    // Load default content (Dashboard)
+    loadContent('dashboard');
+</script>-->
+</body>

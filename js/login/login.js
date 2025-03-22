@@ -32,9 +32,9 @@ document.getElementById("loginButton").addEventListener("click", function (event
                         console.log("Role:", roleData.role);
 
                         if (roleData.role === "ADMIN") {
-                            window.location.href = "../../test.html";  // Redirect to Admin Dashboard
+                            window.location.href = "../../admin.html";  // Redirect to Admin Dashboard
                         } else if (roleData.role === "USER") {
-                            window.location.href = "../../forget_password.html";  // Redirect to User Dashboard
+                            window.location.href = "../../category.html";  // Redirect to User Dashboard
                         } else {
                             alert("User role not recognized.");
                         }

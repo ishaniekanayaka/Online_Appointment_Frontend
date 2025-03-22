@@ -13,7 +13,7 @@
     <style>
         :root {
             --primary-black: #212121;
-            --primary-orange: #FF5722;
+            --primary-orange: #813271;
             --primary-white: #FFFFFF;
             --secondary-blue: #03A9F4;
             --secondary-green: #4CAF50;
@@ -151,10 +151,10 @@
             <a class="nav-link" href="#" data-content="updateUser"><i class="fas fa-user-edit me-2"></i>Update User</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#" data-content="members"><i class="fas fa-users me-2"></i>Category</a>
+            <a class="nav-link" href="#" data-content="category"><i class="fas fa-users me-2"></i>Category</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#" data-content="meetings"><i class="fas fa-calendar-alt me-2"></i>SubCategory</a>
+            <a class="nav-link" href="#" data-content="subCategory"><i class="fas fa-calendar-alt me-2"></i>SubCategory</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#" data-content="events"><i class="fas fa-calendar-check me-2"></i>Events</a>
@@ -239,6 +239,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery.js"></script>
 <script src="js/Category/category.js"></script>
+<script src="js/CategoryNew/subCategory.js"></script>
 <script>
     // Function to load dynamic content
     function loadContent(contentId) {
@@ -271,7 +272,7 @@
                         </div>
                     `;
                 break;
-            case 'members':
+            case 'category':
                 content = `
                 <h2 class="mb-4 form-header animate__animated animate__fadeIn">Manage Categories</h2>
 
@@ -351,8 +352,101 @@
 </div>
 `;
                 break;
-            case 'meetings':
-                content = `<h3>Meetings Content</h3>`;
+            case 'subCategory':
+                content = `
+        <h2 class="mb-4 form-header animate__animated animate__fadeIn">Manage SubCategories</h2>
+
+<div class="card p-4 mb-4 animate__animated animate__fadeInUp">
+    <form id="subCategoryForm">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="sc_name" class="form-label">SubCategory Name</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                    <select id="sc_name" class="form-select" required>
+                        <option value="">Select Category</option>
+                        <!-- SubCategories will be dynamically populated here -->
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                 <label for="sc_id" class="form-label">SubCategory Id</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
+                    <input type="text" id="sc_id" class="form-control" disabled>
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="subCategoryDescription" class="form-label">Description</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-align-left"></i></span>
+                    <input type="text" id="subCategoryDescription" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="subCategoryImage" class="form-label">Image</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-image"></i></span>
+                    <input type="file" id="subCategoryImage" class="form-control" accept="image/*" onchange="previewImage(event)">
+                </div>
+                <img id="subCategoryImagePreview" src="#" alt="Image preview" style="max-width: 100px; margin-top: 10px;">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="category" class="form-label">Category</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-list"></i></span>
+                    <select id="category" class="form-select" required>
+                        <option value="">Select Category</option>
+                        <!-- Categories will be dynamically populated here -->
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-3">
+            <div>
+                <button type="button" class="btn btn-primary btn-action" id="saveSubCategoryBtn" onclick="saveSubCategory()">
+                    <i class="fas fa-save me-2"></i>Save
+                </button>
+                <button type="button" class="btn btn-success btn-action" onclick="updateSubCategory()">
+                    <i class="fas fa-edit me-2"></i>Update
+                </button>
+                <button type="button" class="btn btn-danger btn-action" onclick="deleteSubCategory()">
+                    <i class="fas fa-trash me-2"></i>Delete
+                </button>
+            </div>
+            <button type="button" class="btn btn-secondary btn-action" id="resetSubCategoryBtn" onclick="clearSubCategoryForm()">
+                <i class="fas fa-undo me-2"></i>Reset
+            </button>
+        </div>
+    </form>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="form-header animate__animated animate__fadeIn">SubCategory List</h3>
+    <button class="btn btn-outline-primary" onclick="getAllSubCategories()">
+        <i class="fas fa-sync-alt me-1"></i> Refresh
+    </button>
+</div>
+
+<div class="table-responsive animate__animated animate__fadeIn">
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Category</th>
+            <th class="text-center">Actions</th>
+        </tr>
+        </thead>
+        <tbody id="subCategoryTableBody"></tbody>
+    </table>
+</div>
+
+`;
                 break;
             case 'events':
                 content = `<h3>Events Content</h3>`;
