@@ -1,0 +1,428 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    position: fixed;
+    height: 100%;
+    width: 260px;
+    background: linear-gradient(135deg, #9d3a8b 0%, #6e2256 100%);
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    overflow-y: auto;
+}
+
+.sidebar.active {
+    width: 78px;
+}
+
+.sidebar .logo-details {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .logo-details i {
+    font-size: 28px;
+    color: #fff;
+    min-width: 50px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.sidebar .logo-details .logo_name {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.sidebar.active .logo-details .logo_name {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sidebar .nav-links {
+    margin-top: 15px;
+    padding: 0;
+}
+
+.sidebar .nav-links li {
+    position: relative;
+    list-style: none;
+    height: 54px;
+    margin: 8px 0;
+}
+
+.sidebar .nav-links li a {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+    padding: 0 20px;
+}
+
+.sidebar .nav-links li a.active {
+    background: rgba(255, 255, 255, 0.1);
+    border-left: 4px solid #ffffff;
+}
+
+.sidebar .nav-links li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-left: 4px solid #ffffff;
+}
+
+.sidebar .nav-links li a i {
+    min-width: 50px;
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.sidebar .nav-links li a .links_name {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.sidebar.active .nav-links li a .links_name {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sidebar .nav-links .log_out {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.sidebar .nav-links .log_out a {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Home Section Styling */
+.home-section {
+    position: relative;
+    background-color: #f5f7fa;
+    min-height: 100vh;
+    left: 260px;
+    width: calc(100% - 260px);
+    transition: all 0.3s ease;
+}
+
+.sidebar.active ~ .home-section {
+    left: 78px;
+    width: calc(100% - 78px);
+}
+
+.home-section nav {
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    background: #ffffff;
+    align-items: center;
+    position: fixed;
+    width: calc(100% - 260px);
+    left: 260px;
+    z-index: 100;
+    padding: 0 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.sidebar.active ~ .home-section nav {
+    left: 78px;
+    width: calc(100% - 78px);
+}
+
+.home-section nav .sidebar-button {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 500;
+    color: #444;
+}
+
+nav .sidebar-button i {
+    font-size: 30px;
+    margin-right: 15px;
+    color: #813271;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.home-section nav .search-box {
+    position: relative;
+    height: 50px;
+    max-width: 550px;
+    width: 100%;
+    margin: 0 20px;
+}
+
+nav .search-box input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    background: #f5f7fa;
+    border: 1px solid #e1e5eb;
+    border-radius: 50px;
+    font-size: 16px;
+    padding: 0 20px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+nav .search-box input:focus {
+    border-color: #813271;
+}
+
+nav .search-box .bx-search {
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    background: #813271;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+    font-size: 22px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+nav .search-box .bx-search:hover {
+    background: #9d3a8b;
+}
+
+.home-section nav .profile-details {
+    display: flex;
+    align-items: center;
+    background: #f8f9fc;
+    border: 1px solid #e1e5eb;
+    border-radius: 50px;
+    height: 50px;
+    min-width: 190px;
+    padding: 0 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.home-section nav .profile-details:hover {
+    background: #f2f3f8;
+    border-color: #d0d4df;
+}
+
+nav .profile-details img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #813271;
+}
+
+nav .profile-details .admin_name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #444;
+    margin: 0 10px;
+    white-space: nowrap;
+}
+
+nav .profile-details i {
+    font-size: 25px;
+    color: #813271;
+}
+
+/* Profile dropdown styling - moved outside media query */
+.profile-details .dropdown-menu {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: white;
+    width: 180px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px 0;
+    display: none;
+    z-index: 1000;
+}
+
+.profile-details .dropdown-menu a {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    color: #444;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.profile-details .dropdown-menu a:hover {
+    background: #f5f5f5;
+    color: #813271;
+}
+
+.profile-details .dropdown-menu a i {
+    font-size: 18px;
+    margin-right: 10px;
+    color: #813271;
+}
+
+.profile-details.active .dropdown-menu {
+    display: block;
+}
+
+.profile-details.active i.bx-chevron-down {
+    transform: rotate(180deg);
+}
+
+.home-section .content {
+    position: relative;
+    padding-top: 104px;
+    padding: 104px 30px 30px;
+}
+
+.home-content .overview-boxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.overview-boxes .box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: #fff;
+    padding: 30px 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border-left: 4px solid #813271;
+}
+
+.overview-boxes .box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.overview-boxes .box-topic {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.overview-boxes .number {
+    font-size: 28px;
+    font-weight: 600;
+    color: #813271;
+    margin-bottom: 10px;
+}
+
+.overview-boxes .indicator {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #777;
+}
+
+.overview-boxes .indicator i {
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+.overview-boxes .indicator.up {
+    color: #4CAF50;
+}
+
+.overview-boxes .indicator.down {
+    color: #F44336;
+}
+
+@media (max-width: 1240px) {
+    .sidebar {
+        width: 78px;
+    }
+    .sidebar.active {
+        width: 260px;
+    }
+    .sidebar .logo_name,
+    .sidebar .nav-links li a .links_name {
+        opacity: 0;
+        pointer-events: none;
+    }
+    .sidebar.active .logo_name,
+    .sidebar.active .nav-links li a .links_name {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .home-section {
+        left: 78px;
+        width: calc(100% - 78px);
+    }
+    .sidebar.active ~ .home-section {
+        left: 260px;
+        width: calc(100% - 260px);
+    }
+    .home-section nav {
+        width: calc(100% - 78px);
+        left: 78px;
+    }
+    .sidebar.active ~ .home-section nav {
+        width: calc(100% - 260px);
+        left: 260px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .home-section nav .search-box {
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .home-section nav .search-box {
+        max-width: 300px;
+    }
+    .home-content .overview-boxes {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 550px) {
+    .sidebar.active ~ .home-section nav .profile-details {
+        display: none;
+    }
+    .home-section nav .search-box {
+        max-width: 100%;
+    }
+    .home-section nav .sidebar-button {
+        font-size: 20px;
+    }
+}

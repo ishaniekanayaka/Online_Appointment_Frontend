@@ -358,13 +358,16 @@
             </div>
 
             <div class="register-link">
-                Don't have an account? <a href="register.html" >Register Now</a>
+                Don't have an account? <a id="register-btn">Register Now</a>
             </div>
         </form>
     </div>
 </div>
-<script src="js/jquery.js"></script>
-<script src="js/login/login.js"></script>
+<script>
+    document.getElementById("register-btn").href = "register.html"; // Set the path dynamically
+</script>
+<script src="lib/jquery.min.js"></script>
+<script src="controller/userController.js"></script>
 </body>
 
 </html>

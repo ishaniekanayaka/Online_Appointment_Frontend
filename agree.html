@@ -219,13 +219,20 @@
     </div>
 
     <div class="buttons">
-        <a href="login.html">
+       <!-- <a href="/login.html">
+            <button class="btn agree-btn" id="agreeBtn" >I Agree</button>
+        </a> -->
+        <a id="login-btn">
             <button class="btn agree-btn" id="agreeBtn" >I Agree</button>
         </a>
+
         <button class="btn cancel-btn" onclick="cancel()">Cancel</button>
     </div>
 </div>
 
+<script>
+    document.getElementById("login-btn").href = "login.html"; // Set the path dynamically
+</script>
 <script>
     const agreeCheckbox = document.getElementById('agreeCheckbox');
     const agreeBtn = document.getElementById('agreeBtn');
