@@ -175,19 +175,37 @@ function deleteCategory(categoryId) {
     });
 }
 
-// ✅ Fetch All Categories
+
+// ✅ Fetch All Categories and Load into Table
 function getAllCategories() {
+    const tableBody = $('#categoryTableBody');
+
+    // Clear the table completely and show loading
+    tableBody.empty();
+    const loadingRow = `<tr><td colspan="5" class="text-center text-muted">Loading...</td></tr>`;
+    tableBody.append(loadingRow);
+
     $.ajax({
         url: `${BASE_URL}/getAll`,
         type: 'GET',
         headers: getHeaders(),
         success: function (data) {
-            console.log("API Response:", data);
-            const tableBody = $('#categoryTableBody');
+            // Clear loading row
             tableBody.empty();
 
+            if (!data.data || data.data.length === 0) {
+                // If no categories, show an "Empty" message
+                tableBody.append(`<tr><td colspan="5" class="text-center text-muted">No categories found</td></tr>`);
+                return;
+            }
+
+            console.log("API Response:", data);
+
             data.data.forEach(category => {
-                let imageUrl = category.image ? `http://localhost:8080/${category.image.replace(/\\/g, "/")}` : "placeholder.jpg";
+                // Sanitize image URL
+                let imageUrl = category.image 
+                    ? `http://localhost:8080/${category.image.replace(/\\/g, "/")}`
+                    : "placeholder.jpg";
 
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -202,12 +220,71 @@ function getAllCategories() {
                 `;
                 tableBody.append(row);
             });
+
+            // Show success notification
+            Swal.fire({
+                icon: 'success',
+                title: 'Refreshed!',
+                text: 'Category list updated successfully!',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1500
+            });
         },
         error: function (xhr) {
-            Swal.fire('Error!', 'Error fetching categories: ' + xhr.responseText, 'error');
+            // Clear table and show error
+            tableBody.empty();
+            tableBody.append(`<tr><td colspan="5" class="text-center text-danger">Error loading data</td></tr>`);
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Error fetching categories: ' + xhr.responseText,
+                toast: true,
+                position: 'top-end'
+            });
         }
     });
 }
+
+// Refresh Button Click - Calls getAllCategories()
+function getAllCategory() {
+    getAllCategories();
+}
+
+
+//     $.ajax({
+//         url: `${BASE_URL}/getAll`,
+//         type: 'GET',
+//         headers: getHeaders(),
+//         success: function (data) {
+//             console.log("API Response:", data);
+//             const tableBody = $('#categoryTableBody');
+//             tableBody.empty();
+
+//             data.data.forEach(category => {
+//                 let imageUrl = category.image ? `http://localhost:8080/${category.image.replace(/\\/g, "/")}` : "placeholder.jpg";
+
+//                 const row = document.createElement('tr');
+//                 row.innerHTML = `
+//                     <td>${category.id}</td>
+//                     <td>${category.name}</td>
+//                     <td>${category.description || '-'}</td>
+//                     <td><img src="${imageUrl}" style="width: 50px; height: 50px; object-fit: cover;"></td>
+//                     <td class="text-center">
+//                         <button class="btn btn-warning btn-sm" onclick='loadCategoryForEdit(${JSON.stringify(category)})'>Edit</button>
+//                         <button class="btn btn-danger btn-sm" onclick="deleteCategory(${category.id})">Delete</button>
+//                     </td>
+//                 `;
+//                 tableBody.append(row);
+//             });
+//         },
+//         error: function (xhr) {
+//             Swal.fire('Error!', 'Error fetching categories: ' + xhr.responseText, 'error');
+//         }
+//     });
+// }
 
 // ✅ Clear Form
 function clearForm() {
