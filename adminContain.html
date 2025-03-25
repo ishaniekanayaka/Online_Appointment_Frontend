@@ -8,10 +8,16 @@
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+
     <meta name="viewport" content="height=device-height,width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- SIDE BAR -->
 <div class="sidebar">
     <div class="logo-details">
@@ -42,12 +48,12 @@
             <i class='bx bx-search'></i>
         </div>
         <div class="profile-details">
-            <img src="/api/placeholder/40/40" alt="profile">
+            <img src="images/my.jpg" alt="profile">
             <span class="admin_name">Isha Ekanayake</span>
             <i class='bx bx-chevron-down'></i>
             <div class="dropdown-menu">
                 <a href="#"><i class='bx bx-user'></i> My Profile</a>
-                <a href="#"><i class='bx bx-cog'></i> Settings</a>
+                <a href="/userSetting.html"><i class='bx bx-cog'></i> Settings</a>
                 <a href="index.html"><i class='bx bx-log-out'></i> Logout</a>
             </div>
         </div>
@@ -278,12 +284,13 @@
             </section>
         </div>
 
-        <!--<div class="products-content" id="supplier">
+        <!--=============================category CONTENT=============-->
+        <div class="products-content" id="supplier">
             <section class="intro">
                 <div class="card p-4 mb-4 animate__animated animate__fadeInUp">
                     <form id="categoryForm">
                         <div class="row">
-
+                
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Name</label>
                                 <div class="input-group">
@@ -307,7 +314,7 @@
                                 <img id="imagePreview" src="#" alt="Image preview" style="max-width: 100px; margin-top: 10px;">
                             </div>
                         </div>
-
+                
                         <div class="d-flex justify-content-between mt-3">
                             <div>
                                 <button type="button" class="btn btn-primary btn-action" id="saveBtn" onclick="saveCategory()">
@@ -326,14 +333,14 @@
                         </div>
                     </form>
                 </div>
-
+                
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h3 class="form-header animate__animated animate__fadeIn">Category List</h3>
                     <button class="btn btn-outline-primary" onclick="getAllCategory()">
                         <i class="fas fa-sync-alt me-1"></i> Refresh
                     </button>
                 </div>
-
+                
                 <div class="table-responsive animate__animated animate__fadeIn">
                     <table class="table table-bordered table-hover">
                         <thead class="table-dark">
@@ -348,8 +355,9 @@
                         <tbody id="categoryTableBody"></tbody>
                     </table>
                 </div>
+                
             </section>
-        </div>-->
+        </div>
     </div>
 </section>
 
@@ -362,6 +370,8 @@
 <script src="assests/script/navigation.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="controller/userSetting.js"></script>
+<script src="controller/categoryController.js"></script>
 <script src="assests/script/mainContain.js"></script>
+<script src="lib/jquery.min.js"></script>
 </body>
 </html>

@@ -34,7 +34,7 @@ document.getElementById("loginButton").addEventListener("click", function (event
                         if (roleData.role === "ADMIN") {
                             window.location.href = "../adminContain.html";  // Redirect to Admin Dashboard
                         } else if (roleData.role === "USER") {
-                            window.location.href = "../index.html";  // Redirect to User Dashboard
+                            window.location.href = "../category.html";  // Redirect to User Dashboard
                         } else {
                             alert("User role not recognized.");
                         }
