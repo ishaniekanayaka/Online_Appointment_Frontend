@@ -9,8 +9,9 @@ const AUTH_TOKEN = localStorage.getItem('authToken');
 // ✅ Check Authentication
 function checkAuth() {
     if (!AUTH_TOKEN) {
-        alert('You are not authenticated. Please login.');
-        window.location.href = '/login.html';
+        Swal.fire('Unauthorized', 'You are not authenticated. Please login.', 'error').then(() => {
+            window.location.href = '/login.html';
+        });
     }
 }
 
@@ -45,8 +46,11 @@ function saveCategory() {
     const description = document.getElementById('description').value;
     const imageFile = document.getElementById('image').files[0];
 
-    if (!name) return alert('Name is required!');
-    
+    if (!name) {
+        Swal.fire('Warning', 'Name is required!', 'warning');
+        return;
+    }
+
     const formData = new FormData();
     formData.append('name', name);
     formData.append('description', description);
@@ -60,12 +64,12 @@ function saveCategory() {
         processData: false,
         contentType: false,
         success: function (response) {
-            alert(response.message);
+            Swal.fire('Success!', response.message, 'success');
             clearForm();
             getAllCategories();
         },
         error: function (xhr) {
-            alert('Error saving category: ' + xhr.responseText);
+            Swal.fire('Error!', 'Error saving category: ' + xhr.responseText, 'error');
         }
     });
 }
@@ -74,11 +78,8 @@ function saveCategory() {
 function loadCategoryForEdit(category) {
     document.getElementById('name').value = category.name;
     document.getElementById('description').value = category.description;
-
-    // Store category ID in a global variable
     window.selectedCategoryId = category.id;
 
-    // Display existing image preview if available
     const preview = document.getElementById('imagePreview');
     if (category.image) {
         let imageUrl = `http://localhost:8080/${category.image.replace(/\\/g, "/")}`;
@@ -89,16 +90,15 @@ function loadCategoryForEdit(category) {
         preview.style.display = 'none';
     }
 
-    // Show the Update button and hide the Save button
     document.getElementById('updateBtn').style.display = 'inline-block';
     document.getElementById('saveBtn').style.display = 'none';
 }
 
-// ✅ Update Category Function
+// ✅ Update Category with Confirmation
 function updateCategory() {
     const categoryId = window.selectedCategoryId;
     if (!categoryId) {
-        alert('No category selected for update.');
+        Swal.fire('Warning', 'No category selected for update.', 'warning');
         return;
     }
 
@@ -106,57 +106,89 @@ function updateCategory() {
     const description = document.getElementById('description').value;
     const imageFile = document.getElementById('image').files[0];
 
-    if (!name) return alert('Name is required!');
+    if (!name) {
+        Swal.fire('Warning', 'Name is required!', 'warning');
+        return;
+    }
 
     const formData = new FormData();
     formData.append('name', name);
     formData.append('description', description);
     if (imageFile) formData.append('image', imageFile);
 
-    $.ajax({
-        url: `${BASE_URL}/update/${categoryId}`,
-        type: 'PUT',
-        headers: getHeaders(true),
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-            alert(response.message);
-            clearForm();
-            getAllCategories();
-
-            // Hide update button and show save button again
-            document.getElementById('updateBtn').style.display = 'none';
-            document.getElementById('saveBtn').style.display = 'inline-block';
-        },
-        error: function (xhr) {
-            alert('Error updating category: ' + xhr.responseText);
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to update this category?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, update it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: `${BASE_URL}/update/${categoryId}`,
+                type: 'PUT',
+                headers: getHeaders(true),
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    Swal.fire('Updated!', response.message, 'success');
+                    clearForm();
+                    getAllCategories();
+                    document.getElementById('updateBtn').style.display = 'none';
+                    document.getElementById('saveBtn').style.display = 'inline-block';
+                },
+                error: function (xhr) {
+                    Swal.fire('Error!', 'Error updating category: ' + xhr.responseText, 'error');
+                }
+            });
         }
     });
 }
 
-// ✅ Ensure update button has the correct ID in HTML
-document.getElementById('updateBtn').addEventListener('click', updateCategory);
+// ✅ Delete Category with Confirmation
+function deleteCategory(categoryId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'This action cannot be undone!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: `${BASE_URL}/delete/${categoryId}`,
+                type: 'DELETE',
+                headers: getHeaders(),
+                success: function (response) {
+                    Swal.fire('Deleted!', response.message, 'success');
+                    getAllCategories();
+                },
+                error: function (xhr) {
+                    Swal.fire('Error!', 'Error deleting category: ' + xhr.responseText, 'error');
+                }
+            });
+        }
+    });
+}
 
-
-
-// // ✅ Get All Categories
-
+// ✅ Fetch All Categories
 function getAllCategories() {
     $.ajax({
         url: `${BASE_URL}/getAll`,
         type: 'GET',
         headers: getHeaders(),
         success: function (data) {
-            console.log("API Response:", data); // Debugging
-
+            console.log("API Response:", data);
             const tableBody = $('#categoryTableBody');
             tableBody.empty();
 
             data.data.forEach(category => {
-                // Fix image path by replacing backslashes with forward slashes
                 let imageUrl = category.image ? `http://localhost:8080/${category.image.replace(/\\/g, "/")}` : "placeholder.jpg";
-                console.log(imageUrl)
+
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${category.id}</td>
@@ -167,78 +199,12 @@ function getAllCategories() {
                         <button class="btn btn-warning btn-sm" onclick='loadCategoryForEdit(${JSON.stringify(category)})'>Edit</button>
                         <button class="btn btn-danger btn-sm" onclick="deleteCategory(${category.id})">Delete</button>
                     </td>
-                `; 
+                `;
                 tableBody.append(row);
             });
         },
         error: function (xhr) {
-            alert('Error fetching categories: ' + xhr.responseText);
-        }
-    });
-}
-
-//     $.ajax({
-//         url: `${BASE_URL}/getAll`,
-//         type: 'GET',
-//         headers: {
-//             ...getHeaders(), // Spread existing headers
-//             // Add any additional authentication headers if needed
-//             // For example:
-//             // 'Authorization': 'Bearer ' + yourAuthToken
-//         },
-//         success: function (data) {
-//             console.log("API Response:", data);
-//             const tableBody = $('#categoryTableBody');
-//             tableBody.empty();
-//             data.data.forEach(category => {
-//                 // Additional debug logging
-//                 console.log("Category Image Path:", category.image);
-                
-//                 let imageUrl = category.image 
-//                     ? `${BASE_URL}/${category.image.replace(/\\/g, '/')}`
-//                     : "placeholder.jpg";
-                
-//                 console.log("Constructed Image URL:", imageUrl);
-
-//                 const row = document.createElement('tr');
-//                 row.innerHTML = `
-//                     <td>${category.id}</td>
-//                     <td>${category.name}</td>
-//                     <td>${category.description || '-'}</td>
-//                     <td><img src="${imageUrl}" style="width: 50px; height: 50px; object-fit: cover;"></td>
-//                     <td class="text-center">
-//                         <button class="btn btn-warning btn-sm" onclick='loadCategoryForEdit(${JSON.stringify(category)})'>Edit</button>
-//                         <button class="btn btn-danger btn-sm" onclick="deleteCategory(${category.id})">Delete</button>
-//                     </td>
-//                 `;
-//                 tableBody.append(row);
-//             });
-//         },
-//         error: function (xhr) {
-//             console.error('Full XHR error:', xhr);
-//             alert('Error fetching categories: ' + xhr.responseText);
-//         }
-//     });
-// }
-
-
-// ✅ Load Category for Editing
-
-
-// ✅ Delete Category
-function deleteCategory(categoryId) {
-    if (!confirm('Are you sure you want to delete this category?')) return;
-
-    $.ajax({
-        url: `${BASE_URL}/delete/${categoryId}`,
-        type: 'DELETE',
-        headers: getHeaders(),
-        success: function (response) {
-            alert(response.message);
-            getAllCategories();
-        },
-        error: function (xhr) {
-            alert('Error deleting category: ' + xhr.responseText);
+            Swal.fire('Error!', 'Error fetching categories: ' + xhr.responseText, 'error');
         }
     });
 }
