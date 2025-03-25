@@ -70,14 +70,15 @@ function saveCategory() {
     });
 }
 
+// ✅ Load Category for Editing
 function loadCategoryForEdit(category) {
     document.getElementById('name').value = category.name;
     document.getElementById('description').value = category.description;
 
-    // Store category ID in a hidden field or global variable
+    // Store category ID in a global variable
     window.selectedCategoryId = category.id;
 
-    // Display existing image if available
+    // Display existing image preview if available
     const preview = document.getElementById('imagePreview');
     if (category.image) {
         let imageUrl = `http://localhost:8080/${category.image.replace(/\\/g, "/")}`;
@@ -88,10 +89,55 @@ function loadCategoryForEdit(category) {
         preview.style.display = 'none';
     }
 
-    // Show update button and hide save button
+    // Show the Update button and hide the Save button
     document.getElementById('updateBtn').style.display = 'inline-block';
     document.getElementById('saveBtn').style.display = 'none';
 }
+
+// ✅ Update Category Function
+function updateCategory() {
+    const categoryId = window.selectedCategoryId;
+    if (!categoryId) {
+        alert('No category selected for update.');
+        return;
+    }
+
+    const name = document.getElementById('name').value;
+    const description = document.getElementById('description').value;
+    const imageFile = document.getElementById('image').files[0];
+
+    if (!name) return alert('Name is required!');
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('description', description);
+    if (imageFile) formData.append('image', imageFile);
+
+    $.ajax({
+        url: `${BASE_URL}/update/${categoryId}`,
+        type: 'PUT',
+        headers: getHeaders(true),
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            alert(response.message);
+            clearForm();
+            getAllCategories();
+
+            // Hide update button and show save button again
+            document.getElementById('updateBtn').style.display = 'none';
+            document.getElementById('saveBtn').style.display = 'inline-block';
+        },
+        error: function (xhr) {
+            alert('Error updating category: ' + xhr.responseText);
+        }
+    });
+}
+
+// ✅ Ensure update button has the correct ID in HTML
+document.getElementById('updateBtn').addEventListener('click', updateCategory);
+
 
 
 // // ✅ Get All Categories
