@@ -29,8 +29,8 @@
     </div>
     <ul class="nav-links">
         <li><a id="dashboardPage" href="#" class="active"><i id="dashboardIcon" class='bx bx-grid-alt'></i><span id="dashboardName" class="links_name">Dashboard</span></a></li>
-        <li><a id="customerPage" href="#"><i id="customerIcon" class='bx bx-user'></i><span id="userName" class="links_name">Users</span></a></li>
-        <li><a id="productsPage" href="#"><i id="productsIcon" class='bx bx-box'></i><span id="categoryName" class="links_name">Category</span></a></li>
+        <li><a id="customerPage" href="#"><i id="customerIcon" class='bx bx-user'></i><span id="userName" class="links_name">Category</span></a></li>
+        <li><a id="productsPage" href="#"><i id="productsIcon" class='bx bx-box'></i><span id="categoryName" class="links_name">Sub Category</span></a></li>
         <li><a id="orderPage" href="#"><i id="orderIcon" class='bx bx-list-ul'></i><span id="orderName" class="links_name">Orders</span></a></li>
         <li><a id="stockPage" href="#"><i id="stockIcon" class='bx bx-pie-chart-alt-2'></i><span id="stockName" class="links_name">Analytics</span></a></li>
         <li><a id="supplierPage" href="#"><i id="supplierIcon" class='bx bx-coin-stack'></i><span id="supplierName" class="links_name">Suppliers</span></a></li>
@@ -102,193 +102,8 @@
             </div>
         </div>
 
-        <!--=============================USER CONTENT=============-->
-        <div class="user-content" id="customer">
-            <section class="intro">
-                <!-- <div id="loadingOverlay" class="position-fixed top-0 start-0 w-100 h-100 bg-white bg-opacity-75 d-flex justify-content-center align-items-center d-none" style="z-index: 9999;">
-                     <div class="spinner-border text-primary" role="status">
-                         <span class="visually-hidden">Loading...</span>
-                     </div>
-                 </div>
-
-                 <div class="toast-container position-fixed top-0 end-0 p-3">
-                     <div class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="successToast">
-                         <div class="d-flex">
-                             <div class="toast-body">
-                                 Operation completed successfully!
-                             </div>
-                             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                         </div>
-                     </div>
-
-                     <div class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" id="errorToast">
-                         <div class="d-flex">
-                             <div class="toast-body" id="errorToastMessage">
-                                 An error occurred.
-                             </div>
-                             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                         </div>
-                     </div>
-                 </div>-->
-
-                <div class="container-fluid py-4">
-                    <div class="row justify-content-center">
-                        <div class="col-12 col-lg-10">
-                            <div class="card shadow-sm border-0 rounded-3 animate__animated animate__fadeIn">
-                                <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
-                                    <h5 class="mb-0 fw-bold">Users</h5>
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                                        <i class="fas fa-plus me-1"></i> Add User
-                                    </button>
-                                </div>
-                                <div class="card-body">
-                                    <div class="position-relative mb-4">
-                                        <div class="input-group">
-                                <span class="input-group-text bg-white border-end-0">
-                                    <i class="fas fa-search text-muted"></i>
-                                </span>
-                                            <input type="text" class="form-control border-start-0" id="searchInput1" placeholder="Search users...">
-                                        </div>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-hover align-middle" id="userTable">
-                                            <thead class="bg-light">
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Role</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody id="userTableBody">
-                                            <!-- Table data will be populated dynamically -->
-                                            </tbody>
-                                        </table>
-                                        <div id="emptyState" class="text-center py-5 text-muted">
-                                            <i class="fas fa-users-slash fs-1 mb-3"></i>
-                                            <p>No users found</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Add User Modal -->
-                <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content border-0 shadow">
-                            <div class="modal-header bg-light">
-                                <h5 class="modal-title fw-bold" id="addUserModalLabel">Add New User</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="addUserForm">
-                                    <div class="mb-3">
-                                        <label for="Username1" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="Username1" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="email" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="password" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="dob" class="form-label">Date of Birth</label>
-                                        <input type="date" class="form-control" id="dob" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="role" class="form-label">Role</label>
-                                        <select class="form-select" id="role">
-                                            <option value="USER">USER</option>
-                                            <option value="ADMIN">ADMIN</option>
-                                        </select>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer bg-light">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary" id="saveUserBtn">Save User</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Edit User Modal -->
-                <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content border-0 shadow">
-                            <div class="modal-header bg-light">
-                                <h5 class="modal-title fw-bold" id="editUserModalLabel">Edit User</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="editUserForm">
-                                    <input type="hidden" id="editUserId">
-                                    <div class="mb-3">
-                                        <label for="editName" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="editName" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editEmail" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="editEmail" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editDob" class="form-label">Date of Birth</label>
-                                        <input type="date" class="form-control" id="editDob" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editPW" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="editPW" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editRole" class="form-label">Role</label>
-                                        <select class="form-select" id="editRole">
-                                            <option value="USER">USER</option>
-                                            <option value="ADMIN">ADMIN</option>
-                                        </select>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer bg-light">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary" id="updateUserBtn">Update User</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Delete Confirmation Modal -->
-                <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content border-0 shadow">
-                            <div class="modal-header bg-light">
-                                <h5 class="modal-title fw-bold" id="deleteUserModalLabel">Confirm Delete</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Are you sure you want to delete this user? This action cannot be undone.</p>
-                                <input type="hidden" id="deleteUserId">
-                            </div>
-                            <div class="modal-footer bg-light">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </section>
-        </div>
-
-        <!--=============================category CONTENT=============-->
-        <div class="products-content" id="supplier">
+        <!--=============================Category CONTENT=============-->
+        <div class="category-content" id="customer">
             <section class="intro">
                 <div class="card p-4 mb-4 animate__animated animate__fadeInUp">
                     <form id="categoryForm">
@@ -358,8 +173,107 @@
                         <tbody id="categoryTableBody"></tbody>
                     </table>
                 </div>
+            </section>
+        </div>
+
+        <!--=============================Subcategory CONTENT=============-->
+        <div class="subCategory-content" id="supplier">
+            <section class="intro">
+                <div class="card p-4 mb-4 animate__animated animate__fadeInUp">
+                    <form id="subCategoryForm">
+                        <div class="row">
+                
+                            <div class="col-md-6 mb-3">
+                                <label for="subCategoryName" class="form-label">SubCategory Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                                    <input type="text" id="subCategoryName" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="subCategoryDescription" class="form-label">Description</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-align-left"></i></span>
+                                    <input type="text" id="subCategoryDescription" class="form-control">
+                                </div>
+                            </div>
+                
+                            <div class="col-md-6 mb-3">
+                                <label for="sc_name" class="form-label">SubCategory Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                                    <select id="sc_name" class="form-select" required>
+                                        <option value="">Select Category</option>
+                                        <!-- SubCategories will be dynamically populated here -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="sc_id" class="form-label">SubCategory Id</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
+                                    <input type="text" id="sc_id" class="form-control" disabled>
+                                </div>
+                
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="subCategoryImage" class="form-label">Image</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                <input type="file" id="subCategoryImage" class="form-control" accept="image/*" onchange="previewImage(event)">
+                            </div>
+                            <img id="subCategoryImagePreview" src="#" alt="Image preview" style="max-width: 100px; margin-top: 10px;">
+                        </div>
+                
+                        <div class="d-flex justify-content-between mt-3">
+                            <div>
+                                <button type="button" class="btn btn-primary btn-action" id="saveSubCategoryBtn" onclick="saveSubCategory()">
+                                    <i class="fas fa-save me-2"></i>Save
+                                </button>
+                                <button type="button" class="btn btn-success btn-action" onclick="updateSubCategory()">
+                                    <i class="fas fa-edit me-2"></i>Update
+                                </button>
+                                <button type="button" class="btn btn-danger btn-action" onclick="deleteSubCategory()">
+                                    <i class="fas fa-trash me-2"></i>Delete
+                                </button>
+                            </div>
+                            <button type="button" class="btn btn-secondary btn-action" id="resetSubCategoryBtn" onclick="clearSubCategoryForm()">
+                                <i class="fas fa-undo me-2"></i>Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="form-header animate__animated animate__fadeIn">SubCategory List</h3>
+                    <button class="btn btn-outline-primary" onclick="getAllSubCategories()">
+                        <i class="fas fa-sync-alt me-1"></i> Refresh
+                    </button>
+                </div>
+                
+                <div class="table-responsive animate__animated animate__fadeIn">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-dark">
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Image</th>
+                            <th>Category</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="subCategoryTableBody"></tbody>
+                    </table>
+                </div>
                 
             </section>
+        </div>
+
+        <!--=============================Subcategory2 CONTENT=============-->
+        <div class="subCategory-content" id="products">
+            
         </div>
     </div>
 </section>
@@ -374,6 +288,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="controller/userSetting.js"></script>
 <script src="controller/categoryController.js"></script>
+<script src="controller/subCategory.js"></script>
 <script src="assests/script/mainContain.js"></script>
 <script src="lib/jquery.min.js"></script>
 </body>
