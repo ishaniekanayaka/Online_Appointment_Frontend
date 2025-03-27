@@ -13,6 +13,308 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     
+    <style>
+
+        /* Background Styling */
+    body {
+        background: linear-gradient(135deg, #470b2b 0%, #031c43 100%);
+        min-height: 100vh;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+
+    /* Optional: Add a subtle pattern overlay */
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(rgba(108, 92, 231, 0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    /* Card Styling to complement background */
+    .card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(5px);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Header Styling */
+    .card-header {
+        background: linear-gradient(135deg, #6c5ce7 0%, #8c7ae6 100%);
+        color: white;
+        border-bottom: none;
+        padding: 1.25rem 1.5rem;
+    }
+
+    /* Search Box Styling */
+    .input-group {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    /* Modal Styling */
+    .modal-content {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, #6c5ce7 0%, #8c7ae6 100%);
+        color: white;
+    }
+
+    /* Animation for table rows */
+    @keyframes fadeInRow {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    #userTableBody tr {
+        animation: fadeInRow 0.4s ease forwards;
+        opacity: 0;
+    }
+
+    /* Create staggered animation */
+    #userTableBody tr:nth-child(1) { animation-delay: 0.1s; }
+    #userTableBody tr:nth-child(2) { animation-delay: 0.2s; }
+    #userTableBody tr:nth-child(3) { animation-delay: 0.3s; }
+    #userTableBody tr:nth-child(4) { animation-delay: 0.4s; }
+    #userTableBody tr:nth-child(5) { animation-delay: 0.5s; }
+            /* Table Styling Enhancements */
+        #userTable {
+            --table-bg: #ffffff;
+            --header-bg: #f8f9fa;
+            --border-color: #e9ecef;
+            --hover-bg: #f1f3f5;
+            --primary-color: #6c5ce7;
+            --success-color: #00b894;
+            --danger-color: #d63031;
+            --warning-color: #fdcb6e;
+            --info-color: #0984e3;
+            --text-color: #495057;
+            --light-text: #868e96;
+        }
+
+        #userTable {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background-color: var(--table-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 0;
+        }
+
+        #userTable thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        #userTable thead tr {
+            background: linear-gradient(135deg, var(--primary-color), #8c7ae6);
+        }
+
+        #userTable thead th {
+            color: white;
+            font-weight: 600;
+            padding: 15px;
+            text-align: left;
+            border-bottom: none;
+            position: relative;
+        }
+
+        #userTable thead th:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60%;
+            width: 1px;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        #userTable tbody tr {
+            transition: all 0.2s ease;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        #userTable tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        #userTable tbody tr:hover {
+            background-color: var(--hover-bg);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        #userTable tbody td {
+            padding: 15px;
+            color: var(--text-color);
+            vertical-align: middle;
+            border-top: none;
+        }
+
+        #userTable tbody tr:nth-child(even) {
+            background-color: rgba(241, 243, 245, 0.5);
+        }
+
+        /* Status Badges */
+        .badge {
+            font-weight: 500;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .badge.bg-success {
+            background-color: var(--success-color) !important;
+        }
+
+        .badge.bg-danger {
+            background-color: var(--danger-color) !important;
+        }
+
+        /* Action Buttons */
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 0.35rem 0.65rem;
+            font-size: 0.75rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+
+        .btn-sm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        } */
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            border-color: var(--danger-color);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .btn-warning {
+            background-color: var(--warning-color);
+            border-color: var(--warning-color);
+            color: #333;
+        }
+
+        /* Empty State */
+        #emptyState {
+            background-color: var(--table-bg);
+            border-radius: 10px;
+            padding: 40px;
+            margin-top: -1px;
+        }
+
+        #emptyState i {
+            font-size: 3rem;
+            color: var(--light-text);
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+
+        #emptyState p {
+            color: var(--light-text);
+            font-size: 1.1rem;
+        }
+
+        /* Search Box Styling */
+        #searchInput {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        #searchInput:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        .input-group-text {
+            border-radius: 8px 0 0 8px !important;
+            background-color: white;
+            border-right: none;
+        }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        #userTable thead {
+            display: none;
+        }
+
+        #userTable tbody tr {
+            display: block;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        #userTable tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        #userTable tbody td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-right: 15px;
+            flex: 1;
+        }
+
+        #userTable tbody td:last-child {
+            border-bottom: none;
+        }
+
+        .btn-group {
+            justify-content: flex-end;
+            width: 100%;
+        }
+    }
+    </style>
 </head>
 
 <body class="bg-light">
@@ -42,8 +344,8 @@
     </div>
 </div>
 
-<div class="container-fluid py-4">
-    <div class="row justify-content-center">
+<div class="container-fluid py-4 " >
+    <div class="row justify-content-center" style="margin-top: 100px;">
         <div class="col-12 col-lg-10">
             <div class="card shadow-sm border-0 rounded-3 animate__animated animate__fadeIn">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
