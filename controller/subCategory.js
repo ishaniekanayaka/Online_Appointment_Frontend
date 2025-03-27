@@ -161,5 +161,31 @@ function getAllCategoryNames() {
     });
 }
 
+//get category by name
+function getCategoryIdByName() {
+    const selectedCategoryName = document.getElementById('sc_name').value;
+    
+    if (!selectedCategoryName) {
+        document.getElementById('sc_id').value = '';
+        return;
+    }
+
+    $.ajax({
+        url: `${BASE_URL}/name/${selectedCategoryName}`,
+        type: 'GET',
+        headers: getHeaders(),
+        success: function (data) {
+            if (data.data && data.data.id) {
+                document.getElementById('sc_id').value = data.data.id;
+            } else {
+                Swal.fire('Warning', 'Could not retrieve category ID', 'warning');
+            }
+        },
+        error: function (xhr) {
+            Swal.fire('Error!', 'Error fetching category ID: ' + xhr.responseText, 'error');
+        }
+    });
+}
+
 
 
