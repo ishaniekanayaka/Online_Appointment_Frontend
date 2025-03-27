@@ -301,23 +301,23 @@ function updateSubCategory() {
 
     const subCategoryName = document.getElementById('subCategoryName').value;
     const subCategoryDescription = document.getElementById('subCategoryDescription').value;
-    const selectedCategoryId = document.getElementById('sc_id').value;
+   // const selectedCategoryId = document.getElementById('sc_id').value;
     const imageFile = document.getElementById('subCategoryImage').files[0];
 
-    if (!subCategoryName) {
-        Swal.fire('Warning', 'SubCategory Name is required!', 'warning');
-        return;
-    }
+    // if (!subCategoryName) {
+    //     Swal.fire('Warning', 'SubCategory Name is required!', 'warning');
+    //     return;
+    // }
 
-    if (!selectedCategoryId) {
-        Swal.fire('Warning', 'Please select a Category!', 'warning');
-        return;
-    }
+    // if (!selectedCategoryId) {
+    //     Swal.fire('Warning', 'Please select a Category!', 'warning');
+    //     return;
+    // }
 
     const formData = new FormData();
     formData.append('name', subCategoryName);
     formData.append('description', subCategoryDescription);
-    formData.append('categoryId', selectedCategoryId);
+   //formData.append('categoryId', selectedCategoryId);
     if (imageFile) formData.append('image', imageFile);
 
     Swal.fire({
