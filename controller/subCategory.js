@@ -1,49 +1,26 @@
-loadCategoryNames();
+document.addEventListener('DOMContentLoaded', function () {
+    //getAllCategories();
+    checkAuth();
+});
 
-    function loadCategoryNames(){
-        const authToken = localStorage.getItem('authToken')
-        $.ajax({
-            url: "http://localhost:8080/api/v1/category/getCategoryName",
-            method: "GET",
-            dataType: "json",
-            headers: {"Authorization": `Bearer ${authToken}`},
-            success: (resp) => {
-                let categoryDropdown = $("#sc_name");
-                categoryDropdown.empty().append('<option value="">Select Category Name</option>');
-                resp.data.forEach(name => {
-                    categoryDropdown.append(`<option value="${name}">${name}</option>`);
-                });
-            },
-            error: (err) => {
-                console.error("Error loading customer IDs:", err);
-            }
+
+//subcategory base url
+const SUBCATEGORY_BASE_URL = "http://locathost:8080/api/vi/subcategory";
+const AUTH_TOKEN = localStorage.getItem('authToken');
+
+// ✅ Check Authentication
+function checkAuth() {
+    if (!AUTH_TOKEN) {
+        Swal.fire('Unauthorized', 'You are not authenticated. Please login.', 'error').then(() => {
+            window.location.href = '/login.html';
         });
     }
+}
 
-    $("#sc_name").change(function (){
-        const authToken = localStorage.getItem('authToken')
-        let selectedName = $(this).val();
-        if (selectedName) {
-            $.ajax({
-                url: `http://localhost:8080/api/v1/category/getCategoryByName/${selectedName}`,
-                method: "GET",
-                dataType: "json",
-                headers: {"Authorization": `Bearer ${authToken}`},
-                success: function (resp) {
-                    if (resp && resp.data) {
-                        $("#sc_id").val(resp.data.id);
-
-                    } else {
-                        $("#sc_id").val("");
-
-                    }
-                },
-                error: function (error) {
-                    console.error("Error fetching item details:", error);
-                }
-            });
-        } else {
-            $("#sc_id").val("");
-
-        }
-    });
+// ✅ Headers for API Requests
+function getHeaders(isMultipart = false) {
+    return isMultipart ? { 'Authorization': `Bearer ${AUTH_TOKEN}` } : {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${AUTH_TOKEN}`
+    };
+}
