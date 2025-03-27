@@ -219,18 +219,23 @@ function getAllSubCategories() {
 // }
 
 // ✅ Load SubCategory for Editing
+// ✅ Load SubCategory for Editing
 function loadSubCategoryForEdit(subcategory) {
     // Fill form fields
     document.getElementById('subCategoryName').value = subcategory.name || '';
     document.getElementById('subCategoryDescription').value = subcategory.description || '';
     
-    // Set category dropdown
+    // Set category dropdown and category ID
     if (subcategory.category && subcategory.category.name) {
         const categorySelect = document.getElementById('sc_name');
         categorySelect.value = subcategory.category.name;
         
-        // Trigger category ID retrieval
-        getCategoryIdByName();
+        // Set the category ID in the hidden input field
+        const categoryIdField = document.getElementById('sc_id');
+        categoryIdField.value = subcategory.category.id;
+
+        // Trigger category ID retrieval based on selected name (optional)
+        // getCategoryIdByName(); // If needed, you can call this if the category ID is needed dynamically
     }
 
     // Preview image
@@ -248,7 +253,45 @@ function loadSubCategoryForEdit(subcategory) {
     window.selectedSubCategoryId = subcategory.id;
 }
 
+
 // ✅ Update SubCategory Function
+// ✅ Update SubCategory Table after Update
+function updateSubCategoryTable(subcategory) {
+    const tableBody = $('#subCategoryTableBody');
+    
+    // Find the existing row
+    const existingRow = tableBody.find(`tr[data-id="${subcategory.id}"]`);
+    if (existingRow.length) {
+        // Update row data
+        let imageUrl = subcategory.image 
+            ? `http://localhost:8080/${subcategory.image.replace(/\\/g, "/")}`
+            : "https://via.placeholder.com/50";
+        
+        let categoryName = '-';
+        if (subcategory.category) {
+            categoryName = subcategory.category.name || '-';
+        } else if (subcategory.categoryId) {
+            categoryName = subcategory.categoryId.toString();
+        }
+
+        existingRow.html(`
+            <td>${subcategory.id}</td>
+            <td>${subcategory.name}</td>
+            <td>${subcategory.description || '-'}</td>
+            <td><img src="${imageUrl}" style="width: 50px; height: 50px; object-fit: cover;"></td>
+            <td>${categoryName}</td>
+            <td class="text-center">
+                <button class="btn btn-warning btn-sm" onclick='loadSubCategoryForEdit(${JSON.stringify(subcategory)})'>Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteSubCategory(${subcategory.id})">Delete</button>
+            </td>
+        `);
+    } else {
+        // If not found, re-fetch the table
+        getAllSubCategories();
+    }
+}
+
+// ✅ Update SubCategory Function with Table Update
 function updateSubCategory() {
     const subcategoryId = window.selectedSubCategoryId;
     if (!subcategoryId) {
@@ -261,7 +304,6 @@ function updateSubCategory() {
     const selectedCategoryId = document.getElementById('sc_id').value;
     const imageFile = document.getElementById('subCategoryImage').files[0];
 
-    // Validation
     if (!subCategoryName) {
         Swal.fire('Warning', 'SubCategory Name is required!', 'warning');
         return;
@@ -296,8 +338,8 @@ function updateSubCategory() {
                 contentType: false,
                 success: function (response) {
                     Swal.fire('Updated!', response.message, 'success');
+                    updateSubCategoryTable(response.data);
                     clearSubCategoryForm();
-                    getAllSubCategories();
                 },
                 error: function (xhr) {
                     Swal.fire('Error!', 'Error updating subcategory: ' + xhr.responseText, 'error');
