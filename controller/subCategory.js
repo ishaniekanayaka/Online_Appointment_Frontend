@@ -25,13 +25,27 @@ function getHeaders(isMultipart = false) {
     };
 }
 
+// Add event listener to category dropdown
+document.addEventListener('DOMContentLoaded', function () {
+    getAllCategoryNames();
+    getAllSubCategories();
+    checkAuth();
+
+    // Add event listener to category name dropdown
+    const categorySelect = document.getElementById('sc_name');
+    if (categorySelect) {
+        categorySelect.addEventListener('change', getCategoryIdByName);
+    }
+});
+
 // ✅ Image Preview
 function previewImage(event) {
     const input = event.target;
-    const preview = document.getElementById('imagePreview');
+    const preview = document.getElementById('subCategoryImagePreview');
+    
     if (input.files && input.files[0]) {
         const reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = function(e) {
             preview.src = e.target.result;
             preview.style.display = 'block';
         };
@@ -41,3 +55,4 @@ function previewImage(event) {
         preview.style.display = 'none';
     }
 }
+
