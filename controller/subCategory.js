@@ -78,76 +78,7 @@ function clearSubCategoryForm() {
     document.getElementById('sc_id').value = '';
 }
 
-// function getAllSubCategories() {
-//     const tableBody = $('#subCategoryTableBody');
 
-//     // Clear the table completely and show loading
-//     tableBody.empty();
-//     const loadingRow = `<tr><td colspan="6" class="text-center text-muted">Loading...</td></tr>`;
-//     tableBody.append(loadingRow);
-
-//     $.ajax({
-//         url: `${SUBCATEGORY_BASE_URL}/getAll`,
-//         type: 'GET',
-//         headers: getHeaders(),
-//         success: function (data) {
-//             // Clear loading row
-//             tableBody.empty();
-
-//             if (!data.data || data.data.length === 0) {
-//                 // If no subcategories, show an "Empty" message
-//                 tableBody.append(`<tr><td colspan="6" class="text-center text-muted">No subcategories found</td></tr>`);
-//                 return;
-//             }
-
-//             data.data.forEach(subcategory => {
-//                 // Sanitize image URL
-//                 let imageUrl = subcategory.image 
-//                     ? `http://localhost:8080/${subcategory.image.replace(/\\/g, "/")}`
-//                     : "placeholder.jpg";
-
-//                 const row = document.createElement('tr');
-//                 row.innerHTML = `
-//                     <td>${subcategory.id}</td>
-//                     <td>${subcategory.name}</td>
-//                     <td>${subcategory.description || '-'}</td>
-//                     <td><img src="${imageUrl}" style="width: 50px; height: 50px; object-fit: cover;"></td>
-//                     <td>${subcategory.category ? subcategory.category.name : '-'}</td>
-//                     <td class="text-center">
-//                         <button class="btn btn-warning btn-sm" onclick='loadSubCategoryForEdit(${JSON.stringify(subcategory)})'>Edit</button>
-//                         <button class="btn btn-danger btn-sm" onclick="deleteSubCategory(${subcategory.id})">Delete</button>
-//                     </td>
-//                 `;
-//                 tableBody.append(row);
-//             });
-
-//             // Show success notification
-//             Swal.fire({
-//                 icon: 'success',
-//                 title: 'Refreshed!',
-//                 text: 'Subcategory list updated successfully!',
-//                 toast: true,
-//                 position: 'top-end',
-//                 showConfirmButton: false,
-//                 timer: 1500
-//             });
-//         },
-//         error: function (xhr) {
-//             // Clear table and show error
-//             tableBody.empty();
-//             tableBody.append(`<tr><td colspan="6" class="text-center text-danger">Error loading data</td></tr>`);
-            
-//             Swal.fire({
-//                 icon: 'error',
-//                 title: 'Error!',
-//                 text: 'Error fetching subcategories: ' + xhr.responseText,
-//                 toast: true,
-//                 position: 'top-end'
-//             });
-//         }
-//     });
-// }
-// ✅ Image Preview Function
 function previewImage(event) {
     const input = event.target;
     const preview = document.getElementById('subCategoryImagePreview');
@@ -166,85 +97,6 @@ function previewImage(event) {
 }
 
 
-// function getAllSubCategories() {
-//     const tableBody = $('#subCategoryTableBody');
-
-//     // Clear the table completely and show loading
-//     tableBody.empty();
-//     const loadingRow = `<tr><td colspan="6" class="text-center text-muted">Loading...</td></tr>`;
-//     tableBody.append(loadingRow);
-
-//     $.ajax({
-//         url: `${SUBCATEGORY_BASE_URL}/getAll`,
-//         type: 'GET',
-//         headers: getHeaders(),
-//         success: function (data) {
-//             // Clear loading row
-//             tableBody.empty();
-
-//             if (!data.data || data.data.length === 0) {
-//                 // If no subcategories, show an "Empty" message
-//                 tableBody.append(`<tr><td colspan="6" class="text-center text-muted">No subcategories found</td></tr>`);
-//                 return;
-//             }
-
-//             data.data.forEach(subcategory => {
-//                 // Sanitize image URL
-//                 let imageUrl = subcategory.image 
-//                     ? `http://localhost:8080/${subcategory.image.replace(/\\/g, "/")}`
-//                     : "placeholder.jpg";
-
-//                 // Get category name safely
-//                 let categoryName = subcategory.category 
-//                     ? (subcategory.category.name || '-') 
-//                     : '-';
-
-//                 const row = document.createElement('tr');
-//                 row.innerHTML = `
-//                     <td>${subcategory.id || '-'}</td>
-//                     <td>${subcategory.name || '-'}</td>
-//                     <td>${subcategory.description || '-'}</td>
-//                     <td>
-//                         <img src="${imageUrl}" 
-//                              style="width: 50px; height: 50px; object-fit: cover;" 
-//                              onerror="this.src='placeholder.jpg'; this.onerror=null;">
-//                     </td>
-//                     <td>${categoryName}</td>
-//                     <td class="text-center">
-//                         <button class="btn btn-warning btn-sm" onclick='loadSubCategoryForEdit(${JSON.stringify(subcategory)})'>Edit</button>
-//                         <button class="btn btn-danger btn-sm" onclick="deleteSubCategory(${subcategory.id})">Delete</button>
-//                     </td>
-//                 `;
-//                 tableBody.append(row);
-//             });
-
-//             // Show success notification
-//             Swal.fire({
-//                 icon: 'success',
-//                 title: 'Refreshed!',
-//                 text: 'Subcategory list updated successfully!',
-//                 toast: true,
-//                 position: 'top-end',
-//                 showConfirmButton: false,
-//                 timer: 1500
-//             });
-//         },
-//         error: function (xhr) {
-//             // Clear table and show error
-//             tableBody.empty();
-//             tableBody.append(`<tr><td colspan="6" class="text-center text-danger">Error loading data</td></tr>`);
-            
-//             Swal.fire({
-//                 icon: 'error',
-//                 title: 'Error!',
-//                 text: 'Error fetching subcategories: ' + xhr.responseText,
-//                 toast: true,
-//                 position: 'top-end'
-//             });
-//         }
-//     });
-// }
-// ✅ Populate Categories Dropdown with Names
 function getAllCategoryNames() {
     $.ajax({
         url: `${BASE_URL}/names`,
@@ -274,7 +126,6 @@ function getAllCategoryNames() {
 function getAllSubCategories() {
     const tableBody = $('#subCategoryTableBody');
 
-    // Clear the table completely and show loading
     tableBody.empty();
     const loadingRow = `<tr><td colspan="6" class="text-center text-muted">Loading...</td></tr>`;
     tableBody.append(loadingRow);
@@ -284,22 +135,19 @@ function getAllSubCategories() {
         type: 'GET',
         headers: getHeaders(),
         success: function (data) {
-            // Clear loading row
             tableBody.empty();
 
             if (!data.data || data.data.length === 0) {
-                // If no subcategories, show an "Empty" message
                 tableBody.append(`<tr><td colspan="6" class="text-center text-muted">No subcategories found</td></tr>`);
                 return;
             }
 
             data.data.forEach(subcategory => {
-                // Improved image URL handling
+                // Directly use the image path from the backend
                 let imageUrl = subcategory.image 
-                    ? `http://localhost:8080/${subcategory.image.replace(/\\/g, "/")}` 
-                    : "https://via.placeholder.com/50"; // Use online placeholder service
+                    ? `http://localhost:8080/${subcategory.image}` 
+                    : "https://via.placeholder.com/50";
 
-                // Safe category name extraction
                 let categoryName = '-';
                 if (subcategory.category) {
                     categoryName = subcategory.category.name || '-';
@@ -312,11 +160,9 @@ function getAllSubCategories() {
                     <td>${subcategory.id}</td>
                     <td>${subcategory.name}</td>
                     <td>${subcategory.description || '-'}</td>
-                    <td>
-                        <img src="${imageUrl}" 
-                             style="width: 50px; height: 50px; object-fit: cover;" 
-                             onerror="this.src='https://via.placeholder.com/50'; this.onerror=null;">
-                    </td>
+                
+                    <td><img src="${imageUrl}" style="width: 50px; height: 50px; object-fit: cover;"></td>
+
                     <td>${categoryName}</td>
                     <td class="text-center">
                         <button class="btn btn-warning btn-sm" onclick='loadSubCategoryForEdit(${JSON.stringify(subcategory)})'>Edit</button>
@@ -326,7 +172,6 @@ function getAllSubCategories() {
                 tableBody.append(row);
             });
 
-            // Show success notification
             Swal.fire({
                 icon: 'success',
                 title: 'Refreshed!',
@@ -338,7 +183,6 @@ function getAllSubCategories() {
             });
         },
         error: function (xhr) {
-            // Clear table and show error
             tableBody.empty();
             tableBody.append(`<tr><td colspan="6" class="text-center text-danger">Error loading data</td></tr>`);
 
@@ -352,28 +196,27 @@ function getAllSubCategories() {
         }
     });
 }
-
 // Similarly update the image preview in loadSubCategoryForEdit function
-function loadSubCategoryForEdit(subcategory) {
-    // Previous code remains the same...
+// function loadSubCategoryForEdit(subcategory) {
+//     // Previous code remains the same...
 
-    // Improved image preview
-    const preview = document.getElementById('subCategoryImagePreview');
-    if (subcategory.image) {
-        let imageUrl = `http://localhost:8080/${subcategory.image.replace(/\\/g, "/")}`;
-        preview.src = imageUrl;
-        preview.onerror = function() {
-            this.src = 'https://via.placeholder.com/200';
-        };
-        preview.style.display = 'block';
-    } else {
-        preview.src = "https://via.placeholder.com/200";
-        preview.style.display = 'block';
-    }
+//     // Improved image preview
+//     const preview = document.getElementById('subCategoryImagePreview');
+//     if (subcategory.image) {
+//         let imageUrl = `http://localhost:8080/${subcategory.image.replace(/\\/g, "/")}`;
+//         preview.src = imageUrl;
+//         preview.onerror = function() {
+//             this.src = 'https://via.placeholder.com/200';
+//         };
+//         preview.style.display = 'block';
+//     } else {
+//         preview.src = "https://via.placeholder.com/200";
+//         preview.style.display = 'block';
+//     }
 
-    // Store the subcategory ID for update
-    window.selectedSubCategoryId = subcategory.id;
-}
+//     // Store the subcategory ID for update
+//     window.selectedSubCategoryId = subcategory.id;
+// }
 
 // ✅ Load SubCategory for Editing
 function loadSubCategoryForEdit(subcategory) {

@@ -255,7 +255,6 @@ function getAllCategory() {
 }
 
 
-//     $.ajax({
 //         url: `${BASE_URL}/getAll`,
 //         type: 'GET',
 //         headers: getHeaders(),
