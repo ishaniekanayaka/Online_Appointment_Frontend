@@ -4,9 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agreement Form</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --accent-color: #fd79a8;
+            --dark-color: #2d3436;
+            --light-color: #f5f6fa;
+            --success-color: #00b894;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -14,239 +23,568 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(to right, #667eea, #764ba2);
-            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            color: var(--dark-color);
         }
 
         .container {
             width: 100%;
-            max-width: 600px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            padding: 25px;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 40px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.8s ease-out;
         }
 
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
         }
-        @keyframes bounce {
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            50% { transform: translateY(-10px); }
         }
 
         .header-icon {
-            font-size: 50px;
-            color: #764ba2;
-            margin-bottom: 10px;
-            animation: bounce 1.5s infinite;
+            font-size: 60px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 5px 5px rgba(108, 92, 231, 0.3));
         }
 
         h2 {
-            color: #333;
-            margin-bottom: 15px;
-            text-align: center;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 28px;
         }
 
         .subtitle {
-            color: #555;
-            font-size: 14px;
-            margin-bottom: 20px;
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.5;
         }
 
         .agreement-box {
-            max-height: 250px;
+            max-height: 300px;
             overflow-y: auto;
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 10px;
-            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 12px;
+            background: var(--light-color);
             text-align: left;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .agreement-box::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .agreement-box::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .agreement-box::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 10px;
+        }
+
+        .agreement-box::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+
+        .agreement-text h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 20px 0 10px;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .agreement-text h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 18px;
+            background: var(--accent-color);
+            border-radius: 3px;
         }
 
         .agreement-text p {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .agreement-text ul {
+            margin-left: 20px;
+            padding-left: 5px;
+            margin-bottom: 20px;
+        }
+
+        .agreement-text ul li {
             font-size: 14px;
-            color: #444;
-            margin-bottom: 10px;
+            color: #555;
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .agreement-text ul li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-weight: bold;
         }
 
         .checkbox-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
+            position: relative;
         }
 
-        .agreement-text h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: #764ba2;
-            text-decoration: underline;
-            margin-bottom: 8px;
+        .checkbox-container input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            margin-right: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-        .agreement-text p {
-            font-size: 15px;
-            color: #333;
-            line-height: 1.6;
-            margin-bottom: 12px;
+        .checkbox-container input[type="checkbox"]:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
         }
 
-        .agreement-text ul {
-            margin-left: 20px;
-            padding-left: 10px;
+        .checkbox-container input[type="checkbox"]:checked::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            color: white;
+            font-size: 12px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
-        .agreement-text ul li {
-            font-size: 14px;
-            color: #444;
-            margin-bottom: 8px;
+        .checkbox-container label {
+            font-size: 16px;
+            color: #555;
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.3s ease;
         }
 
-
-        .checkbox-container input {
-            margin-right: 10px;
+        .checkbox-container input[type="checkbox"]:checked + label {
+            color: var(--dark-color);
+            font-weight: 500;
         }
 
         .buttons {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             justify-content: center;
         }
 
         .btn {
             flex: 1;
-            padding: 12px;
+            padding: 15px;
             font-size: 16px;
             font-weight: 600;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 150px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn i {
+            margin-right: 8px;
+            font-size: 14px;
         }
 
         .agree-btn {
-            background: #667eea;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
+            position: relative;
+            overflow: hidden;
         }
 
         .agree-btn:disabled {
-            background: #bbb;
-            cursor: not-allowed;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .cancel-btn {
             background: #ddd;
-            color: #333;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
         }
 
-        .btn:hover:not(:disabled) {
-            opacity: 0.8;
+        .agree-btn:not(:disabled):hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
         }
 
-        @media (max-width: 500px) {
+        .agree-btn:not(:disabled):active {
+            transform: translateY(1px);
+        }
+
+        .agree-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .agree-btn:hover::after {
+            left: 100%;
+            opacity: 1;
+        }
+
+        .cancel-btn {
+            background: white;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .cancel-btn:hover {
+            background: #f8f9fa;
+            color: var(--dark-color);
+            border-color: #ccc;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .cancel-btn:active {
+            transform: translateY(1px);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(0, 184, 148, 0.1);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .success-message i {
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
             .buttons {
                 flex-direction: column;
             }
+            
+            .btn {
+                width: 100%;
+            }
         }
 
+        /* Confetti effect */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-color);
+            opacity: 0;
+            animation: confettiFall 5s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <i class="fas fa-file-contract header-icon"></i>
-    <h2>Terms & Conditions</h2>
-    <p class="subtitle">Please review and agree to our terms before proceeding.</p>
+    <div class="container">
+        <i class="fas fa-file-signature header-icon"></i>
+        <h2>Terms & Conditions Agreement</h2>
+        <p class="subtitle">Please carefully review and accept our terms to continue</p>
 
-    <div class="agreement-box">
-        <div class="agreement-text">
-            <h3>1. Introduction</h3>
-            <p>Welcome to MeetUpPro! These Terms of Service ("Terms") govern your access to and use of MeetUpPro's website, services, and applications (collectively, the "Services"). By accessing or using our Services, you agree to be bound by these Terms.</p>
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
 
-            <h3>2. Appointment Scheduling Services</h3>
-            <p>MeetUpPro provides an online platform that enables users to schedule, manage, and coordinate appointments and meetings. By using our Services, you acknowledge and agree to the following:</p>
-            <ul>
-                <li>You are responsible for any information you provide through our Services.</li>
-                <li>You will use the Services in compliance with all applicable laws and regulations.</li>
-                <li>We reserve the right to modify, suspend, or discontinue any aspect of our Services at any time.</li>
-            </ul>
+        <div class="success-message">
+            <i class="fas fa-check-circle"></i>
+            <span>Agreement accepted successfully! Redirecting...</span>
+        </div>
 
-            <h3>3. User Accounts</h3>
-            <p>To access certain features of our Services, you may need to create an account. When creating an account, you agree to:</p>
-            <ul>
-                <li>Provide accurate, current, and complete information.</li>
-                <li>Maintain and promptly update your account information.</li>
-                <li>Keep your account credentials secure and confidential.</li>
-                <li>Notify us immediately of any unauthorized use of your account.</li>
-            </ul>
+        <div class="agreement-box">
+            <div class="agreement-text">
+                <h3>1. Service Overview</h3>
+                <p>Our platform provides innovative solutions for your needs. By using our services, you agree to comply with all terms outlined in this agreement.</p>
 
-            <h3>4. Privacy Policy</h3>
-            <p>Your privacy is important to us. Our Privacy Policy explains how we collect, use, and protect your personal information. By using our Services, you consent to our collection and use of personal information as described in our Privacy Policy.</p>
+                <h3>2. User Responsibilities</h3>
+                <p>As a user of our services, you agree to:</p>
+                <ul>
+                    <li>Provide accurate and current information</li>
+                    <li>Maintain the confidentiality of your account credentials</li>
+                    <li>Use the service only for lawful purposes</li>
+                    <li>Not engage in any activity that disrupts service operations</li>
+                </ul>
 
-            <h3>5. Intellectual Property</h3>
-            <p>All content, features, and functionality of our Services, including but not limited to text, graphics, logos, icons, images, audio clips, digital downloads, data compilations, and software, are the exclusive property of MeetUpPro or its licensors and are protected by copyright, trademark, and other intellectual property laws.</p>
+                <h3>3. Data Privacy</h3>
+                <p>We are committed to protecting your privacy. Our data collection and usage practices are detailed in our Privacy Policy, which is incorporated into these Terms by reference.</p>
 
-            <h3>6. Limitation of Liability</h3>
-            <p>To the maximum extent permitted by law, MeetUpPro shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of (or inability to access or use) our Services.</p>
+                <h3>4. Intellectual Property</h3>
+                <p>All content, trademarks, and proprietary information on this platform are owned by us or our licensors. Unauthorized use may violate copyright and other laws.</p>
 
-            <h3>7. Termination</h3>
-            <p>We may terminate or suspend your account and access to our Services at our sole discretion, without notice, for conduct that we believe violates these Terms or is harmful to other users, us, or third parties, or for any other reason.</p>
+                <h3>5. Limitation of Liability</h3>
+                <p>To the fullest extent permitted by law, we shall not be liable for any indirect, incidental, or consequential damages arising from your use of the service.</p>
 
-            <h3>8. Changes to Terms</h3>
-            <p>We may revise these Terms from time to time. The most current version will always be posted on our website. By continuing to use our Services after any changes, you accept and agree to the revised Terms.</p>
+                <h3>6. Modifications to Terms</h3>
+                <p>We reserve the right to modify these terms at any time. Continued use after changes constitutes acceptance of the modified terms.</p>
 
-            <div class="agreement-footer">
-                <p>By using MeetUpPro services, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.</p>
+                <div class="signature-section">
+                    <div class="signature-line"></div>
+                    <p class="signature-label">Digital Signature</p>
+                </div>
             </div>
+        </div>
+
+        <div class="checkbox-container">
+            <input type="checkbox" id="agreeCheckbox">
+            <label for="agreeCheckbox">I acknowledge that I have read and agree to these Terms and Conditions</label>
+        </div>
+
+        <div class="buttons">
+            <button class="btn agree-btn" id="agreeBtn" disabled>
+                <i class="fas fa-signature"></i> Accept & Sign
+            </button>
+            <button class="btn cancel-btn" id="cancelBtn">
+                <i class="fas fa-ban"></i> Decline
+            </button>
         </div>
     </div>
 
-    <div class="checkbox-container">
-        <input type="checkbox" id="agreeCheckbox">
-        <label for="agreeCheckbox">I agree to the Terms & Conditions</label>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const agreeCheckbox = document.getElementById('agreeCheckbox');
+            const agreeBtn = document.getElementById('agreeBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const progressContainer = document.querySelector('.progress-container');
+            const progressBar = document.querySelector('.progress-bar');
+            const successMessage = document.querySelector('.success-message');
+            const container = document.querySelector('.container');
 
-    <div class="buttons">
-       <!-- <a href="/login.html">
-            <button class="btn agree-btn" id="agreeBtn" >I Agree</button>
-        </a> -->
-        <a id="login-btn">
-            <button class="btn agree-btn" id="agreeBtn" >I Agree</button>
-        </a>
+            // Enable/disable agree button based on checkbox
+            agreeCheckbox.addEventListener('change', function() {
+                agreeBtn.disabled = !this.checked;
+                if (this.checked) {
+                    agreeBtn.classList.add('pulse');
+                } else {
+                    agreeBtn.classList.remove('pulse');
+                }
+            });
 
-        <button class="btn cancel-btn" onclick="cancel()">Cancel</button>
-    </div>
-</div>
+            // Agree button functionality
+            agreeBtn.addEventListener('click', function() {
+                if (!this.disabled) {
+                    // Show loading state
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                    
+                    // Show progress bar
+                    progressContainer.style.display = 'block';
+                    
+                    // Simulate processing
+                    let progress = 0;
+                    const interval = setInterval(() => {
+                        progress += 2;
+                        progressBar.style.width = `${progress}%`;
+                        
+                        if (progress >= 100) {
+                            clearInterval(interval);
+                            successMessage.style.display = 'flex';
+                            document.querySelector('.signature-line').classList.add('signed');
+                            
+                            // Create digital signature effect
+                            setTimeout(() => {
+                                const signature = document.createElement('div');
+                                signature.className = 'digital-signature';
+                                signature.innerHTML = 'Digitally Signed <i class="fas fa-check-circle"></i>';
+                                document.querySelector('.signature-section').appendChild(signature);
+                                
+                                // Redirect after delay
+                                setTimeout(() => {
+                                    window.location.href = "login.html";
+                                }, 1500);
+                            }, 500);
+                        }
+                    }, 50);
+                }
+            });
 
-<script>
-    document.getElementById("login-btn").href = "login.html"; // Set the path dynamically
-</script>
-<script>
-    const agreeCheckbox = document.getElementById('agreeCheckbox');
-    const agreeBtn = document.getElementById('agreeBtn');
+            // Cancel button functionality
+            cancelBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to decline our Terms and Conditions? You will not be able to access our services.')) {
+                    window.location.href = "goodbye.html";
+                }
+            });
 
-    document.getElementById('agreeBtn').addEventListener('click', function() {
-        if (!this.disabled) {
-            window.location.href = "register.html";
+            // Add visual feedback when scrolling through terms
+            const agreementBox = document.querySelector('.agreement-box');
+            agreementBox.addEventListener('scroll', function() {
+                const scrollPercentage = (this.scrollTop / (this.scrollHeight - this.clientHeight)) * 100;
+                if (scrollPercentage > 80 && !agreeCheckbox.checked) {
+                    agreeCheckbox.parentElement.classList.add('highlight');
+                } else {
+                    agreeCheckbox.parentElement.classList.remove('highlight');
+                }
+            });
+        });
+    </script>
+
+    <style>
+        /* Additional Styles */
+        .signature-section {
+            margin-top: 30px;
+            text-align: center;
         }
-    });
 
-    function cancel() {
-        alert("You have declined the agreement.");
-        window.location.href = "index.html";
-    }
-</script>
+        .signature-line {
+            width: 200px;
+            height: 1px;
+            background: #ddd;
+            margin: 20px auto;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .signature-line.signed {
+            background: #6c5ce7;
+            height: 2px;
+        }
+
+        .signature-label {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .digital-signature {
+            color: #6c5ce7;
+            font-weight: 600;
+            margin-top: 10px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .digital-signature i {
+            color: #00b894;
+            margin-left: 5px;
+        }
+
+        .highlight {
+            animation: pulseHighlight 1.5s infinite;
+            background: rgba(108, 92, 231, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        @keyframes pulseHighlight {
+            0% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.2); }
+            70% { box-shadow: 0 0 0 10px rgba(108, 92, 231, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
+        }
+
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(108, 92, 231, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
+        }
+    </style>
 </body>
-</html>
