@@ -77,3 +77,74 @@ document.getElementById("registerForm").addEventListener("submit", function (eve
 
 });
 
+
+  // Create floating particles
+  document.addEventListener('DOMContentLoaded', function() {
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 30;
+    
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random size between 2px and 6px
+        const size = Math.random() * 4 + 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        // Random position
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        // Random animation duration between 10s and 20s
+        const duration = Math.random() * 10 + 10;
+        particle.style.animationDuration = `${duration}s`;
+        
+        // Random delay
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+        
+        particlesContainer.appendChild(particle);
+    }
+    
+    // Form submission animation
+    const form = document.getElementById('registerForm');
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Add a ripple effect to the button
+        const button = form.querySelector('button');
+        button.innerHTML = '<span class="fa fa-spinner fa-spin"></span> Processing';
+        button.style.background = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
+        
+        // Simulate processing
+        setTimeout(() => {
+            button.innerHTML = '<span class="fa fa-check"></span> Success!';
+            
+            // Add confetti effect
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('particle');
+                confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.width = '8px';
+                confetti.style.height = '8px';
+                confetti.style.left = `${50 + (Math.random() - 0.5) * 20}%`;
+                confetti.style.top = '70%';
+                confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                confetti.style.animationName = 'confettiFall';
+                document.body.appendChild(confetti);
+                
+                // Remove confetti after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+            
+            // Reset form after delay
+            setTimeout(() => {
+                form.reset();
+                button.innerHTML = 'Register Account';
+                button.style.background = 'linear-gradient(135deg, #6e8efb, #a777e3)';
+            }, 3000);
+        }, 2000);
+    });
+});
