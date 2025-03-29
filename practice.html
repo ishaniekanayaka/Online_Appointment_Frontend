@@ -51,7 +51,7 @@
         .bubble {
             position: absolute;
             bottom: -100px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(67, 5, 50, 0.2);
             border-radius: 50%;
             animation: rise 15s infinite ease-in;
         }
@@ -112,10 +112,26 @@
         }
 
         .bubble:nth-child(8) {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             left: 80%;
             animation-duration: 6s;
+            animation-delay: 1s;
+        }
+
+        .bubble:nth-child(9) {
+            width: 80px;
+            height: 80px;
+            left: 70%;
+            animation-duration: 5s;
+            animation-delay: 1s;
+        }
+
+        .bubble:nth-child(10) {
+            width: 85px;
+            height: 85px;
+            left: 650%;
+            animation-duration: 4s;
             animation-delay: 1s;
         }
 
@@ -383,7 +399,7 @@
         }
 
         .modal-image {
-            max-width: 90%;
+            max-width: 0%;
             max-height: 90%;
             transform: scale(0.9);
             transition: transform 0.4s ease;
@@ -445,6 +461,8 @@
 <body>
     <!-- Animated Background Bubbles -->
     <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
         <div class="bubble"></div>
         <div class="bubble"></div>
         <div class="bubble"></div>

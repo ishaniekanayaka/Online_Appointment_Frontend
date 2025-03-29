@@ -57,7 +57,9 @@ document.getElementById("registerForm").addEventListener("submit", function (eve
                         if (roleData.role === "ADMIN") {
                             window.location.href = "../login.html";  // Redirect to Admin Dashboard
                         } else if (roleData.role === "USER") {
-                            window.location.href = "../userSetting.html";  // Redirect to User Dashboard
+                            window.location.href = "../userSetting.html"; 
+                        } else if (roleData.role === "GIG") {
+                            window.location.href = "../UserInterface.html";  // Redirect to User Dashboard
                         } else {
                             alert("User role not recognized.");
                         }

@@ -16,7 +16,7 @@ body {
     position: fixed;
     height: 100%;
     width: 260px;
-    background: linear-gradient(135deg, #9d3a8b 0%, #6e2256 100%);
+    background: linear-gradient(90deg, #EECAD5 0%, #310322 100%);
     transition: all 0.3s ease;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     z-index: 999;
@@ -125,7 +125,8 @@ body {
 /* Home Section Styling */
 .home-section {
     position: relative;
-    background-color: #f5f7fa;
+    background-color: #F1D3CE;
+    background-image: url('../images/my.jpg');
     min-height: 100vh;
     left: 260px;
     width: calc(100% - 260px);
@@ -141,7 +142,7 @@ body {
     display: flex;
     justify-content: space-between;
     height: 80px;
-    background: #ffffff;
+    background: #310322;
     align-items: center;
     position: fixed;
     width: calc(100% - 260px);
@@ -185,8 +186,8 @@ nav .search-box input {
     height: 100%;
     width: 100%;
     outline: none;
-    background: #f5f7fa;
-    border: 1px solid #e1e5eb;
+    background: #F1D3CE;
+    border: 1px solid #F1D3CE;
     border-radius: 50px;
     font-size: 16px;
     padding: 0 20px;
