@@ -198,8 +198,9 @@
                     <div class="form-header position-relative">
                         <div class="bg-pattern"></div>
                         <div class="position-relative">
-                            <h1 class="display-6 fw-bold mb-2">Showcase Your Talent</h1>
-                            <p class="lead mb-0">Register your professional gig and start earning</p>
+                            <h1 class="display-6 fw-bold mb-2">MeetUpPro</h1>
+                            <p class="lead mb-0">EFFORTLESS APPOINTMENT SCHEDULING<br>
+                                POWERED BY</p>
                         </div>
                     </div>
                     
@@ -222,6 +223,19 @@
                             
                             <div class="row g-4">
                                 <!-- Personal Information -->
+                                <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Search by Email</label>
+                                    <div class="input-group">
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                        <button type="button" class="btn btn-primary" onclick="fetchUserByEmail()">Search</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="userId" class="form-label">User ID</label>
+                                    <input type="text" class="form-control" id="userId" name="userId" readonly>
+                                </div>
+                            </div>
                                 <div class="col-md-6">
                                     <div class="floating-label mb-3">
                                         <label for="FullName">Full Name</label>
@@ -231,6 +245,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 
                                 <div class="col-md-6">
                                     <div class="floating-label mb-3">
@@ -295,7 +310,7 @@
                                 
                                 <div class="col-md-6">
                                     <div class="floating-label mb-3">
-                                        <label for="dateTime">Available From</label>
+                                        <label for="dateTime">REgister Day</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-clock"></i></span>
                                             <input type="datetime-local" class="form-control" id="dateTime" name="dateTime">
@@ -303,27 +318,21 @@
                                     </div>
                                 </div>
                                 
-                                <!-- System Details -->
-                                <div class="col-md-6">
-                                    <div class="floating-label mb-3">
-                                        <label for="userId">User ID</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
-                                            <input type="number" class="form-control" id="userId" name="userId" required>
-                                        </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="sc_name" class="form-label">Select Subcategory</label>
+                                        <select class="form-select" id="sc_name" name="sc_name" required>
+                                            <option value="">Select Subcategory</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="sc_id" class="form-label">Subcategory ID</label>
+                                        <input type="text" class="form-control" id="sc_id" name="sc_id" disabled>
                                     </div>
                                 </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="floating-label mb-3">
-                                        <label for="subCategoryId">Service Category</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-tag"></i></span>
-                                            <input type="number" class="form-control" id="subCategoryId" name="subCategoryId" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                
+
+                               
                                 <div class="col-12">
                                     <div class="form-check form-switch mb-3">
                                         <input class="form-check-input" type="checkbox" id="active" name="active" checked>
@@ -353,113 +362,289 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            checkAuth();  // Make sure the user is authenticated
+    checkAuth();  // Make sure the user is authenticated
+    getAllSubCategoryNames();
+    
+    // Add event listener to subcategory name dropdown
+    const subCategorySelect = document.getElementById('sc_name');
+    if (subCategorySelect) {
+        subCategorySelect.addEventListener('change', getSubCategoryIdByName);
+    }
+    
+    // Image preview
+    document.getElementById('image').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('imagePreview');
+                preview.innerHTML = `<img src="${e.target.result}" alt="Profile Preview">`;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+});
+
+const BASE_URL = "http://localhost:8080/api/v1";
+const AUTH_TOKEN = localStorage.getItem('authToken');
+
+// ✅ Check Authentication
+function checkAuth() {
+    if (!AUTH_TOKEN) {
+        Swal.fire({
+            title: 'Authentication Required',
+            text: 'You need to login to register a gig',
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#6366f1',
+            confirmButtonText: 'Go to Login'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/login.html';
+            }
+        });
+    }
+}
+
+// ✅ Headers for API Requests
+function getHeaders(isMultipart = false) {
+    return isMultipart ? { 'Authorization': `Bearer ${AUTH_TOKEN}` } : {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${AUTH_TOKEN}`
+    };
+}
+
+function fetchUserByEmail() {
+    const email = $('#email').val().trim();
+    if (!email) {
+        alert('Please enter an email address!');
+        return;
+    }
+
+    $.ajax({
+        url: `${BASE_URL}/user/email/${email}`,
+        type: 'GET',
+        headers: getHeaders(),
+        success: function(response) {
+            if (response.data) {
+                $('#userId').val(response.data.id);
+                // Fill in other user details if available
+                if (response.data.fullName) {
+                    $('#FullName').val(response.data.fullName);
+                }
+                if (response.data.contactNumber) {
+                    $('#contactNumber').val(response.data.contactNumber);
+                }
+            } else {
+                alert('No user found with this email.');
+            }
+        },
+        error: function(xhr) {
+            console.error('Error fetching user:', xhr);
+            alert('Failed to fetch user: ' + xhr.responseText);
+        }
+    });
+}
+
+// ✅ Get All Subcategory Names
+function getAllSubCategoryNames() {
+    $.ajax({
+        url: `${BASE_URL}/subcategory/names`,
+        type: 'GET',
+        headers: getHeaders(),
+        success: function (data) {
+            console.log('Subcategories Data:', data);
             
-            // Image preview
-            document.getElementById('image').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const preview = document.getElementById('imagePreview');
-                        preview.innerHTML = `<img src="${e.target.result}" alt="Profile Preview">`;
-                    }
-                    reader.readAsDataURL(file);
-                }
-            });
+            const subCategorySelect = document.getElementById('sc_name');
+            subCategorySelect.innerHTML = '<option value="">Select SubCategory</option>';
+
+            if (data.data && Array.isArray(data.data)) {
+                // Store the subcategory names and index in an object for later use
+                const subCategories = data.data;
+                
+                subCategories.forEach((subCategoryName, index) => {
+                    const option = document.createElement('option');
+                    option.value = index; // Use the index as value (0, 1, 2, ...)
+                    option.textContent = subCategoryName; // Use the subcategory name as text
+                    subCategorySelect.appendChild(option);
+                });
+
+                // Store the subcategories in a global variable (or better, store them locally in a scope)
+                window.subCategories = subCategories;
+            } else {
+                console.error('Invalid subcategory data format');
+                Swal.fire('Warning', 'Could not load subcategories', 'warning');
+            }
+        },
+        error: function (xhr) {
+            console.error('Error fetching subcategories:', xhr);
+            Swal.fire('Error!', 'Error fetching subcategory names: ' + xhr.responseText, 'error');
+        }
+    });
+}
+
+// ✅ Get Subcategory ID by Name
+function getSubCategoryIdByName() {
+    const selectedSubCategoryIndex = document.getElementById('sc_name').value;
+    
+    if (!selectedSubCategoryIndex) {
+        document.getElementById('sc_id').value = '';
+        return;
+    }
+
+    // Get the selected subcategory name based on the index
+    const selectedSubCategoryName = window.subCategories[selectedSubCategoryIndex];
+    
+    // Encode the subcategory name properly for the URL
+    const encodedSubCategoryName = encodeURIComponent(selectedSubCategoryName);
+
+    $.ajax({
+        url: `${BASE_URL}/subcategory/name/${encodedSubCategoryName}`,
+        type: 'GET',
+        headers: getHeaders(),
+        success: function (data) {
+            console.log('Subcategory ID response:', data);
+            if (data.data && data.data.id) {
+                document.getElementById('sc_id').value = data.data.id;
+            } else {
+                console.error('Invalid subcategory ID response format');
+                Swal.fire('Warning', 'Could not retrieve subcategory ID', 'warning');
+            }
+        },
+        error: function (xhr) {
+            console.error('Error fetching subcategory ID:', xhr);
+            Swal.fire('Error!', 'Error fetching subcategory ID: ' + xhr.responseText, 'error');
+        }
+    });
+}
+// ✅ Save Gig Details
+$('#gigForm').on('submit', function(event) {
+    event.preventDefault();
+    
+    // Validate form
+    const fullName = $('#FullName').val();
+    const userId = $('#userId').val();
+    const scId = $('#sc_id').val();
+    
+    if (!fullName) {
+        Swal.fire({
+            title: 'Warning',
+            text: 'Full Name is required!',
+            icon: 'warning',
+            confirmButtonColor: '#6366f1'
         });
+        return;
+    }
+    
+    if (!userId) {
+        Swal.fire({
+            title: 'Warning',
+            text: 'User ID is required! Please search for a user by email first.',
+            icon: 'warning',
+            confirmButtonColor: '#6366f1'
+        });
+        return;
+    }
+    
+    if (!scId) {
+        Swal.fire({
+            title: 'Warning',
+            text: 'Subcategory ID is required! Please select a subcategory.',
+            icon: 'warning',
+            confirmButtonColor: '#6366f1'
+        });
+        return;
+    }
 
-        const BASE_URL = "http://localhost:8080/api/v1/gig";
-        const AUTH_TOKEN = localStorage.getItem('authToken');
+    // Create FormData object
+    const formData = new FormData(this);
+    
+    // Make sure we're using the exact parameter name expected by the backend
+    formData.set('subCategoryId', scId); // Changed from subcategoryId to subCategoryId
+    formData.set('userId', userId);
+    
+    // Add hidden field to the form just to be sure
+    if (!document.getElementById('subCategoryId')) {
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.id = 'subCategoryId';
+        hiddenInput.name = 'subCategoryId';
+        hiddenInput.value = scId;
+        this.appendChild(hiddenInput);
+    } else {
+        document.getElementById('subCategoryId').value = scId;
+    }
+    
+    // For debugging - log all form data
+    console.log("Form data being sent:");
+    for (let pair of formData.entries()) {
+        console.log(pair[1] + ': ' + pair[2]);
+    }
 
-        // ✅ Check Authentication
-        function checkAuth() {
-            if (!AUTH_TOKEN) {
-                Swal.fire({
-                    title: 'Authentication Required',
-                    text: 'You need to login to register a gig',
-                    icon: 'warning',
-                    showCancelButton: false,
-                    confirmButtonColor: '#6366f1',
-                    confirmButtonText: 'Go to Login'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = '/login.html';
-                    }
-                });
-            }
+    // Show loading state
+    Swal.fire({
+        title: 'Submitting...',
+        html: 'Please wait while we register your gig',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
         }
+    });
 
-        // ✅ Headers for API Requests
-        function getHeaders(isMultipart = false) {
-            return isMultipart ? { 'Authorization': `Bearer ${AUTH_TOKEN}` } : {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${AUTH_TOKEN}`
-            };
-        }
-
-        // ✅ Save Gig Details
-        $('#gigForm').on('submit', function(event) {
-            event.preventDefault();
-
-            const formData = new FormData(this);
-
-            // Validate form
-            const fullName = $('#FullName').val();
-            if (!fullName) {
-                Swal.fire({
-                    title: 'Warning',
-                    text: 'Full Name is required!',
-                    icon: 'warning',
-                    confirmButtonColor: '#6366f1'
-                });
-                return;
-            }
-
-            // Show loading state
+    // Send data via AJAX with query parameter
+    $.ajax({
+        url: `${BASE_URL}/gig/save?subCategoryId=${scId}`,
+        type: 'POST',
+        headers: {
+            'Authorization': `Bearer ${AUTH_TOKEN}`
+        },
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            console.log('Success response:', response);
             Swal.fire({
-                title: 'Submitting...',
-                html: 'Please wait while we register your gig',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
+                icon: 'success',
+                title: 'Gig Registered!',
+                text: response.message || 'Your gig has been successfully registered.',
+                confirmButtonColor: '#6366f1'
             });
-
-            // Send data via AJAX
-            $.ajax({
-                url: `${BASE_URL}/save`,
-                type: 'POST',
-                headers: getHeaders(true),
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Gig Registered!',
-                        text: response.message || 'Your gig has been successfully registered.',
-                        confirmButtonColor: '#6366f1'
-                    });
-                    clearForm();
-                },
-                error: function (xhr) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Registration Failed',
-                        text: 'Error saving gig details: ' + (xhr.responseJSON?.message || xhr.responseText || 'Unknown error occurred'),
-                        confirmButtonColor: '#6366f1'
-                    });
+            clearForm();
+        },
+        error: function (xhr) {
+            console.error('Error saving gig:', xhr);
+            let errorMsg = 'Unknown error occurred';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMsg = xhr.responseJSON.message;
+            } else if (xhr.responseText) {
+                try {
+                    const errorObj = JSON.parse(xhr.responseText);
+                    errorMsg = errorObj.message || errorObj.error || xhr.responseText;
+                } catch (e) {
+                    errorMsg = xhr.responseText;
                 }
+            }
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Registration Failed',
+                text: 'Error saving gig details: ' + errorMsg,
+                confirmButtonColor: '#6366f1'
             });
-        });
-
-        // Clear form after successful submission
-        function clearForm() {
-            $('#gigForm')[0].reset();
-            document.getElementById('imagePreview').innerHTML = '<i class="bi bi-person-circle" style="font-size: 2rem; color: #9ca3af;"></i>';
-            window.selectedGigId = null;
         }
+    });
+});
+
+// Clear form after successful submission
+function clearForm() {
+    $('#gigForm')[0].reset();
+    document.getElementById('imagePreview').innerHTML = '<i class="bi bi-person-circle" style="font-size: 2rem; color: #9ca3af;"></i>';
+    document.getElementById('sc_id').value = '';
+    document.getElementById('userId').value = '';
+    if (document.getElementById('subCategoryId')) {
+        document.getElementById('subCategoryId').value = '';
+    }
+}
     </script>
 </body>
 </html>
