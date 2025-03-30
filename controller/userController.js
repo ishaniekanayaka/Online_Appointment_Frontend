@@ -59,7 +59,7 @@ document.getElementById("registerForm").addEventListener("submit", function (eve
                         } else if (roleData.role === "USER") {
                             window.location.href = "../userSetting.html"; 
                         } else if (roleData.role === "GIG") {
-                            window.location.href = "../UserInterface.html";  // Redirect to User Dashboard
+                            window.location.href = "../gigRegister.html";  // Redirect to User Dashboard
                         } else {
                             alert("User role not recognized.");
                         }
