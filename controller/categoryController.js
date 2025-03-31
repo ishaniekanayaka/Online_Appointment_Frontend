@@ -24,22 +24,6 @@ function getHeaders(isMultipart = false) {
     };
 }
 
-// ✅ Image Preview
-function previewImage(event) {
-    const input = event.target;
-    const preview = document.getElementById('imagePreview');
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = e => {
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-        };
-        reader.readAsDataURL(input.files[0]);
-    } else {
-        preview.src = '#';
-        preview.style.display = 'none';
-    }
-}
 
 // ✅ Save Category
 function saveCategory() {
