@@ -360,6 +360,176 @@
             background: #3a56d4;
             transform: translateY(-5px);
         }
+
+        /* Chat Bot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .chatbot-container.open {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .chatbot-header {
+            background: #4361ee;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-header h5 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .chatbot-close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-close-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .bot-message {
+            background: #f1f1f1;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .user-message {
+            background: #4361ee;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-input input:focus {
+            border-color: #4361ee;
+        }
+
+        .chatbot-input button {
+            background: #4361ee;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-input button:hover {
+            background: #3a56d4;
+            transform: translateY(-2px);
+        }
+
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #4361ee;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(67, 97, 238, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-toggle:hover {
+            background: #3a56d4;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+        }
+
+        /* Toast Styles */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            border-radius: 4px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 9999;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+        .toast-info {
+            background-color: #4361ee;
+        }
+        .toast-success {
+            background-color: #4CAF50;
+        }
+        .toast-error {
+            background-color: #F44336;
+        }
     </style>
 </head>
 <body>
@@ -417,6 +587,28 @@
     <img class="modal-image" id="modalImage" src="" alt="Enlarged view">
 </div>
 
+<!-- Chat Bot Toggle Button -->
+<div class="chatbot-toggle" id="chatbotToggle">
+    <i class="fas fa-comments"></i>
+</div>
+
+<!-- Chat Bot Container -->
+<div class="chatbot-container" id="chatbotContainer">
+    <div class="chatbot-header">
+        <h5>Appointment Assistant</h5>
+        <button class="chatbot-close-btn">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages"></div>
+    <div class="chatbot-input">
+        <input type="text" id="chatbotInput" placeholder="Type your message...">
+        <button id="chatbotSend">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
@@ -431,6 +623,14 @@
     const modalImage = document.getElementById('modalImage');
     const closeModal = document.querySelector('.close-modal');
     const backButton = document.getElementById('back-button');
+    
+    // Chat Bot Elements
+    const chatbotToggle = document.getElementById('chatbotToggle');
+    const chatbotContainer = document.getElementById('chatbotContainer');
+    const chatbotMessages = document.getElementById('chatbotMessages');
+    const chatbotInput = document.getElementById('chatbotInput');
+    const chatbotSend = document.getElementById('chatbotSend');
+    const chatbotCloseBtn = document.querySelector('.chatbot-close-btn');
 
     // Helper function to generate image URL
     function getImageUrl(imagePath, type = 'category') {
@@ -629,6 +829,12 @@
                 modalImage.src = imageUrl;
                 modalImage.alt = subcategory.name;
                 imageModal.classList.add('show');
+                
+                // Auto-open chat bot and send message
+                openChatBot();
+                setTimeout(() => {
+                    addBotMessage(`Would you like to know more about ${subcategory.name}? I can help you find the right professional for your needs!`);
+                }, 1000);
             });
 
             // Add click event to fetch gigs
@@ -697,6 +903,12 @@
                 modalImage.src = imageUrl;
                 modalImage.alt = gig.fullName;
                 imageModal.classList.add('show');
+                
+                // Auto-open chat bot and send message
+                openChatBot();
+                setTimeout(() => {
+                    addBotMessage(`You're viewing ${gig.fullName}'s profile. Would you like to book an appointment or ask any questions?`);
+                }, 1000);
             });
 
             // Add click event for booking appointment
@@ -710,358 +922,561 @@
         });
     }
 
-// Function to handle appointment booking
-async function bookAppointment(gig) {
-    try {
-        // First show email search dialog
-        const { value: userEmail } = await Swal.fire({
-            title: 'Enter Your Email',
-            input: 'email',
-            inputPlaceholder: 'your@email.com',
-            showCancelButton: true,
-            confirmButtonText: 'Search',
-            confirmButtonColor: '#4361ee',
-            preConfirm: (email) => {
-                if (!email) {
-                    Swal.showValidationMessage('Please enter your email');
-                    return false;
-                }
-                return email;
-            }
-        });
-        
-        if (!userEmail) return;
-        
-        // Show loading state while searching for user
-        Swal.fire({
-            title: 'Searching...',
-            text: 'Looking up user information',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-
-        // Get user details by email
-        const userResponse = await fetch(`${API_BASE_URL}/user/email/${encodeURIComponent(userEmail)}`, {
-            method: "GET",
-            headers: getHeaders()
-        });
-        
-        if (!userResponse.ok) {
-            const errorText = await userResponse.text();
-            throw new Error(errorText || "User not found");
-        }
-        
-        const userData = await userResponse.json();
-        const user = userData.data;
-        
-        // Close the loading dialog
-        Swal.close();
-        
-        // Show appointment booking form with user details
-        const { value: formValues } = await Swal.fire({
-            title: `Book Appointment with ${gig.fullName}`,
-            html: `
-                <div class="text-start">
-                    <p><strong>Your Details:</strong></p>
-                    <p>Name: ${user.name || 'N/A'}</p>
-                    <p>Email: ${user.email}</p>
-                    <hr>
-                    <p><strong>Service Details:</strong></p>
-                    <p>Professional: ${gig.fullName}</p>
-                    <p>Rate: Rs.${gig.amountCharge.toFixed(2)} per session</p>
-                    <p>Contact: ${gig.contactNumber}</p>
-                    <div class="mb-3">
-                        <label for="appointment-date" class="form-label">Select Date</label>
-                        <input type="date" id="appointment-date" class="form-control" min="${new Date().toISOString().split('T')[0]}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="appointment-time" class="form-label">Select Time</label>
-                        <input type="time" id="appointment-time" class="form-control">
-                    </div>
-                </div>
-            `,
-            showCancelButton: true,
-            confirmButtonText: "Confirm Booking",
-            confirmButtonColor: "#4361ee",
-            preConfirm: () => {
-                const date = document.getElementById('appointment-date').value;
-                const time = document.getElementById('appointment-time').value;
-                
-                if (!date || !time) {
-                    Swal.showValidationMessage("Please select both date and time");
-                    return false;
-                }
-                
-                return { date, time };
-            }
-        });
-        
-        if (!formValues) return;
-        
-        // Create appointment data with both user ID and gig ID
-        const appointmentData = {
-            gigId: gig.id,
-            userId: user.id,
-            appointmentTime: `${formValues.date}T${formValues.time}:00`,
-            status: "PENDING"
-        };
-
-        // Show loading state while booking
-        Swal.fire({
-            title: 'Processing...',
-            text: 'Booking your appointment',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-
-        // Book appointment
-        const bookingResponse = await fetch(`${APPOINTMENT_API_URL}/book`, {
-            method: "POST",
-            headers: getHeaders(),
-            body: JSON.stringify(appointmentData)
-        });
-        
-        // First get the response as text
-        const responseText = await bookingResponse.text();
-        
-        // Then try to parse it as JSON
-        let responseData;
+    // Function to handle appointment booking
+    async function bookAppointment(gig) {
         try {
-            responseData = JSON.parse(responseText);
-        } catch (e) {
-            // If parsing fails, use the text as the message
-            responseData = { message: responseText };
-        }
-        
-        if (!bookingResponse.ok) {
-            throw new Error(responseData.message || "Booking failed");
-        }
-        
-        // Close loading dialog
-        Swal.close();
-        
-        // Show success message with cancellation option
-        const { value: action } = await Swal.fire({
-            title: "Appointment Booked!",
-            html: `
-                <div class="text-start">
-                    <p>Your appointment with ${gig.fullName} is confirmed for:</p>
-                    <p><strong>${formValues.date} at ${formValues.time}</strong></p>
-                    ${responseData.appointmentId ? `<p>Appointment ID: ${responseData.appointmentId}</p>` : ''}
-                </div>
-            `,
-            icon: "success",
-            showCancelButton: true,
-            confirmButtonText: 'Done',
-            cancelButtonText: 'Cancel Appointment',
-            cancelButtonColor: '#d33'
-        });
-        
-        if (action === false && responseData.appointmentId) {
-            await cancelAppointment(responseData.appointmentId, gig.fullName);
-        }
-        
-    } catch (error) {
-        console.error("Booking error:", error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Booking Failed',
-            text: error.message || "An error occurred during booking",
-            confirmButtonColor: '#4361ee'
-        });
-    }
-}
-// Function to cancel appointment
-async function cancelAppointment(appointmentId, professionalName) {
-    try {
-        const { isConfirmed } = await Swal.fire({
-            title: 'Cancel Appointment?',
-            html: `Are you sure you want to cancel your appointment with <strong>${professionalName}</strong>?`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, cancel it!'
-        });
-        
-        if (!isConfirmed) return;
-        
-        // Show loading state
-        Swal.fire({
-            title: 'Processing...',
-            text: 'Cancelling your appointment',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
+            // First show email search dialog
+            const { value: userEmail } = await Swal.fire({
+                title: 'Enter Your Email',
+                input: 'email',
+                inputPlaceholder: 'your@email.com',
+                showCancelButton: true,
+                confirmButtonText: 'Search',
+                confirmButtonColor: '#4361ee',
+                preConfirm: (email) => {
+                    if (!email) {
+                        Swal.showValidationMessage('Please enter your email');
+                        return false;
+                    }
+                    return email;
+                }
+            });
+            
+            if (!userEmail) return;
+            
+            // Show loading state while searching for user
+            Swal.fire({
+                title: 'Searching...',
+                text: 'Looking up user information',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Get user details by email
+            const userResponse = await fetch(`${API_BASE_URL}/user/email/${encodeURIComponent(userEmail)}`, {
+                method: "GET",
+                headers: getHeaders()
+            });
+            
+            if (!userResponse.ok) {
+                const errorText = await userResponse.text();
+                throw new Error(errorText || "User not found");
             }
-        });
+            
+            const userData = await userResponse.json();
+            const user = userData.data;
+            
+            // Close the loading dialog
+            Swal.close();
+            
+            // Show appointment booking form with user details
+            const { value: formValues } = await Swal.fire({
+                title: `Book Appointment with ${gig.fullName}`,
+                html: `
+                    <div class="text-start">
+                        <p><strong>Your Details:</strong></p>
+                        <p>Name: ${user.name || 'N/A'}</p>
+                        <p>Email: ${user.email}</p>
+                        <hr>
+                        <p><strong>Service Details:</strong></p>
+                        <p>Professional: ${gig.fullName}</p>
+                        <p>Rate: Rs.${gig.amountCharge.toFixed(2)} per session</p>
+                        <p>Contact: ${gig.contactNumber}</p>
+                        <div class="mb-3">
+                            <label for="appointment-date" class="form-label">Select Date</label>
+                            <input type="date" id="appointment-date" class="form-control" min="${new Date().toISOString().split('T')[0]}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="appointment-time" class="form-label">Select Time</label>
+                            <input type="time" id="appointment-time" class="form-control">
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: "Confirm Booking",
+                confirmButtonColor: "#4361ee",
+                preConfirm: () => {
+                    const date = document.getElementById('appointment-date').value;
+                    const time = document.getElementById('appointment-time').value;
+                    
+                    if (!date || !time) {
+                        Swal.showValidationMessage("Please select both date and time");
+                        return false;
+                    }
+                    
+                    return { date, time };
+                }
+            });
+            
+            if (!formValues) return;
+            
+            // Create appointment data with both user ID and gig ID
+            const appointmentData = {
+                gigId: gig.id,
+                userId: user.id,
+                appointmentTime: `${formValues.date}T${formValues.time}:00`,
+                status: "PENDING"
+            };
 
-        // Send cancellation request - changed to use appointmentId
-        const response = await fetch(`${APPOINTMENT_API_URL}/cancel/${appointmentId}`, {
-            method: "PUT",
-            headers: getHeaders(),
-            body: JSON.stringify({
-                // Include any required data
-            })
-        });
-        
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || "Failed to cancel appointment");
+            // Show loading state while booking
+            Swal.fire({
+                title: 'Processing...',
+                text: 'Booking your appointment',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Book appointment
+            const bookingResponse = await fetch(`${APPOINTMENT_API_URL}/book`, {
+                method: "POST",
+                headers: getHeaders(),
+                body: JSON.stringify(appointmentData)
+            });
+            
+            // First get the response as text
+            const responseText = await bookingResponse.text();
+            
+            // Then try to parse it as JSON
+            let responseData;
+            try {
+                responseData = JSON.parse(responseText);
+            } catch (e) {
+                // If parsing fails, use the text as the message
+                responseData = { message: responseText };
+            }
+            
+            if (!bookingResponse.ok) {
+                throw new Error(responseData.message || "Booking failed");
+            }
+            
+            // Close loading dialog
+            Swal.close();
+            
+            // Show success message with cancellation option
+            const { value: action } = await Swal.fire({
+                title: "Appointment Booked!",
+                html: `
+                    <div class="text-start">
+                        <p>Your appointment with ${gig.fullName} is confirmed for:</p>
+                        <p><strong>${formValues.date} at ${formValues.time}</strong></p>
+                        ${responseData.appointmentId ? `<p>Appointment ID: ${responseData.appointmentId}</p>` : ''}
+                    </div>
+                `,
+                icon: "success",
+                showCancelButton: true,
+                confirmButtonText: 'Done',
+                cancelButtonText: 'Cancel Appointment',
+                cancelButtonColor: '#d33'
+            });
+            
+            if (action === false && responseData.appointmentId) {
+                await cancelAppointment(responseData.appointmentId, gig.fullName);
+            }
+            
+        } catch (error) {
+            console.error("Booking error:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Booking Failed',
+                text: error.message || "An error occurred during booking",
+                confirmButtonColor: '#4361ee'
+            });
         }
+    }
 
-        // Show success message
-        await Swal.fire({
-            title: "Cancelled!",
-            text: "Your appointment has been successfully cancelled.",
-            icon: "success",
-            confirmButtonColor: '#4361ee'
-        });
+    // Function to cancel appointment
+    async function cancelAppointment(appointmentId, professionalName) {
+        try {
+            const { isConfirmed } = await Swal.fire({
+                title: 'Cancel Appointment?',
+                html: `Are you sure you want to cancel your appointment with <strong>${professionalName}</strong>?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, cancel it!'
+            });
+            
+            if (!isConfirmed) return;
+            
+            // Show loading state
+            Swal.fire({
+                title: 'Processing...',
+                text: 'Cancelling your appointment',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Send cancellation request - changed to use appointmentId
+            const response = await fetch(`${APPOINTMENT_API_URL}/cancel/${appointmentId}`, {
+                method: "PUT",
+                headers: getHeaders(),
+                body: JSON.stringify({
+                    // Include any required data
+                })
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Failed to cancel appointment");
+            }
+
+            // Show success message
+            await Swal.fire({
+                title: "Cancelled!",
+                text: "Your appointment has been successfully cancelled.",
+                icon: "success",
+                confirmButtonColor: '#4361ee'
+            });
+            
+        } catch (error) {
+            console.error("Cancellation error:", error);
+            Swal.fire({
+                title: 'Cancellation Failed',
+                text: error.message || "Could not cancel appointment",
+                icon: 'error',
+                confirmButtonColor: '#4361ee'
+            });
+        }
+    }
+
+ // Show empty state for gigs
+function showEmptyGigsState() {
+    const emptyState = document.createElement("div");
+    emptyState.classList.add("col-12", "empty-state");
+    emptyState.innerHTML = `
+            <i class="fas fa-calendar-times"></i>
+            <h3>No Gigs Available</h3>
+            <p>This subcategory does not have any available gigs at the moment.</p>
+        `;
+    gigsContainer.appendChild(emptyState);
+}
+
+// Show loader
+function showLoader() {
+    loader.classList.remove('d-none');
+}
+
+// Hide loader
+function hideLoader() {
+    loader.classList.add('d-none');
+}
+
+// Show error message
+function showError(message) {
+    Swal.fire({
+        title: 'Error',
+        text: message,
+        icon: 'error',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#4361ee'
+    });
+}
+
+// Animate content transition
+function animateContentTransition(callback) {
+    subcategoryContainer.style.opacity = '0';
+    subcategoryContainer.style.transform = 'translateY(20px)';
+    subcategoryContainer.style.transition = 'all 0.4s ease';
+
+    setTimeout(() => {
+        callback();
+        subcategoryContainer.style.opacity = '1';
+        subcategoryContainer.style.transform = 'translateY(0)';
+    }, 400);
+}
+
+/* ==================== CHAT BOT FUNCTIONS ==================== */
+
+// Open chat bot
+function openChatBot() {
+    chatbotContainer.classList.add('open');
+    chatbotToggle.style.display = 'none';
+}
+
+// Close chat bot
+function closeChatBot() {
+    chatbotContainer.classList.remove('open');
+    chatbotToggle.style.display = 'flex';
+}
+
+// Add bot message to chat
+function addBotMessage(message) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message', 'bot-message');
+    messageElement.textContent = message;
+    chatbotMessages.appendChild(messageElement);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+// Add user message to chat
+function addUserMessage(message) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message', 'user-message');
+    messageElement.textContent = message;
+    chatbotMessages.appendChild(messageElement);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+// Handle user input
+function handleUserInput() {
+    const message = chatbotInput.value.trim();
+    if (message) {
+        addUserMessage(message);
+        chatbotInput.value = '';
         
-        // Refresh the appointments list or perform any other post-cancellation action
-        // fetchAppointments(); // Uncomment if you need to refresh data
-        
-    } catch (error) {
-        console.error("Cancellation error:", error);
-        Swal.fire({
-            title: 'Cancellation Failed',
-            text: error.message || "Could not cancel appointment",
-            icon: 'error',
-            confirmButtonColor: '#4361ee'
-        });
+        // Bot response
+        setTimeout(() => {
+            const responses = [
+                "I can help you with booking appointments or answering questions about our services.",
+                "Would you like me to help you find a professional?",
+                "You can ask me about appointment availability or service details.",
+                "I'm here to assist you with any questions you may have."
+            ];
+            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            addBotMessage(randomResponse);
+        }, 1000);
     }
 }
-// Function to show toast notifications
-function showToast(message, type = 'info') {
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-        toast.classList.add('show');
-    }, 10);
-    
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => {
-            document.body.removeChild(toast);
-        }, 300);
-    }, 3000);
-}
 
-// Add toast styles
-const toastStyles = document.createElement('style');
-toastStyles.textContent = `
-    .toast {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 12px 24px;
-        border-radius: 4px;
-        color: white;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        z-index: 9999;
-    }
-    .toast.show {
-        opacity: 1;
-    }
-    .toast-info {
-        background-color: #4361ee;
-    }
-    .toast-success {
-        background-color: #4CAF50;
-    }
-    .toast-error {
-        background-color: #F44336;
-    }
-`;
-document.head.appendChild(toastStyles);  // Show empty state for subcategories
-    function showEmptyState() {
-        const emptyState = document.createElement("div");
-        emptyState.classList.add("col-12", "empty-state");
-        emptyState.innerHTML = `
-                <i class="fas fa-box-open"></i>
-                <h3>No Subcategories Available</h3>
-                <p>This category does not have any subcategories at the moment.</p>
-            `;
-        subcategoryContainer.appendChild(emptyState);
-    }
+/* ==================== EVENT LISTENERS ==================== */
 
-    // Show empty state for gigs
-    function showEmptyGigsState() {
-        const emptyState = document.createElement("div");
-        emptyState.classList.add("col-12", "empty-state");
-        emptyState.innerHTML = `
-                <i class="fas fa-calendar-times"></i>
-                <h3>No Gigs Available</h3>
-                <p>This subcategory does not have any available gigs at the moment.</p>
-            `;
-        gigsContainer.appendChild(emptyState);
-    }
+// Close modal
+closeModal.addEventListener('click', () => {
+    imageModal.classList.remove('show');
+});
 
-    // Show loader
-    function showLoader() {
-        loader.classList.remove('d-none');
-    }
-
-    // Hide loader
-    function hideLoader() {
-        loader.classList.add('d-none');
-    }
-
-    // Show error message
-    function showError(message) {
-        Swal.fire({
-            title: 'Error',
-            text: message,
-            icon: 'error',
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#4361ee'
-        });
-    }
-
-    // Animate content transition
-    function animateContentTransition(callback) {
-        subcategoryContainer.style.opacity = '0';
-        subcategoryContainer.style.transform = 'translateY(20px)';
-        subcategoryContainer.style.transition = 'all 0.4s ease';
-
-        setTimeout(() => {
-            callback();
-            subcategoryContainer.style.opacity = '1';
-            subcategoryContainer.style.transform = 'translateY(0)';
-        }, 400);
-    }
-
-    // Close modal
-    closeModal.addEventListener('click', () => {
+// Close modal when clicking outside image
+imageModal.addEventListener('click', (e) => {
+    if (e.target === imageModal) {
         imageModal.classList.remove('show');
-    });
+    }
+});
 
-    // Close modal when clicking outside image
-    imageModal.addEventListener('click', (e) => {
-        if (e.target === imageModal) {
-            imageModal.classList.remove('show');
+// Back button functionality
+backButton.addEventListener('click', () => {
+    gigsContainer.classList.add('d-none');
+    subcategoryContainer.classList.remove('d-none');
+    backButton.classList.remove('show');
+});
+
+// Chat bot toggle
+chatbotToggle.addEventListener('click', openChatBot);
+chatbotCloseBtn.addEventListener('click', closeChatBot);
+
+// Send message on button click
+chatbotSend.addEventListener('click', handleUserInput);
+
+// Send message on Enter key
+chatbotInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        handleUserInput();
+    }
+});
+    /* ==================== ENHANCED CHAT BOT FUNCTIONS ==================== */
+
+    // Initialize chat bot with welcome message
+    function initChatBot() {
+        addBotMessage("Hello! I'm your appointment assistant. How can I help you today?");
+        
+        // Add quick action buttons
+        setTimeout(() => {
+            addQuickActions();
+        }, 500);
+    }
+
+    // Add quick action buttons
+    function addQuickActions() {
+        const quickActions = document.createElement('div');
+        quickActions.classList.add('quick-actions');
+        
+        quickActions.innerHTML = `
+            <button class="quick-action-btn" data-action="book">Book Appointment</button>
+            <button class="quick-action-btn" data-action="find">Find Professional</button>
+            <button class="quick-action-btn" data-action="help">Get Help</button>
+        `;
+        
+        chatbotMessages.appendChild(quickActions);
+        
+        // Add event listeners to quick action buttons
+        document.querySelectorAll('.quick-action-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const action = e.target.dataset.action;
+                handleQuickAction(action);
+            });
+        });
+    }
+
+    // Handle quick actions
+    function handleQuickAction(action) {
+        switch(action) {
+            case 'book':
+                addUserMessage("I want to book an appointment");
+                setTimeout(() => {
+                    addBotMessage("Great! Please click on a professional's profile and then click the 'Book Appointment' button.");
+                }, 800);
+                break;
+            case 'find':
+                addUserMessage("I need help finding a professional");
+                setTimeout(() => {
+                    addBotMessage("Browse through our categories to find the right professional. Click on any image for more details.");
+                }, 800);
+                break;
+            case 'help':
+                addUserMessage("I need help");
+                setTimeout(() => {
+                    addBotMessage("You can contact our support team at support@appointments.com or call +94 76 123 4567");
+                }, 800);
+                break;
         }
-    });
+    }
 
-    // Back button functionality
-    backButton.addEventListener('click', () => {
-        gigsContainer.classList.add('d-none');
-        subcategoryContainer.classList.remove('d-none');
-        backButton.classList.remove('show');
-    });
+    // Enhanced bot responses
+    function generateBotResponse(userMessage) {
+        userMessage = userMessage.toLowerCase();
+        
+        if (userMessage.includes('hello') || userMessage.includes('hi')) {
+            return "Hello there! How can I assist you with your appointment today?";
+        }
+        else if (userMessage.includes('book') || userMessage.includes('appointment')) {
+            return "To book an appointment: 1) Find a professional 2) Click their profile 3) Click 'Book Appointment'";
+        }
+        else if (userMessage.includes('cost') || userMessage.includes('price')) {
+            return "Prices vary by professional. You'll see each professional's rates on their profile.";
+        }
+        else if (userMessage.includes('contact') || userMessage.includes('number')) {
+            return "You can reach our support team at +94 76 123 4567 from 9AM to 5PM, Monday to Friday.";
+        }
+        else {
+            const genericResponses = [
+                "I can help you book appointments or find professionals. What do you need help with?",
+                "Would you like me to guide you through the booking process?",
+                "You can browse our categories to find the right professional for your needs.",
+                "I'm here to help with any questions about our services."
+            ];
+            return genericResponses[Math.floor(Math.random() * genericResponses.length)];
+        }
+    }
 
-    // Initialize the page
+    // Enhanced handle user input
+    function handleUserInput() {
+        const message = chatbotInput.value.trim();
+        if (message) {
+            addUserMessage(message);
+            chatbotInput.value = '';
+            
+            // Show typing indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.classList.add('typing-indicator');
+            typingIndicator.innerHTML = `
+                <span></span>
+                <span></span>
+                <span></span>
+            `;
+            chatbotMessages.appendChild(typingIndicator);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            
+            // Bot response after delay
+            setTimeout(() => {
+                // Remove typing indicator
+                if (chatbotMessages.contains(typingIndicator)) {
+                    chatbotMessages.removeChild(typingIndicator);
+                }
+                
+                const botResponse = generateBotResponse(message);
+                addBotMessage(botResponse);
+                
+                // Add quick actions after certain responses
+                if (message.includes('help') || message.includes('what can you do')) {
+                    setTimeout(() => {
+                        addQuickActions();
+                    }, 500);
+                }
+            }, 1500);
+        }
+    }
+
+    /* ==================== STYLE ENHANCEMENTS ==================== */
+    // Add these styles to your existing style section
+    const enhancedStyles = `
+        /* Quick action buttons */
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .quick-action-btn {
+            background: #f1f1f1;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-action-btn:hover {
+            background: #4361ee;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Typing indicator */
+        .typing-indicator {
+            background: #f1f1f1;
+            padding: 10px 15px;
+            border-radius: 15px;
+            align-self: flex-start;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #666;
+            border-radius: 50%;
+            margin-right: 4px;
+            opacity: 0.4;
+        }
+        
+        .typing-indicator span:nth-child(1) {
+            animation: typing 1s infinite;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation: typing 1s infinite 0.2s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+            animation: typing 1s infinite 0.4s;
+        }
+        
+        @keyframes typing {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+    `;
+
+    // Add the new styles to the document
+    const styleElement = document.createElement('style');
+    styleElement.textContent = enhancedStyles;
+    document.head.appendChild(styleElement);
+
+    /* ==================== INITIALIZE THE APP ==================== */
     document.addEventListener("DOMContentLoaded", () => {
         fetchCategories();
+        initChatBot();
 
         // Add scroll effect to navbar
         window.addEventListener('scroll', () => {
@@ -1078,3 +1493,6 @@ document.head.appendChild(toastStyles);  // Show empty state for subcategories
 </script>
 </body>
 </html>
+
+
+

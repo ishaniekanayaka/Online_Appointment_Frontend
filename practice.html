@@ -267,7 +267,193 @@
         .live-notification i {
             font-size: 1.25rem;
         }
-        
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--danger);
+        }
+
+        .appointment-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .appointment-item {
+            background: var(--gray);
+            padding: 1.25rem;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .appointment-info {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .appointment-time {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .appointment-user {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .appointment-status {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-accepted {
+            background-color: #d1fae5;
+            color: #059669;
+        }
+
+        .status-rejected {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .accept-btn {
+            background-color: var(--success);
+            color: white;
+            margin-right: 0.5rem;
+        }
+
+        .accept-btn:hover {
+            background-color: #0d9e6e;
+        }
+
+        .reject-btn {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .reject-btn:hover {
+            background-color: #dc3c3c;
+        }
+
+        .notification-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: var(--primary);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(67, 97, 238, 0.3);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .notification-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
         @media (max-width: 768px) {
             .profile-details {
                 grid-template-columns: 1fr;
@@ -276,6 +462,24 @@
             .action-buttons {
                 flex-direction: column;
             }
+
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+
+            .appointment-item {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .notification-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.25rem;
+                bottom: 1.5rem;
+                left: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -283,10 +487,30 @@
     <div class="profile-container" id="profileContainer">
         <!-- Content will be loaded by JavaScript -->
     </div>
+
+    <!-- Notification Button -->
+    <div class="notification-btn" id="notificationBtn">
+        <i class="fas fa-bell"></i>
+        <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+    </div>
     
+    <!-- Live Notification -->
     <div class="live-notification" id="liveNotification">
         <i class="fas fa-bell"></i>
         <span id="notificationMessage">New appointment received!</span>
+    </div>
+
+    <!-- Appointments Modal -->
+    <div class="modal" id="appointmentsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Your Appointments</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="appointment-list" id="appointmentList">
+                <!-- Appointments will be loaded here -->
+            </div>
+        </div>
     </div>
 
     <script>
@@ -307,14 +531,42 @@
                 if (data.type === 'GIG_UPDATE') {
                     showNotification("New appointment received!");
                     fetchGigProfile();
+                    fetchAppointments(); // Refresh appointments when new one comes
                 }
             };
             
             if (gigProfile) {
                 displayGigProfile(gigProfile);
+                fetchAppointments();
             } else {
                 fetchGigProfile();
             }
+            
+            // Modal functionality
+            const notificationBtn = document.getElementById('notificationBtn');
+            const appointmentsModal = document.getElementById('appointmentsModal');
+            const closeModal = document.getElementById('closeModal');
+            const appointmentList = document.getElementById('appointmentList');
+            
+            notificationBtn.addEventListener('click', function() {
+                appointmentsModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                // Reset badge when modal is opened
+                document.getElementById('notificationBadge').style.display = 'none';
+            });
+            
+            closeModal.addEventListener('click', function() {
+                appointmentsModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Close modal when clicking outside
+            appointmentsModal.addEventListener('click', function(e) {
+                if (e.target === appointmentsModal) {
+                    appointmentsModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
             
             function fetchGigProfile() {
                 const userId = localStorage.getItem('userId');
@@ -341,6 +593,78 @@
                         showError(error.message || "Could not load gig profile");
                     });
                 }
+            }
+            
+            function fetchAppointments() {
+                const gigProfile = JSON.parse(localStorage.getItem('gigProfile'));
+                if (!gigProfile || !gigProfile.id) return;
+                
+                fetch(`http://localhost:8080/api/v1/gig/${gigProfile.id}/availabilities`, {
+                    headers: {
+                        "Authorization": `Bearer ${authToken}`
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to fetch appointments');
+                    return response.json();
+                })
+                .then(appointments => {
+                    displayAppointments(appointments);
+                    // Update badge with count of pending appointments
+                    const pendingCount = appointments.filter(a => a.status === 'PENDING').length;
+                    if (pendingCount > 0) {
+                        const badge = document.getElementById('notificationBadge');
+                        badge.textContent = pendingCount;
+                        badge.style.display = 'flex';
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching appointments:", error);
+                });
+            }
+            
+            function displayAppointments(appointments) {
+                appointmentList.innerHTML = '';
+                
+                if (appointments.length === 0) {
+                    appointmentList.innerHTML = '<p style="text-align: center; color: var(--text-light);">No appointments found</p>';
+                    return;
+                }
+                
+                // Sort appointments by time (newest first)
+                appointments.sort((a, b) => new Date(b.appointmentTime) - new Date(a.appointmentTime));
+                
+                appointments.forEach(appointment => {
+                    const appointmentItem = document.createElement('div');
+                    appointmentItem.className = 'appointment-item';
+                    
+                    const appointmentTime = new Date(appointment.dateTime).toLocaleString();
+                    const statusClass = `status-${appointment.status.toLowerCase()}`;
+                    
+                    appointmentItem.innerHTML = `
+                        <div class="appointment-info">
+                            <div class="appointment-time">${appointmentTime}</div>
+                            <div class="appointment-user">
+                                <i class="fas fa-user"></i> ${appointment.userFullName || 'Anonymous'}
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span class="appointment-status ${statusClass}">
+                                ${appointment.status}
+                            </span>
+                            ${appointment.status === 'PENDING' ? `
+                                <button class="action-btn accept-btn" onclick="acceptAppointment('${appointment.id}')">
+                                    <i class="fas fa-check"></i> Accept
+                                </button>
+                                <button class="action-btn reject-btn" onclick="rejectAppointment('${appointment.id}')">
+                                    <i class="fas fa-times"></i> Reject
+                                </button>
+                            ` : ''}
+                        </div>
+                    `;
+                    
+                    appointmentList.appendChild(appointmentItem);
+                });
             }
             
             function displayGigProfile(gig) {
@@ -398,9 +722,7 @@
                         <button class="btn btn-primary" onclick="window.location.href='edit-gig.html'">
                             <i class="fas fa-edit"></i> Edit Profile
                         </button>
-                        <button class="btn btn-outline" onclick="window.location.href='appointments.html'">
-                            <i class="fas fa-calendar-alt"></i> View Appointments
-                        </button>
+                        
                     </div>
                 `;
             }
@@ -430,6 +752,52 @@
                     </div>
                 `;
             }
+            
+            // Make functions available globally
+            window.acceptAppointment = function(appointmentId) {
+                fetch(`http://localhost:8080/api/v1/appointments/accept/${appointmentId}`, {
+                    method: 'PUT',
+                    headers: {
+                        "Authorization": `Bearer ${authToken}`,
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to accept appointment');
+                    return response.text();
+                })
+                .then(message => {
+                    showNotification("Appointment accepted!");
+                    fetchAppointments(); // Refresh the list
+                    fetchGigProfile(); // Update gig stats
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    showNotification("Failed to accept appointment");
+                });
+            };
+            
+            window.rejectAppointment = function(appointmentId) {
+                fetch(`http://localhost:8080/api/v1/appointments/cancel/${appointmentId}`, {
+                    method: 'PUT',
+                    headers: {
+                        "Authorization": `Bearer ${authToken}`,
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to reject appointment');
+                    return response.text();
+                })
+                .then(message => {
+                    showNotification("Appointment rejected");
+                    fetchAppointments(); // Refresh the list
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    showNotification("Failed to reject appointment");
+                });
+            };
         });
     </script>
 </body>
