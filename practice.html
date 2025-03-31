@@ -3,648 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Freelancer Gig Registration</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
-    <!-- Custom CSS -->
+    <title>My Gig Profile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #6366f1;
-            --primary-hover: #4f46e5;
-            --secondary-color: #f9fafb;
-            --dark-color: #1f2937;
-            --light-color: #f3f4f6;
-        }
-        
         body {
-            background-color: #f9fafb;
-            color: #1f2937;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 20px;
         }
-        
-        .form-container {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
+        .profile-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
         }
-        
-        .form-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
-            padding: 2rem;
-            color: white;
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
         }
-        
-        .form-body {
-            padding: 2rem;
-        }
-        
-        .form-control:focus, .form-select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-        
-        .btn-primary:hover, .btn-primary:focus {
-            background-color: var(--primary-hover);
-            border-color: var(--primary-hover);
-        }
-        
-        .form-check-input:checked {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-        
-        .file-upload {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.5rem;
-            border: 2px dashed #e5e7eb;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        
-        .file-upload:hover {
-            border-color: var(--primary-color);
-        }
-        
-        .file-preview {
-            width: 80px;
-            height: 80px;
-            border-radius: 8px;
-            overflow: hidden;
-            background-color: #f3f4f6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .file-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .icon-box {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background-color: #f3f4f6;
-            color: var(--primary-color);
-            margin-right: 0.75rem;
-        }
-        
-        .floating-label {
-            position: relative;
-        }
-        
-        .floating-label label {
-            position: absolute;
-            top: -12px;
-            left: 10px;
-            background-color: white;
-            padding: 0 5px;
-            font-size: 0.875rem;
-            color: #6b7280;
-            z-index: 1;
-        }
-        
-        .step-indicator {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-        
-        .step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
-        
-        .step-number {
-            width: 36px;
-            height: 36px;
+        .profile-image {
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            background-color: #e5e7eb;
-            color: #6b7280;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            z-index: 2;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        
-        .step-title {
-            font-size: 0.875rem;
-            color: #6b7280;
+        .profile-name {
+            font-size: 28px;
+            margin: 15px 0 5px;
+            color: #333;
         }
-        
-        .step.active .step-number {
-            background-color: var(--primary-color);
-            color: white;
+        .profile-title {
+            color: #4361ee;
+            font-size: 18px;
+            margin-bottom: 20px;
         }
-        
-        .step.active .step-title {
-            color: var(--primary-color);
+        .profile-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .detail-card {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .detail-card h3 {
+            margin-top: 0;
+            color: #4361ee;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .detail-item {
+            margin-bottom: 10px;
+        }
+        .detail-label {
             font-weight: 600;
-        }
-        
-        .step-line {
-            position: absolute;
-            top: 18px;
-            left: 50%;
-            width: 100%;
-            height: 2px;
-            background-color: #e5e7eb;
-            z-index: 1;
-        }
-        
-        .step:first-child .step-line {
-            display: none;
-        }
-        
-        .bg-pattern {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 300px;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.5;
-            z-index: 0;
+            color: #555;
         }
     </style>
 </head>
 <body>
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="form-container">
-                    <div class="form-header position-relative">
-                        <div class="bg-pattern"></div>
-                        <div class="position-relative">
-                            <h1 class="display-6 fw-bold mb-2">MeetUpPro</h1>
-                            <p class="lead mb-0">EFFORTLESS APPOINTMENT SCHEDULING<br>
-                                POWERED BY</p>
+    <div class="profile-container" id="profileContainer">
+        <!-- Content will be loaded by JavaScript -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const authToken = localStorage.getItem('authToken');
+            const gigProfile = JSON.parse(localStorage.getItem('gigProfile'));
+            
+            if (!authToken) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            if (gigProfile) {
+                displayGigProfile(gigProfile);
+            } else {
+                // If no gig profile in localStorage, fetch it
+                const userId = localStorage.getItem('userId');
+                if (userId) {
+                    fetch(`http://localhost:8080/api/v1/user/${userId}/gigs`, {
+                        headers: {
+                            "Authorization": `Bearer ${authToken}`
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Failed to fetch gigs');
+                        return response.json();
+                    })
+                    .then(gigData => {
+                        if (gigData.length > 0) {
+                            localStorage.setItem("gigProfile", JSON.stringify(gigData[0]));
+                            displayGigProfile(gigData[0]);
+                        } else {
+                            window.location.href = "create-gig.html";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        document.getElementById('profileContainer').innerHTML = `
+                            <div class="error-message">
+                                <h2>Error Loading Profile</h2>
+                                <p>${error.message || "Could not load gig profile"}</p>
+                                <button onclick="window.location.href='login.html'">Back to Login</button>
+                            </div>
+                        `;
+                    });
+                }
+            }
+        });
+        
+        function displayGigProfile(gig) {
+            const container = document.getElementById('profileContainer');
+            
+            container.innerHTML = `
+                <div class="profile-header">
+                    <img src="${gig.image ? 'http://localhost:8080/' + gig.image : 'https://source.unsplash.com/random/300x300/?professional'}" 
+                         alt="${gig.fullName}" class="profile-image">
+                    <h1 class="profile-name">${gig.fullName}</h1>
+                    <p class="profile-title">${gig.degree}</p>
+                </div>
+                
+                <div class="profile-details">
+                    <div class="detail-card">
+                        <h3>Professional Information</h3>
+                        <div class="detail-item">
+                            <span class="detail-label">Experience:</span>
+                            <span>${gig.experience}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Hourly Rate:</span>
+                            <span>Rs.${gig.amountCharge.toFixed(2)}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Max Appointments:</span>
+                            <span>${gig.maxAppointmentsPerDay} per day</span>
                         </div>
                     </div>
                     
-                    <div class="form-body">
-                        <form id="gigForm" enctype="multipart/form-data">
-                            <div class="row mb-4">
-                                <div class="col-12">
-                                    <div class="file-upload mb-4">
-                                        <div class="file-preview" id="imagePreview">
-                                            <i class="bi bi-person-circle" style="font-size: 2rem; color: #9ca3af;"></i>
-                                        </div>
-                                        <div>
-                                            <h5 class="mb-1">Upload Profile Image</h5>
-                                            <p class="text-muted small mb-2">Drag & drop your photo or click to browse</p>
-                                            <input type="file" class="form-control" id="image" name="image" required accept="image/*">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row g-4">
-                                <!-- Personal Information -->
-                                <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="email" class="form-label">Search by Email</label>
-                                    <div class="input-group">
-                                        <input type="email" class="form-control" id="email" name="email" required>
-                                        <button type="button" class="btn btn-primary" onclick="fetchUserByEmail()">Search</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="userId" class="form-label">User ID</label>
-                                    <input type="text" class="form-control" id="userId" name="userId" readonly>
-                                </div>
-                            </div>
-                                <div class="col-md-6">
-                                    <div class="floating-label mb-3">
-                                        <label for="FullName">Full Name</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                            <input type="text" class="form-control" id="FullName" name="FullName" required>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                
-                                <div class="col-md-6">
-                                    <div class="floating-label mb-3">
-                                        <label for="contactNumber">Contact Number</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-telephone"></i></span>
-                                            <input type="text" class="form-control" id="contactNumber" name="contactNumber" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="floating-label mb-3">
-                                        <label for="degree">Qualification/Degree</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-mortarboard"></i></span>
-                                            <input type="text" class="form-control" id="degree" name="degree" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="floating-label mb-3">
-                                        <label for="experience">Experience</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
-                                            <input type="text" class="form-control" id="experience" name="experience" required placeholder="e.g. 5 years">
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Service Details -->
-                                <div class="col-md-6">
-                                    <div class="floating-label mb-3">
-                                        <label for="amountCharge">Charge Amount ($)</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
-                                            <input type="number" class="form-control" id="amountCharge" name="amountCharge" required min="1" step="0.01">
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="floating-label mb-3">
-                                        <label for="location">Location</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
-                                            <input type="text" class="form-control" id="location" name="location" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="floating-label mb-3">
-                                        <label for="maxAppointmentsPerDay">Max Appointments Per Day</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
-                                            <input type="number" class="form-control" id="maxAppointmentsPerDay" name="maxAppointmentsPerDay" required min="1">
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="floating-label mb-3">
-                                        <label for="dateTime">REgister Day</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-clock"></i></span>
-                                            <input type="datetime-local" class="form-control" id="dateTime" name="dateTime">
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="sc_name" class="form-label">Select Subcategory</label>
-                                        <select class="form-select" id="sc_name" name="sc_name" required>
-                                            <option value="">Select Subcategory</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="col-md-6">
-                                        <label for="sc_id" class="form-label">Subcategory ID</label>
-                                        <input type="text" class="form-control" id="sc_id" name="sc_id" disabled>
-                                    </div>
-                                </div>
-
-                               
-                                <div class="col-12">
-                                    <div class="form-check form-switch mb-3">
-                                        <input class="form-check-input" type="checkbox" id="active" name="active" checked>
-                                        <label class="form-check-label" for="active">Make this gig active immediately</label>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-12 text-center mt-4">
-                                    <button type="submit" class="btn btn-primary btn-lg px-5">
-                                        <i class="bi bi-check-circle me-2"></i> Register Gig
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                    <div class="detail-card">
+                        <h3>Contact Information</h3>
+                        <div class="detail-item">
+                            <span class="detail-label">Location:</span>
+                            <span>${gig.location}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Contact Number:</span>
+                            <span>${gig.contactNumber}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-    checkAuth();  // Make sure the user is authenticated
-    getAllSubCategoryNames();
-    
-    // Add event listener to subcategory name dropdown
-    const subCategorySelect = document.getElementById('sc_name');
-    if (subCategorySelect) {
-        subCategorySelect.addEventListener('change', getSubCategoryIdByName);
-    }
-    
-    // Image preview
-    document.getElementById('image').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const preview = document.getElementById('imagePreview');
-                preview.innerHTML = `<img src="${e.target.result}" alt="Profile Preview">`;
-            }
-            reader.readAsDataURL(file);
-        }
-    });
-});
-
-const BASE_URL = "http://localhost:8080/api/v1";
-const AUTH_TOKEN = localStorage.getItem('authToken');
-
-// ✅ Check Authentication
-function checkAuth() {
-    if (!AUTH_TOKEN) {
-        Swal.fire({
-            title: 'Authentication Required',
-            text: 'You need to login to register a gig',
-            icon: 'warning',
-            showCancelButton: false,
-            confirmButtonColor: '#6366f1',
-            confirmButtonText: 'Go to Login'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = '/login.html';
-            }
-        });
-    }
-}
-
-// ✅ Headers for API Requests
-function getHeaders(isMultipart = false) {
-    return isMultipart ? { 'Authorization': `Bearer ${AUTH_TOKEN}` } : {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${AUTH_TOKEN}`
-    };
-}
-
-function fetchUserByEmail() {
-    const email = $('#email').val().trim();
-    if (!email) {
-        alert('Please enter an email address!');
-        return;
-    }
-
-    $.ajax({
-        url: `${BASE_URL}/user/email/${email}`,
-        type: 'GET',
-        headers: getHeaders(),
-        success: function(response) {
-            if (response.data) {
-                $('#userId').val(response.data.id);
-                // Fill in other user details if available
-                if (response.data.fullName) {
-                    $('#FullName').val(response.data.fullName);
-                }
-                if (response.data.contactNumber) {
-                    $('#contactNumber').val(response.data.contactNumber);
-                }
-            } else {
-                alert('No user found with this email.');
-            }
-        },
-        error: function(xhr) {
-            console.error('Error fetching user:', xhr);
-            alert('Failed to fetch user: ' + xhr.responseText);
-        }
-    });
-}
-
-// ✅ Get All Subcategory Names
-function getAllSubCategoryNames() {
-    $.ajax({
-        url: `${BASE_URL}/subcategory/names`,
-        type: 'GET',
-        headers: getHeaders(),
-        success: function (data) {
-            console.log('Subcategories Data:', data);
-            
-            const subCategorySelect = document.getElementById('sc_name');
-            subCategorySelect.innerHTML = '<option value="">Select SubCategory</option>';
-
-            if (data.data && Array.isArray(data.data)) {
-                // Store the subcategory names and index in an object for later use
-                const subCategories = data.data;
                 
-                subCategories.forEach((subCategoryName, index) => {
-                    const option = document.createElement('option');
-                    option.value = index; // Use the index as value (0, 1, 2, ...)
-                    option.textContent = subCategoryName; // Use the subcategory name as text
-                    subCategorySelect.appendChild(option);
-                });
-
-                // Store the subcategories in a global variable (or better, store them locally in a scope)
-                window.subCategories = subCategories;
-            } else {
-                console.error('Invalid subcategory data format');
-                Swal.fire('Warning', 'Could not load subcategories', 'warning');
-            }
-        },
-        error: function (xhr) {
-            console.error('Error fetching subcategories:', xhr);
-            Swal.fire('Error!', 'Error fetching subcategory names: ' + xhr.responseText, 'error');
+                <div style="text-align: center; margin-top: 20px;">
+                    <button onclick="window.location.href='edit-gig.html'" 
+                            style="background: #4361ee; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        Edit Profile
+                    </button>
+                </div>
+            `;
         }
-    });
-}
-
-// ✅ Get Subcategory ID by Name
-function getSubCategoryIdByName() {
-    const selectedSubCategoryIndex = document.getElementById('sc_name').value;
-    
-    if (!selectedSubCategoryIndex) {
-        document.getElementById('sc_id').value = '';
-        return;
-    }
-
-    // Get the selected subcategory name based on the index
-    const selectedSubCategoryName = window.subCategories[selectedSubCategoryIndex];
-    
-    // Encode the subcategory name properly for the URL
-    const encodedSubCategoryName = encodeURIComponent(selectedSubCategoryName);
-
-    $.ajax({
-        url: `${BASE_URL}/subcategory/name/${encodedSubCategoryName}`,
-        type: 'GET',
-        headers: getHeaders(),
-        success: function (data) {
-            console.log('Subcategory ID response:', data);
-            if (data.data && data.data.id) {
-                document.getElementById('sc_id').value = data.data.id;
-            } else {
-                console.error('Invalid subcategory ID response format');
-                Swal.fire('Warning', 'Could not retrieve subcategory ID', 'warning');
-            }
-        },
-        error: function (xhr) {
-            console.error('Error fetching subcategory ID:', xhr);
-            Swal.fire('Error!', 'Error fetching subcategory ID: ' + xhr.responseText, 'error');
-        }
-    });
-}
-// ✅ Save Gig Details
-$('#gigForm').on('submit', function(event) {
-    event.preventDefault();
-    
-    // Validate form
-    const fullName = $('#FullName').val();
-    const userId = $('#userId').val();
-    const scId = $('#sc_id').val();
-    
-    if (!fullName) {
-        Swal.fire({
-            title: 'Warning',
-            text: 'Full Name is required!',
-            icon: 'warning',
-            confirmButtonColor: '#6366f1'
-        });
-        return;
-    }
-    
-    if (!userId) {
-        Swal.fire({
-            title: 'Warning',
-            text: 'User ID is required! Please search for a user by email first.',
-            icon: 'warning',
-            confirmButtonColor: '#6366f1'
-        });
-        return;
-    }
-    
-    if (!scId) {
-        Swal.fire({
-            title: 'Warning',
-            text: 'Subcategory ID is required! Please select a subcategory.',
-            icon: 'warning',
-            confirmButtonColor: '#6366f1'
-        });
-        return;
-    }
-
-    // Create FormData object
-    const formData = new FormData(this);
-    
-    // Make sure we're using the exact parameter name expected by the backend
-    formData.set('subCategoryId', scId); // Changed from subcategoryId to subCategoryId
-    formData.set('userId', userId);
-    
-    // Add hidden field to the form just to be sure
-    if (!document.getElementById('subCategoryId')) {
-        const hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.id = 'subCategoryId';
-        hiddenInput.name = 'subCategoryId';
-        hiddenInput.value = scId;
-        this.appendChild(hiddenInput);
-    } else {
-        document.getElementById('subCategoryId').value = scId;
-    }
-    
-    // For debugging - log all form data
-    console.log("Form data being sent:");
-    for (let pair of formData.entries()) {
-        console.log(pair[1] + ': ' + pair[2]);
-    }
-
-    // Show loading state
-    Swal.fire({
-        title: 'Submitting...',
-        html: 'Please wait while we register your gig',
-        allowOutsideClick: false,
-        didOpen: () => {
-            Swal.showLoading();
-        }
-    });
-
-    // Send data via AJAX with query parameter
-    $.ajax({
-        url: `${BASE_URL}/gig/save?subCategoryId=${scId}`,
-        type: 'POST',
-        headers: {
-            'Authorization': `Bearer ${AUTH_TOKEN}`
-        },
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-            console.log('Success response:', response);
-            Swal.fire({
-                icon: 'success',
-                title: 'Gig Registered!',
-                text: response.message || 'Your gig has been successfully registered.',
-                confirmButtonColor: '#6366f1'
-            });
-            clearForm();
-        },
-        error: function (xhr) {
-            console.error('Error saving gig:', xhr);
-            let errorMsg = 'Unknown error occurred';
-            if (xhr.responseJSON && xhr.responseJSON.message) {
-                errorMsg = xhr.responseJSON.message;
-            } else if (xhr.responseText) {
-                try {
-                    const errorObj = JSON.parse(xhr.responseText);
-                    errorMsg = errorObj.message || errorObj.error || xhr.responseText;
-                } catch (e) {
-                    errorMsg = xhr.responseText;
-                }
-            }
-            
-            Swal.fire({
-                icon: 'error',
-                title: 'Registration Failed',
-                text: 'Error saving gig details: ' + errorMsg,
-                confirmButtonColor: '#6366f1'
-            });
-        }
-    });
-});
-
-// Clear form after successful submission
-function clearForm() {
-    $('#gigForm')[0].reset();
-    document.getElementById('imagePreview').innerHTML = '<i class="bi bi-person-circle" style="font-size: 2rem; color: #9ca3af;"></i>';
-    document.getElementById('sc_id').value = '';
-    document.getElementById('userId').value = '';
-    if (document.getElementById('subCategoryId')) {
-        document.getElementById('subCategoryId').value = '';
-    }
-}
     </script>
 </body>
 </html>
