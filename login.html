@@ -359,125 +359,138 @@
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
 
-    <script src="controller/loginController.js">
-        // // Toast notification function
-        // function showToast(message, type = 'info') {
-        //     const toast = document.getElementById('toast');
-        //     toast.textContent = message;
-        //     toast.className = 'toast';
+    <script>
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast';
             
-        //     // Add type class
-        //     if (type === 'error') {
-        //         toast.classList.add('error');
-        //     } else if (type === 'success') {
-        //         toast.classList.add('success');
-        //     }
+            if (type === 'error') {
+                toast.classList.add('error');
+            } else if (type === 'success') {
+                toast.classList.add('success');
+            }
             
-        //     // Show toast
-        //     setTimeout(() => {
-        //         toast.classList.add('show');
-        //     }, 10);
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
             
-        //     // Hide after 3 seconds
-        //     setTimeout(() => {
-        //         toast.classList.remove('show');
-        //     }, 3000);
-        // }
-
-        // // Login form submission
-        // document.getElementById("loginForm").addEventListener("submit", function (event) {
-        //     event.preventDefault();
-
-        //     const email = document.getElementById("email").value.trim();
-        //     const password = document.getElementById("password").value.trim();
-        //     const loginButton = document.getElementById("loginButton");
-
-        //     if (!email || !password) {
-        //         showToast("Please enter both email and password.", "error");
-        //         return;
-        //     }
-
-        //     // Change button to loading state
-        //     loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating';
-        //     loginButton.disabled = true;
-
-        //     const user = { email, password };
-
-        //     fetch("http://localhost:8080/api/v1/auth/authenticate", {
-        //         method: "POST",
-        //         headers: { "Content-Type": "application/json" },
-        //         body: JSON.stringify(user)
-        //     })
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             throw new Error('Network response was not ok');
-        //         }
-        //         return response.json();
-        //     })
-        //     .then(response => {
-        //         if (response.code === 201 && response.data.token) {
-        //             // Store token properly
-        //             localStorage.setItem("authToken", response.data.token);
-        //             showToast("Login successful!", "success");
-
-        //             // Fetch user role
-        //             fetch("http://localhost:8080/api/v1/admin/checkRole", {
-        //                 method: "GET",
-        //                 headers: { 
-        //                     "Authorization": `Bearer ${response.data.token}`,
-        //                     "Content-Type": "application/json"
-        //                 }
-        //             })
-        //             .then(roleResponse => {
-        //                 if (!roleResponse.ok) {
-        //                     throw new Error('Role check failed');
-        //                 }
-        //                 return roleResponse.json();
-        //             })
-        //             .then(roleData => {
-        //                 console.log("Role:", roleData.role);
-
-        //                 // Redirect based on role
-        //                 if (roleData.role === "ADMIN") {
-        //                     setTimeout(() => {
-        //                         window.location.href = "../adminContain.html";
-        //                     }, 1500);
-        //                 } else if (roleData.role === "USER") {
-        //                     setTimeout(() => {
-        //                         window.location.href = "controller/practice.html";
-        //                     }, 1500);
-        //                 } else {
-        //                     showToast("User role not recognized.", "error");
-        //                     loginButton.innerHTML = 'Login';
-        //                     loginButton.disabled = false;
-        //                 }
-        //             })
-        //             .catch(error => {
-        //                 console.error("Error fetching role:", error);
-        //                 showToast("Failed to determine user role.", "error");
-        //                 loginButton.innerHTML = 'Login';
-        //                 loginButton.disabled = false;
-        //             });
-        //         } else {
-        //             throw new Error(response.message || "Login failed");
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.error("Login error:", error);
-        //         showToast(error.message || "Login failed. Please try again.", "error");
-        //         loginButton.innerHTML = 'Login';
-        //         loginButton.disabled = false;
-        //     });
-        // });
-
-        // // Register link
-        // document.getElementById("register-btn").addEventListener("click", function(e) {
-        //     e.preventDefault();
-        //     showToast("Redirecting to registration...");
-        //     window.location.href = "register.html"; // Uncomment when you have registration page
-        // });
-   
-   </script>
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+    
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const loginButton = document.getElementById("loginButton");
+    
+            if (!email || !password) {
+                showToast("Please enter both email and password.", "error");
+                return;
+            }
+    
+            loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating';
+            loginButton.disabled = true;
+    
+            const user = { email, password };
+    
+            fetch("http://localhost:8080/api/v1/auth/authenticate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(user)
+            })
+            .then(response => {
+                if (response.status === 404) throw new Error("User not found");
+                if (response.status === 401) throw new Error("Invalid credentials");
+                if (response.status === 406) throw new Error("Account inactive");
+                if (!response.ok) throw new Error("Network error");
+                return response.json();
+            })
+            .then(response => {
+                if (response.code === 201 && response.data.token) {
+                    localStorage.setItem("authToken", response.data.token);
+                    showToast("Login successful!", "success");
+    
+                    // First get user details by email
+                    fetch(`http://localhost:8080/api/v1/user/email/${encodeURIComponent(email)}`, {
+                        headers: {
+                            "Authorization": `Bearer ${response.data.token}`
+                        }
+                    })
+                    .then(userResponse => {
+                        if (!userResponse.ok) throw new Error('Failed to fetch user details');
+                        return userResponse.json();
+                    })
+                    .then(userData => {
+                        const userId = userData.data.id;
+                        const role = userData.data.role;
+                        localStorage.setItem("userId", userId);
+                        
+                        // Handle role-based redirection
+                        if (role === "ADMIN") {
+                            setTimeout(() => window.location.href = "adminContain.html", 1500);
+                        } else if (role === "USER") {
+                            setTimeout(() => window.location.href = "userInterface.html", 1500);
+                        } else if (role === "GIG") {
+                            // Fetch gig details for this user
+                            fetch(`http://localhost:8080/api/v1/user/${userId}/gigs`, {
+                                headers: {
+                                    "Authorization": `Bearer ${response.data.token}`
+                                }
+                            })
+                            .then(gigResponse => {
+                                if (!gigResponse.ok) throw new Error('Failed to fetch gigs');
+                                return gigResponse.json();
+                            })
+                            .then(gigData => {
+                                if (gigData.length > 0) {
+                                    localStorage.setItem("gigProfile", JSON.stringify(gigData[0]));
+                                    setTimeout(() => {
+                                        window.location.href = "practice.html";
+                                    }, 1500);
+                                } else {
+                                    setTimeout(() => {
+                                        window.location.href = "gigRegister.html";
+                                    }, 1500);
+                                }
+                            })
+                            .catch(gigError => {
+                                console.error("Gig fetch error:", gigError);
+                                showToast("Error loading gig profile", "error");
+                                loginButton.innerHTML = 'Login';
+                                loginButton.disabled = false;
+                            });
+                        } else {
+                            throw new Error("Unknown user role");
+                        }
+                    })
+                    .catch(userError => {
+                        console.error("User fetch error:", userError);
+                        showToast("Error loading user details", "error");
+                        loginButton.innerHTML = 'Login';
+                        loginButton.disabled = false;
+                    });
+                } else {
+                    throw new Error(response.message || "Login failed");
+                }
+            })
+            .catch(error => {
+                console.error("Login error:", error);
+                showToast(error.message || "Login failed", "error");
+                loginButton.innerHTML = 'Login';
+                loginButton.disabled = false;
+            });
+        });
+    
+        document.getElementById("register-btn").addEventListener("click", function(e) {
+            e.preventDefault();
+            showToast("Redirecting to registration...");
+            window.location.href = "register.html";
+        });
+    </script>
 </body>
 
 </html>
