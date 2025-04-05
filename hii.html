@@ -144,227 +144,6 @@
             transform: translateY(-2px);
         }
 
-        /* Notification Dropdown Styles */
-        .notification-dropdown {
-            width: 380px;
-            max-height: 500px;
-            overflow-y: auto;
-            padding: 0;
-            border: none;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            border-radius: 12px;
-            margin-top: 0.5rem;
-            background-color: #ffffff;
-        }
-        
-        .notification-header {
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid #f1f1f1;
-            font-weight: 600;
-            color: #1e293b;
-            background-color: #ffffff;
-            position: sticky;
-            top: 0;
-            z-index: 1;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .notification-header .badge {
-            background-color: #4361ee;
-            font-weight: 500;
-        }
-        
-        .notification-item {
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid #f8fafc;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .notification-item:last-child {
-            border-bottom: none;
-        }
-        
-        .notification-item:hover {
-            background-color: #f8fafc;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-        
-        .notification-empty {
-            padding: 2.5rem 1rem;
-            text-align: center;
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-        
-        .notification-empty i {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: #cbd5e1;
-        }
-        
-        .notification-gig {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #1e293b;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .notification-gig i {
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-        
-        .notification-time {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .notification-time i {
-            font-size: 0.7rem;
-        }
-        
-        .notification-status {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.35rem 0.9rem;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            gap: 5px;
-        }
-        
-        .notification-status i {
-            font-size: 0.65rem;
-        }
-
-        .notification-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        
-        .action-btn {
-            border: none;
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .cancel-btn {
-            background-color: #fee2e2;
-            color: #dc2626;
-        }
-        
-        .cancel-btn:hover {
-            background-color: #fecaca;
-        }
-        
-        .payment-btn {
-            background-color: #d1fae5;
-            color: #059669;
-        }
-        
-        .payment-btn:hover {
-            background-color: #a7f3d0;
-        }
-        
-        .view-btn {
-            background-color: #dbeafe;
-            color: #1d4ed8;
-        }
-        
-        .view-btn:hover {
-            background-color: #bfdbfe;
-        }
-        
-        .status-pending {
-            background-color: #fef3c7;
-            color: #d97706;
-        }
-        
-        .status-accepted {
-            background-color: #d1fae5;
-            color: #059669;
-        }
-        
-        .status-rejected {
-            background-color: #fee2e2;
-            color: #dc2626;
-        }
-        
-        .status-completed {
-            background-color: #e0e7ff;
-            color: #4338ca;
-        }
-        
-        .status-paid {
-            background-color: #ede9fe;
-            color: #7c3aed;
-        }
-        
-        .notification-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            font-size: 0.65rem;
-            min-width: 20px;
-            height: 20px;
-            padding: 0 5px;
-            border-radius: 50%;
-            background-color: #ef4444;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Custom scrollbar for dropdown */
-        .notification-dropdown::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .notification-dropdown::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 0 12px 12px 0;
-        }
-        
-        .notification-dropdown::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-        
-        .notification-dropdown::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-        
-        /* Animation for new notifications */
-        @keyframes highlightNotification {
-            0% { background-color: rgba(239, 68, 68, 0.1); }
-            100% { background-color: transparent; }
-        }
-        
-        .new-notification {
-            animation: highlightNotification 2s ease-out;
-        }
-
         /* Card Styles */
         .category-card, .gig-card {
             background: white;
@@ -581,176 +360,6 @@
             background: #3a56d4;
             transform: translateY(-5px);
         }
-
-        /* Chat Bot Styles */
-        .chatbot-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 350px;
-            height: 500px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            transform: translateY(20px);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-
-        .chatbot-container.open {
-            transform: translateY(0);
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .chatbot-header {
-            background: #4361ee;
-            color: white;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chatbot-header h5 {
-            margin: 0;
-            font-weight: 600;
-        }
-
-        .chatbot-close-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .chatbot-close-btn:hover {
-            transform: rotate(90deg);
-        }
-
-        .chatbot-messages {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .message {
-            max-width: 80%;
-            padding: 10px 15px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-
-        .bot-message {
-            background: #f1f1f1;
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-        }
-
-        .user-message {
-            background: #4361ee;
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 5px;
-        }
-
-        .chatbot-input {
-            display: flex;
-            padding: 10px;
-            border-top: 1px solid #eee;
-        }
-
-        .chatbot-input input {
-            flex: 1;
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 50px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .chatbot-input input:focus {
-            border-color: #4361ee;
-        }
-
-        .chatbot-input button {
-            background: #4361ee;
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-left: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .chatbot-input button:hover {
-            background: #3a56d4;
-            transform: translateY(-2px);
-        }
-
-        .chatbot-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: #4361ee;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(67, 97, 238, 0.3);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .chatbot-toggle:hover {
-            background: #3a56d4;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
-        }
-
-        /* Toast Styles */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 12px 24px;
-            border-radius: 4px;
-            color: white;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 9999;
-        }
-        .toast.show {
-            opacity: 1;
-        }
-        .toast-info {
-            background-color: #4361ee;
-        }
-        .toast-success {
-            background-color: #4CAF50;
-        }
-        .toast-error {
-            background-color: #F44336;
-        }
     </style>
 </head>
 <body>
@@ -777,27 +386,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul id="category-list" class="navbar-nav ms-auto"></ul>
-             <!-- Notification Dropdown -->
-             <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" 
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-badge" id="notificationCount" style="display: none;">0</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end notification-dropdown" 
-                        aria-labelledby="notificationDropdown" id="notificationList">
-                        <li class="dropdown-header notification-header">
-                            <span>Your Appointments</span>
-                            <span class="badge rounded-pill" id="notificationBadge">0</span>
-                        </li>
-                        <li class="notification-empty">
-                            <i class="fas fa-calendar-times"></i>
-                            <div>No appointments found</div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
         </div>
     </div>
 </nav>
@@ -829,28 +417,6 @@
     <img class="modal-image" id="modalImage" src="" alt="Enlarged view">
 </div>
 
-<!-- Chat Bot Toggle Button -->
-<div class="chatbot-toggle" id="chatbotToggle">
-    <i class="fas fa-comments"></i>
-</div>
-
-<!-- Chat Bot Container -->
-<div class="chatbot-container" id="chatbotContainer">
-    <div class="chatbot-header">
-        <h5>Appointment Assistant</h5>
-        <button class="chatbot-close-btn">
-            <i class="fas fa-times"></i>
-        </button>
-    </div>
-    <div class="chatbot-messages" id="chatbotMessages"></div>
-    <div class="chatbot-input">
-        <input type="text" id="chatbotInput" placeholder="Type your message...">
-        <button id="chatbotSend">
-            <i class="fas fa-paper-plane"></i>
-        </button>
-    </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
@@ -865,14 +431,6 @@
     const modalImage = document.getElementById('modalImage');
     const closeModal = document.querySelector('.close-modal');
     const backButton = document.getElementById('back-button');
-    
-    // Chat Bot Elements
-    const chatbotToggle = document.getElementById('chatbotToggle');
-    const chatbotContainer = document.getElementById('chatbotContainer');
-    const chatbotMessages = document.getElementById('chatbotMessages');
-    const chatbotInput = document.getElementById('chatbotInput');
-    const chatbotSend = document.getElementById('chatbotSend');
-    const chatbotCloseBtn = document.querySelector('.chatbot-close-btn');
 
     // Helper function to generate image URL
     function getImageUrl(imagePath, type = 'category') {
@@ -1071,12 +629,6 @@
                 modalImage.src = imageUrl;
                 modalImage.alt = subcategory.name;
                 imageModal.classList.add('show');
-                
-                // Auto-open chat bot and send message
-                openChatBot();
-                setTimeout(() => {
-                    addBotMessage(`Would you like to know more about ${subcategory.name}? I can help you find the right professional for your needs!`);
-                }, 1000);
             });
 
             // Add click event to fetch gigs
@@ -1145,12 +697,6 @@
                 modalImage.src = imageUrl;
                 modalImage.alt = gig.fullName;
                 imageModal.classList.add('show');
-                
-                // Auto-open chat bot and send message
-                openChatBot();
-                setTimeout(() => {
-                    addBotMessage(`You're viewing ${gig.fullName}'s profile. Would you like to book an appointment or ask any questions?`);
-                }, 1000);
             });
 
             // Add click event for booking appointment
@@ -1164,7 +710,8 @@
         });
     }
 
-    async function bookAppointment(gig) {
+// Function to handle appointment booking
+async function bookAppointment(gig) {
     try {
         // First show email search dialog
         const { value: userEmail } = await Swal.fire({
@@ -1258,8 +805,7 @@
             gigId: gig.id,
             userId: user.id,
             appointmentTime: `${formValues.date}T${formValues.time}:00`,
-            status: "PENDING",
-            amount: gig.amountCharge
+            status: "PENDING"
         };
 
         // Show loading state while booking
@@ -1306,7 +852,6 @@
                     <p>Your appointment with ${gig.fullName} is confirmed for:</p>
                     <p><strong>${formValues.date} at ${formValues.time}</strong></p>
                     ${responseData.appointmentId ? `<p>Appointment ID: ${responseData.appointmentId}</p>` : ''}
-                    <p>Amount: Rs.${gig.amountCharge.toFixed(2)}</p>
                 </div>
             `,
             icon: "success",
@@ -1320,9 +865,6 @@
             await cancelAppointment(responseData.appointmentId, gig.fullName);
         }
         
-        // Refresh notifications after booking
-        fetchUserAppointments();
-        
     } catch (error) {
         console.error("Booking error:", error);
         Swal.fire({
@@ -1333,306 +875,206 @@
         });
     }
 }
-
-// Function to handle payment for accepted appointments
-async function handlePayment(appointmentId, amount, gigName) {
+// Function to cancel appointment
+async function cancelAppointment(appointmentId, professionalName) {
     try {
-        const { value: paymentMethod } = await Swal.fire({
-            title: `Pay Rs.${amount.toFixed(2)}`,
-            html: `For your appointment with <strong>${gigName}</strong>`,
-            input: 'select',
-            inputOptions: {
-                'credit_card': 'Credit Card',
-                'debit_card': 'Debit Card',
-                'paypal': 'PayPal',
-                'bank_transfer': 'Bank Transfer'
-            },
-            inputPlaceholder: 'Select payment method',
+        const { isConfirmed } = await Swal.fire({
+            title: 'Cancel Appointment?',
+            html: `Are you sure you want to cancel your appointment with <strong>${professionalName}</strong>?`,
+            icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Confirm Payment',
-            confirmButtonColor: '#28a745',
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'Please select a payment method';
-                }
-            }
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, cancel it!'
         });
         
-        if (!paymentMethod) return;
+        if (!isConfirmed) return;
         
-        // Show processing
+        // Show loading state
         Swal.fire({
-            title: 'Processing Payment...',
+            title: 'Processing...',
+            text: 'Cancelling your appointment',
             allowOutsideClick: false,
             didOpen: () => {
                 Swal.showLoading();
             }
         });
-        
-        // Simulate payment processing
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
-        // Mark as paid in backend
-        const response = await fetch(`${APPOINTMENT_API_URL}/${appointmentId}/pay`, {
-            method: 'PUT',
+
+        // Send cancellation request - changed to use appointmentId
+        const response = await fetch(`${APPOINTMENT_API_URL}/cancel/${appointmentId}`, {
+            method: "PUT",
             headers: getHeaders(),
             body: JSON.stringify({
-                paymentMethod: paymentMethod,
-                amount: amount
+                // Include any required data
             })
         });
         
         if (!response.ok) {
-            throw new Error('Payment failed');
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Failed to cancel appointment");
         }
-        
-        // Show success
+
+        // Show success message
         await Swal.fire({
-            title: 'Payment Successful!',
-            text: `Your payment of Rs.${amount.toFixed(2)} has been processed`,
-            icon: 'success',
-            confirmButtonColor: '#28a745'
-        });
-        
-        // Refresh notifications
-        fetchUserAppointments();
-        
-    } catch (error) {
-        console.error('Payment error:', error);
-        Swal.fire({
-            title: 'Payment Failed',
-            text: error.message || 'Could not process payment',
-            icon: 'error',
-            confirmButtonColor: '#d33'
-        });
-    }
-}
-
-// Function to fetch and display user appointments
-async function fetchUserAppointments() {
-    try {
-        const userId = localStorage.getItem('userId');
-        const authToken = localStorage.getItem('authToken');
-        
-        if (!userId || !authToken) return;
-        
-        const response = await fetch(`${APPOINTMENT_API_URL}/user/${userId}`, {
-            headers: {
-                "Authorization": `Bearer ${authToken}`
-            }
-        });
-        
-        if (!response.ok) throw new Error('Failed to fetch appointments');
-        
-        const appointments = await response.json();
-        displayNotifications(appointments.data || appointments);
-    } catch (error) {
-        console.error('Error fetching appointments:', error);
-    }
-}
-
-// Function to display notifications in dropdown
-function displayNotifications(appointments) {
-    const notificationList = document.getElementById('notificationList');
-    const notificationCount = document.getElementById('notificationCount');
-    const notificationBadge = document.getElementById('notificationBadge');
-    
-    // Clear existing notifications (except the header)
-    const itemsToRemove = notificationList.querySelectorAll('.notification-item, .notification-empty');
-    itemsToRemove.forEach(item => item.remove());
-    
-    if (!appointments || appointments.length === 0) {
-        const emptyItem = document.createElement('li');
-        emptyItem.className = 'notification-empty';
-        emptyItem.innerHTML = `
-            <i class="fas fa-calendar-times"></i>
-            <div>No appointments found</div>
-        `;
-        notificationList.appendChild(emptyItem);
-        notificationCount.style.display = 'none';
-        notificationBadge.textContent = '0';
-        return;
-    }
-    
-    // Sort appointments by date (newest first)
-    appointments.sort((a, b) => new Date(b.appointmentTime) - new Date(a.appointmentTime));
-    
-    // Count unread notifications
-    const unreadCount = appointments.filter(a => a.status === 'ACCEPTED' && !a.paymentStatus).length;
-    
-    // Add each appointment as a notification item
-    appointments.forEach(appointment => {
-        const notificationItem = document.createElement('li');
-        notificationItem.className = 'notification-item';
-        if (appointment.status === 'ACCEPTED' && !appointment.paymentStatus) {
-            notificationItem.classList.add('new-notification');
-        }
-        
-        // Format the date/time
-        const appointmentDate = new Date(appointment.appointmentTime);
-        const formattedDate = appointmentDate.toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'short', 
-            day: 'numeric' 
-        });
-        const formattedTime = appointmentDate.toLocaleTimeString([], { 
-            hour: '2-digit', 
-            minute: '2-digit' 
-        });
-        
-        // Determine status class and icon
-        let statusClass = '';
-        let statusIcon = '';
-        if (appointment.status === 'PENDING') {
-            statusClass = 'status-pending';
-            statusIcon = '<i class="fas fa-clock"></i>';
-        } else if (appointment.status === 'ACCEPTED') {
-            statusClass = 'status-accepted';
-            statusIcon = '<i class="fas fa-check-circle"></i>';
-        } else if (appointment.status === 'REJECTED') {
-            statusClass = 'status-rejected';
-            statusIcon = '<i class="fas fa-times-circle"></i>';
-        } else if (appointment.status === 'COMPLETED') {
-            statusClass = 'status-completed';
-            statusIcon = '<i class="fas fa-check-double"></i>';
-        } else if (appointment.paymentStatus === 'PAID') {
-            statusClass = 'status-paid';
-            statusIcon = '<i class="fas fa-receipt"></i>';
-        }
-        
-        notificationItem.innerHTML = `
-            <div class="notification-gig">
-                <i class="fas fa-user-tie"></i>
-                <span>Appointment with ${appointment.gigName}</span>
-            </div>
-            <div class="notification-time">
-                <i class="far fa-calendar-alt"></i>
-                <span>${formattedDate} at ${formattedTime}</span>
-            </div>
-            <span class="notification-status ${statusClass}">
-                ${statusIcon} ${appointment.status}
-            </span>
-            ${appointment.amount ? `<div class="notification-amount mt-2">Amount: Rs.${appointment.amount.toFixed(2)}</div>` : ''}
-        `;
-        
-        // Add action buttons
-        const actionsDiv = document.createElement('div');
-        actionsDiv.className = 'notification-actions';
-        
-        // View details button
-        const viewBtn = document.createElement('button');
-        viewBtn.className = 'action-btn view-btn';
-        viewBtn.innerHTML = '<i class="fas fa-eye"></i> View';
-        viewBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            viewAppointmentDetails(appointment.id);
-        });
-        actionsDiv.appendChild(viewBtn);
-        
-        // Conditional buttons based on status
-        if (appointment.status === 'PENDING') {
-            const cancelBtn = document.createElement('button');
-            cancelBtn.className = 'action-btn cancel-btn';
-            cancelBtn.innerHTML = '<i class="fas fa-times"></i> Cancel';
-            cancelBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                cancelAppointment(appointment.id, appointment.gigName);
-            });
-            actionsDiv.appendChild(cancelBtn);
-        }
-        else if (appointment.status === 'ACCEPTED' && !appointment.paymentStatus) {
-            const paymentBtn = document.createElement('button');
-            paymentBtn.className = 'action-btn payment-btn';
-            paymentBtn.innerHTML = '<i class="fas fa-credit-card"></i> Pay Now';
-            paymentBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                handlePayment(appointment.id, appointment.amount, appointment.gigName);
-            });
-            actionsDiv.appendChild(paymentBtn);
-        }
-        
-        notificationItem.appendChild(actionsDiv);
-        notificationList.appendChild(notificationItem);
-    });
-    
-    // Update badge counts
-    notificationCount.textContent = unreadCount;
-    notificationBadge.textContent = unreadCount;
-    notificationCount.style.display = unreadCount > 0 ? 'flex' : 'none';
-}
-
-// Function to view appointment details
-async function viewAppointmentDetails(appointmentId) {
-    try {
-        const response = await fetch(`${APPOINTMENT_API_URL}/${appointmentId}`, {
-            headers: getHeaders()
-        });
-        
-        if (!response.ok) throw new Error('Failed to fetch appointment details');
-        
-        const appointment = await response.json();
-        
-        const appointmentDate = new Date(appointment.appointmentTime);
-        const formattedDate = appointmentDate.toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        });
-        const formattedTime = appointmentDate.toLocaleTimeString([], { 
-            hour: '2-digit', 
-            minute: '2-digit' 
-        });
-        
-        let statusBadge = '';
-        if (appointment.status === 'PENDING') {
-            statusBadge = '<span class="badge bg-warning text-dark">Pending</span>';
-        } else if (appointment.status === 'ACCEPTED') {
-            statusBadge = '<span class="badge bg-success">Accepted</span>';
-        } else if (appointment.status === 'REJECTED') {
-            statusBadge = '<span class="badge bg-danger">Rejected</span>';
-        } else if (appointment.status === 'COMPLETED') {
-            statusBadge = '<span class="badge bg-primary">Completed</span>';
-        }
-        
-        let paymentBadge = '';
-        if (appointment.paymentStatus === 'PAID') {
-            paymentBadge = '<span class="badge bg-success">Paid</span>';
-        } else {
-            paymentBadge = '<span class="badge bg-warning text-dark">Pending Payment</span>';
-        }
-        
-        await Swal.fire({
-            title: 'Appointment Details',
-            html: `
-                <div class="text-start">
-                    <div class="mb-3">
-                        <h5>${appointment.gigName}</h5>
-                        ${statusBadge}
-                        ${paymentBadge}
-                    </div>
-                    <p><strong>Date:</strong> ${formattedDate}</p>
-                    <p><strong>Time:</strong> ${formattedTime}</p>
-                    ${appointment.amount ? `<p><strong>Amount:</strong> Rs.${appointment.amount.toFixed(2)}</p>` : ''}
-                    <p><strong>Status:</strong> ${appointment.status}</p>
-                    ${appointment.paymentStatus ? `<p><strong>Payment Status:</strong> ${appointment.paymentStatus}</p>` : ''}
-                </div>
-            `,
-            confirmButtonText: 'Close',
+            title: "Cancelled!",
+            text: "Your appointment has been successfully cancelled.",
+            icon: "success",
             confirmButtonColor: '#4361ee'
         });
         
+        // Refresh the appointments list or perform any other post-cancellation action
+        // fetchAppointments(); // Uncomment if you need to refresh data
+        
     } catch (error) {
-        console.error('Error viewing appointment:', error);
+        console.error("Cancellation error:", error);
+        Swal.fire({
+            title: 'Cancellation Failed',
+            text: error.message || "Could not cancel appointment",
+            icon: 'error',
+            confirmButtonColor: '#4361ee'
+        });
+    }
+}
+// Function to show toast notifications
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 10);
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
+
+// Add toast styles
+const toastStyles = document.createElement('style');
+toastStyles.textContent = `
+    .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 12px 24px;
+        border-radius: 4px;
+        color: white;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 9999;
+    }
+    .toast.show {
+        opacity: 1;
+    }
+    .toast-info {
+        background-color: #4361ee;
+    }
+    .toast-success {
+        background-color: #4CAF50;
+    }
+    .toast-error {
+        background-color: #F44336;
+    }
+`;
+document.head.appendChild(toastStyles);  // Show empty state for subcategories
+    function showEmptyState() {
+        const emptyState = document.createElement("div");
+        emptyState.classList.add("col-12", "empty-state");
+        emptyState.innerHTML = `
+                <i class="fas fa-box-open"></i>
+                <h3>No Subcategories Available</h3>
+                <p>This category does not have any subcategories at the moment.</p>
+            `;
+        subcategoryContainer.appendChild(emptyState);
+    }
+
+    // Show empty state for gigs
+    function showEmptyGigsState() {
+        const emptyState = document.createElement("div");
+        emptyState.classList.add("col-12", "empty-state");
+        emptyState.innerHTML = `
+                <i class="fas fa-calendar-times"></i>
+                <h3>No Gigs Available</h3>
+                <p>This subcategory does not have any available gigs at the moment.</p>
+            `;
+        gigsContainer.appendChild(emptyState);
+    }
+
+    // Show loader
+    function showLoader() {
+        loader.classList.remove('d-none');
+    }
+
+    // Hide loader
+    function hideLoader() {
+        loader.classList.add('d-none');
+    }
+
+    // Show error message
+    function showError(message) {
         Swal.fire({
             title: 'Error',
-            text: error.message || 'Could not load appointment details',
+            text: message,
             icon: 'error',
+            confirmButtonText: 'OK',
             confirmButtonColor: '#4361ee'
         });
     }
-}
+
+    // Animate content transition
+    function animateContentTransition(callback) {
+        subcategoryContainer.style.opacity = '0';
+        subcategoryContainer.style.transform = 'translateY(20px)';
+        subcategoryContainer.style.transition = 'all 0.4s ease';
+
+        setTimeout(() => {
+            callback();
+            subcategoryContainer.style.opacity = '1';
+            subcategoryContainer.style.transform = 'translateY(0)';
+        }, 400);
+    }
+
+    // Close modal
+    closeModal.addEventListener('click', () => {
+        imageModal.classList.remove('show');
+    });
+
+    // Close modal when clicking outside image
+    imageModal.addEventListener('click', (e) => {
+        if (e.target === imageModal) {
+            imageModal.classList.remove('show');
+        }
+    });
+
+    // Back button functionality
+    backButton.addEventListener('click', () => {
+        gigsContainer.classList.add('d-none');
+        subcategoryContainer.classList.remove('d-none');
+        backButton.classList.remove('show');
+    });
+
+    // Initialize the page
+    document.addEventListener("DOMContentLoaded", () => {
+        fetchCategories();
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('category-nav');
+            if (window.scrollY > 20) {
+                navbar.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.15)';
+                navbar.style.background = 'rgba(193, 116, 157, 0.98)';
+            } else {
+                navbar.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+                navbar.style.background = 'rgba(193, 116, 157, 0.98)';
+            }
+        });
+    });
 </script>
 </body>
 </html>
-
-
