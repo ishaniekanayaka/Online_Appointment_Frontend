@@ -144,227 +144,6 @@
             transform: translateY(-2px);
         }
 
-        /* Notification Dropdown Styles */
-        .notification-dropdown {
-            width: 380px;
-            max-height: 500px;
-            overflow-y: auto;
-            padding: 0;
-            border: none;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            border-radius: 12px;
-            margin-top: 0.5rem;
-            background-color: #ffffff;
-        }
-        
-        .notification-header {
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid #f1f1f1;
-            font-weight: 600;
-            color: #1e293b;
-            background-color: #ffffff;
-            position: sticky;
-            top: 0;
-            z-index: 1;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .notification-header .badge {
-            background-color: #4361ee;
-            font-weight: 500;
-        }
-        
-        .notification-item {
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid #f8fafc;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .notification-item:last-child {
-            border-bottom: none;
-        }
-        
-        .notification-item:hover {
-            background-color: #f8fafc;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-        
-        .notification-empty {
-            padding: 2.5rem 1rem;
-            text-align: center;
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-        
-        .notification-empty i {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: #cbd5e1;
-        }
-        
-        .notification-gig {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #1e293b;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .notification-gig i {
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-        
-        .notification-time {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .notification-time i {
-            font-size: 0.7rem;
-        }
-        
-        .notification-status {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.35rem 0.9rem;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            gap: 5px;
-        }
-        
-        .notification-status i {
-            font-size: 0.65rem;
-        }
-
-        .notification-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        
-        .action-btn {
-            border: none;
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .cancel-btn {
-            background-color: #fee2e2;
-            color: #dc2626;
-        }
-        
-        .cancel-btn:hover {
-            background-color: #fecaca;
-        }
-        
-        .payment-btn {
-            background-color: #d1fae5;
-            color: #059669;
-        }
-        
-        .payment-btn:hover {
-            background-color: #a7f3d0;
-        }
-        
-        .view-btn {
-            background-color: #dbeafe;
-            color: #1d4ed8;
-        }
-        
-        .view-btn:hover {
-            background-color: #bfdbfe;
-        }
-        
-        .status-pending {
-            background-color: #fef3c7;
-            color: #d97706;
-        }
-        
-        .status-accepted {
-            background-color: #d1fae5;
-            color: #059669;
-        }
-        
-        .status-rejected {
-            background-color: #fee2e2;
-            color: #dc2626;
-        }
-        
-        .status-completed {
-            background-color: #e0e7ff;
-            color: #4338ca;
-        }
-        
-        .status-paid {
-            background-color: #ede9fe;
-            color: #7c3aed;
-        }
-        
-        .notification-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            font-size: 0.65rem;
-            min-width: 20px;
-            height: 20px;
-            padding: 0 5px;
-            border-radius: 50%;
-            background-color: #ef4444;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Custom scrollbar for dropdown */
-        .notification-dropdown::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .notification-dropdown::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 0 12px 12px 0;
-        }
-        
-        .notification-dropdown::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-        
-        .notification-dropdown::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-        
-        /* Animation for new notifications */
-        @keyframes highlightNotification {
-            0% { background-color: rgba(239, 68, 68, 0.1); }
-            100% { background-color: transparent; }
-        }
-        
-        .new-notification {
-            animation: highlightNotification 2s ease-out;
-        }
-
         /* Card Styles */
         .category-card, .gig-card {
             background: white;
@@ -581,6 +360,111 @@
             background: #3a56d4;
             transform: translateY(-5px);
         }
+        .notification-dropdown {
+            width: 350px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 0;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            margin-top: 0.5rem;
+        }
+        
+        .notification-header {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f1f1;
+            font-weight: 600;
+            color: #1e293b;
+            background-color: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        
+        .notification-item {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f1f1;
+            transition: all 0.3s ease;
+        }
+        
+        .notification-item:hover {
+            background-color: #f1f5f9;
+            transform: translateY(-2px);
+        }
+        
+        .notification-empty {
+            padding: 2rem 1rem;
+            text-align: center;
+            color: #64748b;
+        }
+        
+        .notification-gig {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: #1e293b;
+        }
+        
+        .notification-time {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .notification-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .cancel-btn {
+            background-color: #fee2e2;
+            color: #dc2626;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #fecaca;
+        }
+        
+        .status-pending {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+        
+        .status-accepted {
+            background-color: #d1fae5;
+            color: #059669;
+        }
+        
+        .status-rejected {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.7rem;
+            padding: 3px 6px;
+            border-radius: 50%;
+            background-color: #ef4444;
+            color: white;
+        }
 
         /* Chat Bot Styles */
         .chatbot-container {
@@ -787,14 +671,8 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end notification-dropdown" 
                         aria-labelledby="notificationDropdown" id="notificationList">
-                        <li class="dropdown-header notification-header">
-                            <span>Your Appointments</span>
-                            <span class="badge rounded-pill" id="notificationBadge">0</span>
-                        </li>
-                        <li class="notification-empty">
-                            <i class="fas fa-calendar-times"></i>
-                            <div>No appointments found</div>
-                        </li>
+                        <li class="dropdown-header notification-header">Your Appointments</li>
+                        <li class="notification-empty">No appointments found</li>
                     </ul>
                 </li>
             </ul>
@@ -899,10 +777,10 @@
         }
 
         return isMultipart
-            ? { Authorization: `Bearer ${authToken}` }
+            ? { "Authorization": `Bearer ${authToken}` }
             : {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${authToken}`,
+                "Authorization": `Bearer ${authToken}`,
             };
     }
 
@@ -1164,475 +1042,742 @@
         });
     }
 
+    // Function to handle appointment booking
     async function bookAppointment(gig) {
-    try {
-        // First show email search dialog
-        const { value: userEmail } = await Swal.fire({
-            title: 'Enter Your Email',
-            input: 'email',
-            inputPlaceholder: 'your@email.com',
-            showCancelButton: true,
-            confirmButtonText: 'Search',
-            confirmButtonColor: '#4361ee',
-            preConfirm: (email) => {
-                if (!email) {
-                    Swal.showValidationMessage('Please enter your email');
-                    return false;
-                }
-                return email;
-            }
-        });
-        
-        if (!userEmail) return;
-        
-        // Show loading state while searching for user
-        Swal.fire({
-            title: 'Searching...',
-            text: 'Looking up user information',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-
-        // Get user details by email
-        const userResponse = await fetch(`${API_BASE_URL}/user/email/${encodeURIComponent(userEmail)}`, {
-            method: "GET",
-            headers: getHeaders()
-        });
-        
-        if (!userResponse.ok) {
-            const errorText = await userResponse.text();
-            throw new Error(errorText || "User not found");
-        }
-        
-        const userData = await userResponse.json();
-        const user = userData.data;
-        
-        // Close the loading dialog
-        Swal.close();
-        
-        // Show appointment booking form with user details
-        const { value: formValues } = await Swal.fire({
-            title: `Book Appointment with ${gig.fullName}`,
-            html: `
-                <div class="text-start">
-                    <p><strong>Your Details:</strong></p>
-                    <p>Name: ${user.name || 'N/A'}</p>
-                    <p>Email: ${user.email}</p>
-                    <hr>
-                    <p><strong>Service Details:</strong></p>
-                    <p>Professional: ${gig.fullName}</p>
-                    <p>Rate: Rs.${gig.amountCharge.toFixed(2)} per session</p>
-                    <p>Contact: ${gig.contactNumber}</p>
-                    <div class="mb-3">
-                        <label for="appointment-date" class="form-label">Select Date</label>
-                        <input type="date" id="appointment-date" class="form-control" min="${new Date().toISOString().split('T')[0]}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="appointment-time" class="form-label">Select Time</label>
-                        <input type="time" id="appointment-time" class="form-control">
-                    </div>
-                </div>
-            `,
-            showCancelButton: true,
-            confirmButtonText: "Confirm Booking",
-            confirmButtonColor: "#4361ee",
-            preConfirm: () => {
-                const date = document.getElementById('appointment-date').value;
-                const time = document.getElementById('appointment-time').value;
-                
-                if (!date || !time) {
-                    Swal.showValidationMessage("Please select both date and time");
-                    return false;
-                }
-                
-                return { date, time };
-            }
-        });
-        
-        if (!formValues) return;
-        
-        // Create appointment data with both user ID and gig ID
-        const appointmentData = {
-            gigId: gig.id,
-            userId: user.id,
-            appointmentTime: `${formValues.date}T${formValues.time}:00`,
-            status: "PENDING",
-            amount: gig.amountCharge
-        };
-
-        // Show loading state while booking
-        Swal.fire({
-            title: 'Processing...',
-            text: 'Booking your appointment',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-
-        // Book appointment
-        const bookingResponse = await fetch(`${APPOINTMENT_API_URL}/book`, {
-            method: "POST",
-            headers: getHeaders(),
-            body: JSON.stringify(appointmentData)
-        });
-        
-        // First get the response as text
-        const responseText = await bookingResponse.text();
-        
-        // Then try to parse it as JSON
-        let responseData;
         try {
-            responseData = JSON.parse(responseText);
-        } catch (e) {
-            // If parsing fails, use the text as the message
-            responseData = { message: responseText };
+            // First show email search dialog
+            const { value: userEmail } = await Swal.fire({
+                title: 'Enter Your Email',
+                input: 'email',
+                inputPlaceholder: 'your@email.com',
+                showCancelButton: true,
+                confirmButtonText: 'Search',
+                confirmButtonColor: '#4361ee',
+                preConfirm: (email) => {
+                    if (!email) {
+                        Swal.showValidationMessage('Please enter your email');
+                        return false;
+                    }
+                    return email;
+                }
+            });
+            
+            if (!userEmail) return;
+            
+            // Show loading state while searching for user
+            Swal.fire({
+                title: 'Searching...',
+                text: 'Looking up user information',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Get user details by email
+            const userResponse = await fetch(`${API_BASE_URL}/user/email/${encodeURIComponent(userEmail)}`, {
+                method: "GET",
+                headers: getHeaders()
+            });
+            
+            if (!userResponse.ok) {
+                const errorText = await userResponse.text();
+                throw new Error(errorText || "User not found");
+            }
+            
+            const userData = await userResponse.json();
+            const user = userData.data;
+            
+            // Close the loading dialog
+            Swal.close();
+            
+            // Show appointment booking form with user details
+            const { value: formValues } = await Swal.fire({
+                title: `Book Appointment with ${gig.fullName}`,
+                html: `
+                    <div class="text-start">
+                        <p><strong>Your Details:</strong></p>
+                        <p>Name: ${user.name || 'N/A'}</p>
+                        <p>Email: ${user.email}</p>
+                        <hr>
+                        <p><strong>Service Details:</strong></p>
+                        <p>Professional: ${gig.fullName}</p>
+                        <p>Rate: Rs.${gig.amountCharge.toFixed(2)} per session</p>
+                        <p>Contact: ${gig.contactNumber}</p>
+                        <div class="mb-3">
+                            <label for="appointment-date" class="form-label">Select Date</label>
+                            <input type="date" id="appointment-date" class="form-control" min="${new Date().toISOString().split('T')[0]}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="appointment-time" class="form-label">Select Time</label>
+                            <input type="time" id="appointment-time" class="form-control">
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: "Confirm Booking",
+                confirmButtonColor: "#4361ee",
+                preConfirm: () => {
+                    const date = document.getElementById('appointment-date').value;
+                    const time = document.getElementById('appointment-time').value;
+                    
+                    if (!date || !time) {
+                        Swal.showValidationMessage("Please select both date and time");
+                        return false;
+                    }
+                    
+                    return { date, time };
+                }
+            });
+            
+            if (!formValues) return;
+            
+            // Create appointment data with both user ID and gig ID
+            const appointmentData = {
+                gigId: gig.id,
+                userId: user.id,
+                appointmentTime: `${formValues.date}T${formValues.time}:00`,
+                status: "PENDING"
+            };
+
+            // Show loading state while booking
+            Swal.fire({
+                title: 'Processing...',
+                text: 'Booking your appointment',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Book appointment
+            const bookingResponse = await fetch(`${APPOINTMENT_API_URL}/book`, {
+                method: "POST",
+                headers: getHeaders(),
+                body: JSON.stringify(appointmentData)
+            });
+            
+            // First get the response as text
+            const responseText = await bookingResponse.text();
+            
+            // Then try to parse it as JSON
+            let responseData;
+            try {
+                responseData = JSON.parse(responseText);
+            } catch (e) {
+                // If parsing fails, use the text as the message
+                responseData = { message: responseText };
+            }
+            
+            if (!bookingResponse.ok) {
+                throw new Error(responseData.message || "Booking failed");
+            }
+            
+            // Close loading dialog
+            Swal.close();
+            
+            // Show success message with cancellation option
+            const { value: action } = await Swal.fire({
+                title: "Appointment Booked!",
+                html: `
+                    <div class="text-start">
+                        <p>Your appointment with ${gig.fullName} is confirmed for:</p>
+                        <p><strong>${formValues.date} at ${formValues.time}</strong></p>
+                        ${responseData.appointmentId ? `<p>Appointment ID: ${responseData.appointmentId}</p>` : ''}
+                    </div>
+                `,
+                icon: "success",
+                showCancelButton: true,
+                confirmButtonText: 'Done',
+                cancelButtonText: 'Cancel Appointment',
+                cancelButtonColor: '#d33'
+            });
+            
+            if (action === false && responseData.appointmentId) {
+                await cancelAppointment(responseData.appointmentId, gig.fullName);
+            }
+            
+        } catch (error) {
+            console.error("Booking error:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Booking Failed',
+                text: error.message || "An error occurred during booking",
+                confirmButtonColor: '#4361ee'
+            });
         }
-        
-        if (!bookingResponse.ok) {
-            throw new Error(responseData.message || "Booking failed");
+    }
+
+    // Function to cancel appointment
+    async function cancelAppointment(appointmentId, professionalName) {
+        try {
+            const { isConfirmed } = await Swal.fire({
+                title: 'Cancel Appointment?',
+                html: `Are you sure you want to cancel your appointment with <strong>${professionalName}</strong>?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, cancel it!'
+            });
+            
+            if (!isConfirmed) return;
+            
+            // Show loading state
+            Swal.fire({
+                title: 'Processing...',
+                text: 'Cancelling your appointment',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Send cancellation request - changed to use appointmentId
+            const response = await fetch(`${APPOINTMENT_API_URL}/cancel/${appointmentId}`, {
+                method: "PUT",
+                headers: getHeaders(),
+                body: JSON.stringify({
+                    // Include any required data
+                })
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Failed to cancel appointment");
+            }
+
+            // Show success message
+            await Swal.fire({
+                title: "Cancelled!",
+                text: "Your appointment has been successfully cancelled.",
+                icon: "success",
+                confirmButtonColor: '#4361ee'
+            });
+            
+        } catch (error) {
+            console.error("Cancellation error:", error);
+            Swal.fire({
+                title: 'Cancellation Failed',
+                text: error.message || "Could not cancel appointment",
+                icon: 'error',
+                confirmButtonColor: '#4361ee'
+            });
         }
-        
-        // Close loading dialog
-        Swal.close();
-        
-        // Show success message with cancellation option
-        const { value: action } = await Swal.fire({
-            title: "Appointment Booked!",
-            html: `
-                <div class="text-start">
-                    <p>Your appointment with ${gig.fullName} is confirmed for:</p>
-                    <p><strong>${formValues.date} at ${formValues.time}</strong></p>
-                    ${responseData.appointmentId ? `<p>Appointment ID: ${responseData.appointmentId}</p>` : ''}
-                    <p>Amount: Rs.${gig.amountCharge.toFixed(2)}</p>
-                </div>
-            `,
-            icon: "success",
-            showCancelButton: true,
-            confirmButtonText: 'Done',
-            cancelButtonText: 'Cancel Appointment',
-            cancelButtonColor: '#d33'
-        });
-        
-        if (action === false && responseData.appointmentId) {
-            await cancelAppointment(responseData.appointmentId, gig.fullName);
-        }
-        
-        // Refresh notifications after booking
-        fetchUserAppointments();
-        
-    } catch (error) {
-        console.error("Booking error:", error);
+    }
+
+    // Show empty state for subcategories
+    function showEmptyState() {
+        const emptyState = document.createElement("div");
+        emptyState.classList.add("col-12", "empty-state");
+        emptyState.innerHTML = `
+                <i class="fas fa-folder-open"></i>
+                <h3>No Subcategories Found</h3>
+                <p>This category does not have any subcategories yet.</p>
+            `;
+        subcategoryContainer.appendChild(emptyState);
+    }
+
+    // Show empty state for gigs
+    function showEmptyGigsState() {
+        const emptyState = document.createElement("div");
+        emptyState.classList.add("col-12", "empty-state");
+        emptyState.innerHTML = `
+                <i class="fas fa-calendar-times"></i>
+                <h3>No Gigs Available</h3>
+                <p>This subcategory does not have any available gigs at the moment.</p>
+            `;
+        gigsContainer.appendChild(emptyState);
+    }
+
+    // Show loader
+    function showLoader() {
+        loader.classList.remove('d-none');
+    }
+
+    // Hide loader
+    function hideLoader() {
+        loader.classList.add('d-none');
+    }
+
+    // Show error message
+    function showError(message) {
         Swal.fire({
+            title: 'Error',
+            text: message,
             icon: 'error',
-            title: 'Booking Failed',
-            text: error.message || "An error occurred during booking",
+            confirmButtonText: 'OK',
             confirmButtonColor: '#4361ee'
         });
     }
-}
 
-// Function to handle payment for accepted appointments
-async function handlePayment(appointmentId, amount, gigName) {
-    try {
-        const { value: paymentMethod } = await Swal.fire({
-            title: `Pay Rs.${amount.toFixed(2)}`,
-            html: `For your appointment with <strong>${gigName}</strong>`,
-            input: 'select',
-            inputOptions: {
-                'credit_card': 'Credit Card',
-                'debit_card': 'Debit Card',
-                'paypal': 'PayPal',
-                'bank_transfer': 'Bank Transfer'
-            },
-            inputPlaceholder: 'Select payment method',
-            showCancelButton: true,
-            confirmButtonText: 'Confirm Payment',
-            confirmButtonColor: '#28a745',
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'Please select a payment method';
+    // Animate content transition
+    function animateContentTransition(callback) {
+        subcategoryContainer.style.opacity = '0';
+        subcategoryContainer.style.transform = 'translateY(20px)';
+        subcategoryContainer.style.transition = 'all 0.4s ease';
+
+        setTimeout(() => {
+            callback();
+            subcategoryContainer.style.opacity = '1';
+            subcategoryContainer.style.transform = 'translateY(0)';
+        }, 400);
+    }
+
+    async function fetchUserAppointments() {
+        try {
+            const userId = localStorage.getItem('userId');
+            const authToken = localStorage.getItem('authToken');
+            
+            if (!userId || !authToken) return;
+            
+            const response = await fetch(`http://localhost:8080/api/v1/gig/user/${userId}`, {
+                headers: {
+                    "Authorization": `Bearer ${authToken}`
                 }
-            }
-        });
-        
-        if (!paymentMethod) return;
-        
-        // Show processing
-        Swal.fire({
-            title: 'Processing Payment...',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-        
-        // Simulate payment processing
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
-        // Mark as paid in backend
-        const response = await fetch(`${APPOINTMENT_API_URL}/${appointmentId}/pay`, {
-            method: 'PUT',
-            headers: getHeaders(),
-            body: JSON.stringify({
-                paymentMethod: paymentMethod,
-                amount: amount
-            })
-        });
-        
-        if (!response.ok) {
-            throw new Error('Payment failed');
+            });
+            
+            if (!response.ok) throw new Error('Failed to fetch appointments');
+            
+            const appointments = await response.json();
+            displayNotifications(appointments);
+        } catch (error) {
+            console.error('Error fetching appointments:', error);
         }
-        
-        // Show success
-        await Swal.fire({
-            title: 'Payment Successful!',
-            text: `Your payment of Rs.${amount.toFixed(2)} has been processed`,
-            icon: 'success',
-            confirmButtonColor: '#28a745'
-        });
-        
-        // Refresh notifications
-        fetchUserAppointments();
-        
-    } catch (error) {
-        console.error('Payment error:', error);
-        Swal.fire({
-            title: 'Payment Failed',
-            text: error.message || 'Could not process payment',
-            icon: 'error',
-            confirmButtonColor: '#d33'
-        });
     }
-}
-
-// Function to fetch and display user appointments
-async function fetchUserAppointments() {
-    try {
-        const userId = localStorage.getItem('userId');
-        const authToken = localStorage.getItem('authToken');
+    
+    // Function to display notifications in dropdown
+    // function displayNotifications(appointments) {
+    //     const notificationList = document.getElementById('notificationList');
+    //     const notificationCount = document.getElementById('notificationCount');
         
-        if (!userId || !authToken) return;
+    //     // Clear existing notifications (except the header)
+    //     const itemsToRemove = notificationList.querySelectorAll('.notification-item, .notification-empty');
+    //     itemsToRemove.forEach(item => item.remove());
         
-        const response = await fetch(`${APPOINTMENT_API_URL}/user/${userId}`, {
-            headers: {
-                "Authorization": `Bearer ${authToken}`
-            }
-        });
+    //     if (appointments.length === 0) {
+    //         const emptyItem = document.createElement('li');
+    //         emptyItem.className = 'notification-empty';
+    //         emptyItem.textContent = 'No appointments found';
+    //         notificationList.appendChild(emptyItem);
+    //         notificationCount.style.display = 'none';
+    //         return;
+    //     }
         
-        if (!response.ok) throw new Error('Failed to fetch appointments');
+    //     // Sort appointments by date (newest first)
+    //     appointments.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
         
-        const appointments = await response.json();
-        displayNotifications(appointments.data || appointments);
-    } catch (error) {
-        console.error('Error fetching appointments:', error);
-    }
-}
-
-// Function to display notifications in dropdown
-function displayNotifications(appointments) {
+    //     // Add each appointment as a notification item
+    //     appointments.forEach(appointment => {
+    //         const notificationItem = document.createElement('li');
+    //         notificationItem.className = 'notification-item';
+            
+    //         // Format the date/time
+    //         const appointmentDate = new Date(appointment.dateTime);
+    //         const formattedDate = appointmentDate.toLocaleDateString();
+    //         const formattedTime = appointmentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+    //         // Determine status class
+    //         let statusClass = '';
+    //         if (appointment.status === 'PENDING') statusClass = 'status-pending';
+    //         else if (appointment.status === 'ACCEPTED') statusClass = 'status-accepted';
+    //         else if (appointment.status === 'REJECTED') statusClass = 'status-rejected';
+            
+    //         notificationItem.innerHTML = `
+    //             <div class="notification-gig">${appointment.gigName}</div>
+    //             <div class="notification-time">${formattedDate} at ${formattedTime}</div>
+    //             <span class="notification-status ${statusClass}">${appointment.status}</span>
+    //         `;
+            
+    //         notificationList.appendChild(notificationItem);
+    //     });
+        
+    //     // Update badge count
+    //     notificationCount.textContent = appointments.length;
+    //     notificationCount.style.display = appointments.length > 0 ? 'block' : 'none';
+    // }
+    function displayNotifications(appointments) {
     const notificationList = document.getElementById('notificationList');
     const notificationCount = document.getElementById('notificationCount');
-    const notificationBadge = document.getElementById('notificationBadge');
     
     // Clear existing notifications (except the header)
     const itemsToRemove = notificationList.querySelectorAll('.notification-item, .notification-empty');
     itemsToRemove.forEach(item => item.remove());
     
-    if (!appointments || appointments.length === 0) {
+    if (appointments.length === 0) {
         const emptyItem = document.createElement('li');
         emptyItem.className = 'notification-empty';
-        emptyItem.innerHTML = `
-            <i class="fas fa-calendar-times"></i>
-            <div>No appointments found</div>
-        `;
+        emptyItem.textContent = 'No appointments found';
         notificationList.appendChild(emptyItem);
         notificationCount.style.display = 'none';
-        notificationBadge.textContent = '0';
         return;
     }
     
     // Sort appointments by date (newest first)
-    appointments.sort((a, b) => new Date(b.appointmentTime) - new Date(a.appointmentTime));
-    
-    // Count unread notifications
-    const unreadCount = appointments.filter(a => a.status === 'ACCEPTED' && !a.paymentStatus).length;
+    appointments.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
     
     // Add each appointment as a notification item
     appointments.forEach(appointment => {
         const notificationItem = document.createElement('li');
         notificationItem.className = 'notification-item';
-        if (appointment.status === 'ACCEPTED' && !appointment.paymentStatus) {
-            notificationItem.classList.add('new-notification');
-        }
         
         // Format the date/time
-        const appointmentDate = new Date(appointment.appointmentTime);
-        const formattedDate = appointmentDate.toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'short', 
-            day: 'numeric' 
-        });
-        const formattedTime = appointmentDate.toLocaleTimeString([], { 
-            hour: '2-digit', 
-            minute: '2-digit' 
-        });
+        const appointmentDate = new Date(appointment.dateTime);
+        const formattedDate = appointmentDate.toLocaleDateString();
+        const formattedTime = appointmentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         
-        // Determine status class and icon
+        // Determine status class
         let statusClass = '';
-        let statusIcon = '';
-        if (appointment.status === 'PENDING') {
-            statusClass = 'status-pending';
-            statusIcon = '<i class="fas fa-clock"></i>';
-        } else if (appointment.status === 'ACCEPTED') {
-            statusClass = 'status-accepted';
-            statusIcon = '<i class="fas fa-check-circle"></i>';
-        } else if (appointment.status === 'REJECTED') {
-            statusClass = 'status-rejected';
-            statusIcon = '<i class="fas fa-times-circle"></i>';
-        } else if (appointment.status === 'COMPLETED') {
-            statusClass = 'status-completed';
-            statusIcon = '<i class="fas fa-check-double"></i>';
-        } else if (appointment.paymentStatus === 'PAID') {
-            statusClass = 'status-paid';
-            statusIcon = '<i class="fas fa-receipt"></i>';
-        }
+        if (appointment.status === 'PENDING') statusClass = 'status-pending';
+        else if (appointment.status === 'ACCEPTED') statusClass = 'status-accepted';
+        else if (appointment.status === 'REJECTED') statusClass = 'status-rejected';
         
         notificationItem.innerHTML = `
-            <div class="notification-gig">
-                <i class="fas fa-user-tie"></i>
-                <span>Appointment with ${appointment.gigName}</span>
-            </div>
-            <div class="notification-time">
-                <i class="far fa-calendar-alt"></i>
-                <span>${formattedDate} at ${formattedTime}</span>
-            </div>
-            <span class="notification-status ${statusClass}">
-                ${statusIcon} ${appointment.status}
-            </span>
-            ${appointment.amount ? `<div class="notification-amount mt-2">Amount: Rs.${appointment.amount.toFixed(2)}</div>` : ''}
+            <div class="notification-gig">${appointment.gigName}</div>
+            <div class="notification-time">${formattedDate} at ${formattedTime}</div>
+            <span class="notification-status ${statusClass}">${appointment.status}</span>
+            ${appointment.status === 'ACCEPTED' ? 
+                `<button class="btn btn-sm btn-success auto-pay-btn" data-appointment-id="${appointment.id}">
+                    Auto Pay (Rs.${appointment.amountCharge.toFixed(2)})
+                </button>` : ''}
         `;
         
-        // Add action buttons
-        const actionsDiv = document.createElement('div');
-        actionsDiv.className = 'notification-actions';
-        
-        // View details button
-        const viewBtn = document.createElement('button');
-        viewBtn.className = 'action-btn view-btn';
-        viewBtn.innerHTML = '<i class="fas fa-eye"></i> View';
-        viewBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            viewAppointmentDetails(appointment.id);
-        });
-        actionsDiv.appendChild(viewBtn);
-        
-        // Conditional buttons based on status
-        if (appointment.status === 'PENDING') {
-            const cancelBtn = document.createElement('button');
-            cancelBtn.className = 'action-btn cancel-btn';
-            cancelBtn.innerHTML = '<i class="fas fa-times"></i> Cancel';
-            cancelBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                cancelAppointment(appointment.id, appointment.gigName);
-            });
-            actionsDiv.appendChild(cancelBtn);
-        }
-        else if (appointment.status === 'ACCEPTED' && !appointment.paymentStatus) {
-            const paymentBtn = document.createElement('button');
-            paymentBtn.className = 'action-btn payment-btn';
-            paymentBtn.innerHTML = '<i class="fas fa-credit-card"></i> Pay Now';
-            paymentBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                handlePayment(appointment.id, appointment.amount, appointment.gigName);
-            });
-            actionsDiv.appendChild(paymentBtn);
-        }
-        
-        notificationItem.appendChild(actionsDiv);
         notificationList.appendChild(notificationItem);
     });
     
-    // Update badge counts
-    notificationCount.textContent = unreadCount;
-    notificationBadge.textContent = unreadCount;
-    notificationCount.style.display = unreadCount > 0 ? 'flex' : 'none';
+    // Update badge count
+    notificationCount.textContent = appointments.length;
+    notificationCount.style.display = appointments.length > 0 ? 'block' : 'none';
+    
+    // Add event listeners to auto pay buttons
+    document.querySelectorAll('.auto-pay-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const appointmentId = e.target.dataset.appointmentId;
+            handleAutoPay(appointmentId);
+        });
+    });
 }
-
-// Function to view appointment details
-async function viewAppointmentDetails(appointmentId) {
-    try {
-        const response = await fetch(`${APPOINTMENT_API_URL}/${appointmentId}`, {
-            headers: getHeaders()
-        });
+    // Initialize WebSocket for real-time notifications
+    function initializeWebSocket() {
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) return;
         
-        if (!response.ok) throw new Error('Failed to fetch appointment details');
+        const socket = new WebSocket(`ws://localhost:8080/ws/notifications?token=${authToken}`);
         
-        const appointment = await response.json();
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            if (data.type === 'APPOINTMENT_UPDATE') {
+                fetchUserAppointments(); // Refresh notifications
+                showToastNotification(data.message || "Appointment status updated");
+            }
+        };
+    }
+    
+    function showToastNotification(message) {
+        const toast = document.createElement('div');
+        toast.className = 'position-fixed bottom-0 end-0 p-3';
+        toast.style.zIndex = '11';
         
-        const appointmentDate = new Date(appointment.appointmentTime);
-        const formattedDate = appointmentDate.toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        });
-        const formattedTime = appointmentDate.toLocaleTimeString([], { 
-            hour: '2-digit', 
-            minute: '2-digit' 
-        });
-        
-        let statusBadge = '';
-        if (appointment.status === 'PENDING') {
-            statusBadge = '<span class="badge bg-warning text-dark">Pending</span>';
-        } else if (appointment.status === 'ACCEPTED') {
-            statusBadge = '<span class="badge bg-success">Accepted</span>';
-        } else if (appointment.status === 'REJECTED') {
-            statusBadge = '<span class="badge bg-danger">Rejected</span>';
-        } else if (appointment.status === 'COMPLETED') {
-            statusBadge = '<span class="badge bg-primary">Completed</span>';
-        }
-        
-        let paymentBadge = '';
-        if (appointment.paymentStatus === 'PAID') {
-            paymentBadge = '<span class="badge bg-success">Paid</span>';
-        } else {
-            paymentBadge = '<span class="badge bg-warning text-dark">Pending Payment</span>';
-        }
-        
-        await Swal.fire({
-            title: 'Appointment Details',
-            html: `
-                <div class="text-start">
-                    <div class="mb-3">
-                        <h5>${appointment.gigName}</h5>
-                        ${statusBadge}
-                        ${paymentBadge}
-                    </div>
-                    <p><strong>Date:</strong> ${formattedDate}</p>
-                    <p><strong>Time:</strong> ${formattedTime}</p>
-                    ${appointment.amount ? `<p><strong>Amount:</strong> Rs.${appointment.amount.toFixed(2)}</p>` : ''}
-                    <p><strong>Status:</strong> ${appointment.status}</p>
-                    ${appointment.paymentStatus ? `<p><strong>Payment Status:</strong> ${appointment.paymentStatus}</p>` : ''}
+        toast.innerHTML = `
+            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Notification</strong>
+                    <button type="button" class="btn-close" 
+                        onclick="this.parentElement.parentElement.parentElement.remove()"></button>
                 </div>
-            `,
-            confirmButtonText: 'Close',
-            confirmButtonColor: '#4361ee'
-        });
+                <div class="toast-body">
+                    ${message}
+                </div>
+            </div>
+        `;
         
-    } catch (error) {
-        console.error('Error viewing appointment:', error);
-        Swal.fire({
-            title: 'Error',
-            text: error.message || 'Could not load appointment details',
-            icon: 'error',
-            confirmButtonColor: '#4361ee'
+        document.body.appendChild(toast);
+        
+        // Remove toast after 5 seconds
+        setTimeout(() => {
+            toast.remove();
+        }, 5000);
+    }
+
+    /* ==================== CHAT BOT FUNCTIONS ==================== */
+
+    // Open chat bot
+    function openChatBot() {
+        chatbotContainer.classList.add('open');
+        chatbotToggle.style.display = 'none';
+    }
+
+    // Close chat bot
+    function closeChatBot() {
+        chatbotContainer.classList.remove('open');
+        chatbotToggle.style.display = 'flex';
+    }
+
+    // Add bot message to chat
+    function addBotMessage(message) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', 'bot-message');
+        messageElement.textContent = message;
+        chatbotMessages.appendChild(messageElement);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+
+    // Add user message to chat
+    function addUserMessage(message) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', 'user-message');
+        messageElement.textContent = message;
+        chatbotMessages.appendChild(messageElement);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+
+    // Initialize chat bot with welcome message
+    function initChatBot() {
+        addBotMessage("Hello! I'm your appointment assistant. How can I help you today?");
+        
+        // Add quick action buttons
+        setTimeout(() => {
+            addQuickActions();
+        }, 500);
+    }
+
+    // Add quick action buttons
+    function addQuickActions() {
+        const quickActions = document.createElement('div');
+        quickActions.classList.add('quick-actions');
+        
+        quickActions.innerHTML = `
+            <button class="quick-action-btn" data-action="book">Book Appointment</button>
+            <button class="quick-action-btn" data-action="find">Find Professional</button>
+            <button class="quick-action-btn" data-action="help">Get Help</button>
+        `;
+        
+        chatbotMessages.appendChild(quickActions);
+        
+        // Add event listeners to quick action buttons
+        document.querySelectorAll('.quick-action-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const action = e.target.dataset.action;
+                handleQuickAction(action);
+            });
         });
     }
-}
+
+    // Handle quick actions
+    function handleQuickAction(action) {
+        switch(action) {
+            case 'book':
+                addUserMessage("I want to book an appointment");
+                setTimeout(() => {
+                    addBotMessage("Great! Please click on a professional's profile and then click the 'Book Appointment' button.");
+                }, 800);
+                break;
+            case 'find':
+                addUserMessage("I need help finding a professional");
+                setTimeout(() => {
+                    addBotMessage("Browse through our categories to find the right professional. Click on any image for more details.");
+                }, 800);
+                break;
+            case 'help':
+                addUserMessage("I need help");
+                setTimeout(() => {
+                    addBotMessage("You can contact our support team at support@appointments.com or call +94 76 123 4567");
+                }, 800);
+                break;
+        }
+    }
+
+    // Enhanced bot responses
+    function generateBotResponse(userMessage) {
+        userMessage = userMessage.toLowerCase();
+        
+        if (userMessage.includes('hello') || userMessage.includes('hi')) {
+            return "Hello there! How can I assist you with your appointment today?";
+        }
+        else if (userMessage.includes('book') || userMessage.includes('appointment')) {
+            return "To book an appointment: 1) Find a professional 2) Click their profile 3) Click 'Book Appointment'";
+        }
+        else if (userMessage.includes('cost') || userMessage.includes('price')) {
+            return "Prices vary by professional. You'll see each professional's rates on their profile.";
+        }
+        else if (userMessage.includes('contact') || userMessage.includes('number')) {
+            return "You can reach our support team at +94 76 123 4567 from 9AM to 5PM, Monday to Friday.";
+        }
+        else {
+            const genericResponses = [
+                "I can help you book appointments or find professionals. What do you need help with?",
+                "Would you like me to guide you through the booking process?",
+                "You can browse our categories to find the right professional for your needs.",
+                "I'm here to help with any questions about our services."
+            ];
+            return genericResponses[Math.floor(Math.random() * genericResponses.length)];
+        }
+    }
+
+    // Handle user input
+    function handleUserInput() {
+        const message = chatbotInput.value.trim();
+        if (message) {
+            addUserMessage(message);
+            chatbotInput.value = '';
+            
+            // Show typing indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.classList.add('typing-indicator');
+            typingIndicator.innerHTML = `
+                <span></span>
+                <span></span>
+                <span></span>
+            `;
+            chatbotMessages.appendChild(typingIndicator);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            
+            // Bot response after delay
+            setTimeout(() => {
+                // Remove typing indicator
+                if (chatbotMessages.contains(typingIndicator)) {
+                    chatbotMessages.removeChild(typingIndicator);
+                }
+                
+                const botResponse = generateBotResponse(message);
+                addBotMessage(botResponse);
+                
+                // Add quick actions after certain responses
+                if (message.includes('help') || message.includes('what can you do')) {
+                    setTimeout(() => {
+                        addQuickActions();
+                    }, 500);
+                }
+            }, 1500);
+        }
+    }
+
+    /* ==================== STYLE ENHANCEMENTS ==================== */
+    // Add these styles to your existing style section
+    const enhancedStyles = `
+        /* Quick action buttons */
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .quick-action-btn {
+            background: #f1f1f1;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-action-btn:hover {
+            background: #4361ee;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Typing indicator */
+        .typing-indicator {
+            background: #f1f1f1;
+            padding: 10px 15px;
+            border-radius: 15px;
+            align-self: flex-start;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #666;
+            border-radius: 50%;
+            margin-right: 4px;
+            opacity: 0.4;
+        }
+        
+        .typing-indicator span:nth-child(1) {
+            animation: typing 1s infinite;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation: typing 1s infinite 0.2s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+            animation: typing 1s infinite 0.4s;
+        }
+        
+        @keyframes typing {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+    `;
+
+    // Add the new styles to the document
+    const styleElement = document.createElement('style');
+    styleElement.textContent = enhancedStyles;
+    document.head.appendChild(styleElement);
+
+    /* ==================== EVENT LISTENERS ==================== */
+
+    // Close modal
+    closeModal.addEventListener('click', () => {
+        imageModal.classList.remove('show');
+    });
+
+    // Close modal when clicking outside image
+    imageModal.addEventListener('click', (e) => {
+        if (e.target === imageModal) {
+            imageModal.classList.remove('show');
+        }
+    });
+
+    // Back button functionality
+    backButton.addEventListener('click', () => {
+        gigsContainer.classList.add('d-none');
+        subcategoryContainer.classList.remove('d-none');
+        backButton.classList.remove('show');
+    });
+
+    // Chat bot toggle
+    chatbotToggle.addEventListener('click', openChatBot);
+    chatbotCloseBtn.addEventListener('click', closeChatBot);
+
+    // Send message on button click
+    chatbotSend.addEventListener('click', handleUserInput);
+
+    // Send message on Enter key
+    chatbotInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            handleUserInput();
+        }
+    });
+
+    /* ==================== INITIALIZE THE APP ==================== */
+    document.addEventListener("DOMContentLoaded", () => {
+        fetchCategories();
+        fetchUserAppointments();
+        initializeWebSocket();
+        initChatBot();
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('category-nav');
+            if (window.scrollY > 20) {
+                navbar.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.15)';
+                navbar.style.background = 'rgba(193, 116, 157, 0.98)';
+            } else {
+                navbar.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+                navbar.style.background = 'rgba(193, 116, 157, 0.98)';
+            }
+        });
+    });
 </script>
 </body>
 </html>
-
-
