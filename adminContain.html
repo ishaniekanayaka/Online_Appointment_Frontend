@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>MeetUpPro Dashboard</title>
+    <!-- Add these lines to the <head> section of your HTML -->
+<meta name="theme-color" content="#4361ee">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css">
-    <link rel="stylesheet" href="assests/styles/adminContains.css">
+    <!-- <link rel="stylesheet" href="assests/styles/adminContains.css"> -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -14,7 +18,565 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <meta name="viewport" content="height=device-height,width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        /* Main Theme Variables */
+:root {
+  /* Light Theme (Default) */
+  --primary-color: #5d094c;
+  --secondary-color: #d590c1;
+  --text-color: #114092;
+  --bg-color: #f8f9fa;
+  --sidebar-bg: #ffffff;
+  --card-bg: #ffffff;
+  --border-color: #e0e0e0;
+  --hover-color: #f1f3ff;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
+/* Dark Theme */
+[data-theme="dark"] {
+  --primary-color: #a85b82;
+  --secondary-color: #a7bb4e;
+  --text-color: #78ace3;
+  --bg-color: #121212;
+  --sidebar-bg: #1e1e1e;
+  --card-bg: #2d2d2d;
+  --border-color: #444;
+  --hover-color: #3a3a3a;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* General Styling */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  position: fixed;
+  height: 100%;
+  width: 240px;
+  background: var(--sidebar-bg);
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
+  z-index: 100;
+}
+
+.sidebar .logo-details {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar .logo-details .logo_name {
+  color: var(--primary-color);
+  font-size: 22px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.sidebar .nav-links {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.sidebar .nav-links li {
+  position: relative;
+  list-style: none;
+  transition: all 0.3s ease;
+}
+
+.sidebar .nav-links li a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 15px 15px;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.sidebar .nav-links li a.active,
+.sidebar .nav-links li a:hover {
+  background: var(--hover-color);
+  color: var(--primary-color);
+  border-left: 4px solid var(--primary-color);
+}
+
+.sidebar .nav-links li i {
+  font-size: 18px;
+  margin-right: 10px;
+  color: inherit;
+}
+
+/* Home Section */
+.home-section {
+  position: relative;
+  background: var(--bg-color);
+  min-height: 100vh;
+  width: calc(100% - 240px);
+  left: 240px;
+  transition: all 0.3s ease;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--card-bg);
+  height: 80px;
+  padding: 0 20px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+}
+
+.sidebar-button {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.sidebar-button i {
+  font-size: 24px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.search-box {
+  position: relative;
+  height: 40px;
+  width: 40%;
+}
+
+.search-box input {
+  height: 100%;
+  width: 100%;
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  border-radius: 6px;
+  padding: 0 40px 0 15px;
+  color: var(--text-color);
+}
+
+.search-box i {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-color);
+}
+
+.profile-details {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile-details img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.profile-details .dropdown-menu {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  width: 180px;
+  display: none;
+  z-index: 1000;
+}
+
+.profile-details .dropdown-menu a {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: all .3s ease;
+}
+
+.profile-details .dropdown-menu a:hover {
+  background: var(--hover-color);
+  color: var(--primary-color);
+}
+
+.profile-details .dropdown-menu a i {
+  margin-right: 10px;
+}
+
+.profile-details:hover .dropdown-menu {
+  display: block;
+}
+
+/* Content Section */
+.content {
+  padding: 20px;
+}
+
+/* Overview Boxes */
+.overview-boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 26px;
+}
+
+.box {
+  padding: 25px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.box:hover {
+  transform: translateY(-5px);
+}
+
+.box .box-topic {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
+.box .number {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 10px 0;
+  color: var(--primary-color);
+}
+
+.box .indicator {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.box .indicator.up {
+  color: #4CAF50;
+}
+
+.box .indicator.down {
+  color: #F44336;
+}
+
+.box .indicator i {
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+/* Form Styling */
+.card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  margin-bottom: 25px;
+}
+
+.form-label {
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.form-control, .form-select {
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+  border-color: var(--primary-color);
+}
+
+.input-group-text {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+}
+
+/* Button Styling */
+.btn-action {
+  margin-right: 8px;
+  padding: 8px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.btn-action i {
+  margin-right: 5px;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Table Styling */
+.table {
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.table-dark {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.table-hover tbody tr:hover {
+  background-color: var(--hover-color);
+}
+
+/* Form Header */
+.form-header {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 78px;
+  }
+  .sidebar.active {
+    width: 240px;
+  }
+  .home-section {
+    width: calc(100% - 78px);
+    left: 78px;
+  }
+  .sidebar.active ~ .home-section {
+    width: calc(100% - 240px);
+    left: 240px;
+  }
+  .overview-boxes {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 576px) {
+  .sidebar {
+    width: 0;
+  }
+  .sidebar.active {
+    width: 240px;
+  }
+  .home-section {
+    width: 100%;
+    left: 0;
+  }
+  .sidebar.active ~ .home-section {
+    width: calc(100% - 240px);
+    left: 240px;
+  }
+  .search-box {
+    width: 50%;
+  }
+  .admin_name {
+    display: none;
+  }
+}
+
+/* Profile Dropdown Styling */
+.profile-details {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 15px;
+}
+
+.profile-details img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.admin_name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    z-index: 999;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+
+/* Sidebar Styling for Toggle */
+.sidebar {
+  position: fixed;
+  height: 100%;
+  width: 240px;
+  background: var(--sidebar-bg);
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
+  z-index: 100;
+}
+
+.sidebar.active {
+  width: 78px;
+}
+
+.sidebar.active .logo_name {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebar.active .links_name {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebar.active .nav-links li a {
+  padding-left: 23px;
+}
+
+.sidebar.active ~ .home-section {
+  width: calc(100% - 78px);
+  left: 78px;
+}
+
+.home-section {
+  position: relative;
+  background: var(--bg-color);
+  min-height: 100vh;
+  width: calc(100% - 240px);
+  left: 240px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-button {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.sidebar-button i {
+  font-size: 35px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+  .sidebar {
+    width: 78px;
+  }
+  .sidebar.active {
+    width: 240px;
+  }
+  .home-section {
+    width: calc(100% - 78px);
+    left: 78px;
+  }
+  .sidebar.active ~ .home-section {
+    width: calc(100% - 240px);
+    left: 240px;
+  }
+  .sidebar .logo_name {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .sidebar .links_name {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .sidebar.active .logo_name,
+  .sidebar.active .links_name {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .profile-details .admin_name {
+    display: none;
+  }
+  .home-content .overview-boxes {
+    flex-direction: column;
+  }
+  .sidebar.active ~ .home-section {
+    width: 100%;
+    left: 0;
+    z-index: 1;
+  }
+  .sidebar.active {
+    width: 100%;
+    z-index: 999;
+  }
+}
+    </style>
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
@@ -50,6 +612,8 @@
             <input id="searchInput" type="text" placeholder="Search...">
             <i class='bx bx-search'></i>
         </div>
+        
+</div>
         <div class="profile-details">
             <img src="images/my.jpg" alt="profile">
             <span class="admin_name">Isha Ekanayake</span>
@@ -285,12 +849,295 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-<script src="assests/script/navigation.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="controller/userSetting.js"></script>
 <script src="controller/categoryController.js"></script>
 <script src="controller/subCategory.js"></script>
-<script src="assests/script/mainContain.js"></script>
-<script src="lib/jquery.min.js"></script>
+<!-- <script src="assests/script/mainContain.js"></script> -->
+ <script>
+    // Navigation and Sidebar Toggle
+$(document).ready(function() {
+    // Hide all content sections except the dashboard initially
+    $('.category-content, .subCategory-content').hide();
+    $('.home-content').show();
+
+    // Make the dashboard link active initially
+    $('#dashboardPage').addClass('active');
+
+    // Add theme toggle button to the body
+    $('body').append('<div class="theme-toggle"><i class="fas fa-moon"></i></div>');
+
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+    }
+
+    // Theme toggle functionality
+    $('.theme-toggle').click(function() {
+        toggleTheme();
+    });
+    
+    // Navigation menu functionality
+    $('#dashboardPage').click(function(e) {
+        e.preventDefault();
+        showSection('home');
+        updateActiveLink(this);
+        updatePageTitle('Dashboard');
+    });
+
+    $('#customerPage').click(function(e) {
+        e.preventDefault();
+        showSection('customer');
+        updateActiveLink(this);
+        updatePageTitle('Category Management');
+    });
+
+    $('#productsPage').click(function(e) {
+        e.preventDefault();
+        showSection('products');
+        updateActiveLink(this);
+        updatePageTitle('Sub Category Management');
+    });
+
+    $('#orderPage').click(function(e) {
+        e.preventDefault();
+        showSection('order');
+        updateActiveLink(this);
+        updatePageTitle('Orders');
+    });
+
+    $('#stockPage').click(function(e) {
+        e.preventDefault();
+        showSection('stock');
+        updateActiveLink(this);
+        updatePageTitle('Analytics');
+    });
+
+    $('#supplierPage').click(function(e) {
+        e.preventDefault();
+        showSection('supplier');
+        updateActiveLink(this);
+        updatePageTitle('Suppliers');
+    });
+
+    $('#employeePage').click(function(e) {
+        e.preventDefault();
+        showSection('employee');
+        updateActiveLink(this);
+        updatePageTitle('Employees');
+    });
+
+    // Search functionality
+    $('#searchInput').on('keyup', function() {
+        const searchTerm = $(this).val().toLowerCase();
+        searchContent(searchTerm);
+    });
+});
+
+$(document).ready(function() {
+        // Toggle dropdown when clicking on profile details
+        $('.profile-details').click(function(e) {
+            e.stopPropagation();
+            $('.dropdown-menu').toggleClass('show');
+            $(this).toggleClass('active');
+        });
+        
+        // Close dropdown when clicking elsewhere
+        $(document).click(function() {
+            $('.dropdown-menu').removeClass('show');
+            $('.profile-details').removeClass('active');
+        });
+
+        // Prevent dropdown from closing when clicking inside it
+        $('.dropdown-menu').click(function(e) {
+            e.stopPropagation();
+        });
+
+        // Handle dropdown item clicks
+        $('.dropdown-menu a').click(function(e) {
+            e.preventDefault();
+            const action = $(this).attr('href');
+            
+            // Close dropdown
+            $('.dropdown-menu').removeClass('show');
+            $('.profile-details').removeClass('active');
+            
+            // Handle different actions
+            if (action === '#') {
+                Swal.fire({
+                    title: 'Profile',
+                    text: 'Profile page will open here',
+                    icon: 'info',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            } else if (action === '/userSetting.html') {
+                // Redirect to settings page
+                window.location.href = action;
+            } else if (action === 'index.html') {
+                // Handle logout
+                Swal.fire({
+                    title: 'Logout',
+                    text: 'Are you sure you want to logout?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, logout',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = action;
+                    }
+                });
+            }
+        });
+    });
+
+// // Profile dropdown functionality - improved version
+// $(document).ready(function() {
+//     $('.profile-details').click(function(e) {
+//         e.stopPropagation();
+//         $('.dropdown-menu').toggleClass('show');
+//     });
+    
+//     // Close dropdown when clicking elsewhere
+//     $(document).click(function() {
+//         $('.dropdown-menu').removeClass('show');
+//     });
+// });
+
+// Sidebar toggle functionality - improved version
+$(document).ready(function() {
+    $('.sidebarBtn').click(function() {
+        $('.sidebar').toggleClass('active');
+        
+        if($('.sidebar').hasClass('active')) {
+            $(this).removeClass('bx-menu').addClass('bx-menu-alt-right');
+            $('.home-section').css('width', 'calc(100% - 78px)');
+            $('.home-section').css('left', '78px');
+        } else {
+            $(this).removeClass('bx-menu-alt-right').addClass('bx-menu');
+            $('.home-section').css('width', 'calc(100% - 240px)');
+            $('.home-section').css('left', '240px');
+        }
+    });
+});
+
+// Function to toggle between light and dark theme
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    // Show a notification when theme changes
+    Swal.fire({
+        title: `${newTheme.charAt(0).toUpperCase() + newTheme.slice(1)} Mode Activated`,
+        text: `The application is now in ${newTheme} mode`,
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false,
+        position: 'top-end',
+        toast: true
+    });
+    
+    updateThemeIcon(newTheme);
+}
+
+// Update theme toggle icon based on current theme
+function updateThemeIcon(theme) {
+    if (theme === 'dark') {
+        $('.theme-toggle i').removeClass('fa-moon').addClass('fa-sun');
+    } else {
+        $('.theme-toggle i').removeClass('fa-sun').addClass('fa-moon');
+    }
+}
+
+// Show selected section and hide others
+function showSection(sectionId) {
+    $('.home-content, .category-content, .subCategory-content').hide();
+    if (sectionId === 'home') {
+        $('.home-content').fadeIn();
+    } else if (sectionId === 'customer') {
+        $('#customer.category-content').fadeIn();
+    } else if (sectionId === 'products') {
+        $('#products.subCategory-content').fadeIn();
+    } else if (sectionId === 'supplier') {
+        $('#supplier.subCategory-content').fadeIn();
+    } else {
+        // For sections not yet implemented, show home as fallback
+        $('.home-content').fadeIn();
+        Swal.fire({
+            title: 'Coming Soon',
+            text: 'This section is under development',
+            icon: 'info',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    }
+}
+
+// Update active link in sidebar
+function updateActiveLink(element) {
+    $('.nav-links li a').removeClass('active');
+    $(element).addClass('active');
+}
+
+// Update page title in navbar
+function updatePageTitle(title) {
+    $('.sidebar-button .dashboard').text(title);
+}
+
+// Search content across the dashboard
+function searchContent(searchTerm) {
+    if (searchTerm.length > 2) {
+        // Search in tables
+        $('table tbody tr').each(function() {
+            const rowText = $(this).text().toLowerCase();
+            if (rowText.includes(searchTerm)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+        
+        // Search in sidebar for navigation
+        $('.nav-links li').each(function() {
+            const linkText = $(this).text().toLowerCase();
+            if (linkText.includes(searchTerm)) {
+                $(this).addClass('highlight');
+            } else {
+                $(this).removeClass('highlight');
+            }
+        });
+    } else {
+        // Reset search if term is too short
+        $('table tbody tr').show();
+        $('.nav-links li').removeClass('highlight');
+    }
+}
+
+// Image preview functionality
+function previewImage(event) {
+    const input = event.target;
+    const preview = input.id === 'image' ? 
+                   document.getElementById('imagePreview') : 
+                   document.getElementById('subCategoryImagePreview');
+                   
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+ </script>
+
+ <script src="lib/jquery.min.js"></script>
 </body>
 </html>
