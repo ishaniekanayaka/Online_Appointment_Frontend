@@ -575,6 +575,21 @@ nav {
     width: 100%;
     z-index: 999;
   }
+
+  .stats-card {
+            transition: all 0.3s ease;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        .loader {
+            border-top-color: #3498db;
+            animation: spinner 1.5s linear infinite;
+        }
+        @keyframes spinner {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 }
     </style>
 </head>
@@ -838,7 +853,74 @@ nav {
 
         <!--=============================Subcategory2 CONTENT=============-->
         <div class="subCategory-content" id="products">
+          <div class="container mx-auto p-6">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-gray-800">User Management</h1>
+                
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div class="stats-card bg-white rounded-lg shadow p-4 flex items-center">
+                        <div class="rounded-full bg-green-100 p-3 mr-4">
+                            <i class="fas fa-user-check text-green-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Active Users</p>
+                            <p class="text-2xl font-bold" id="active-count">0</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-card bg-white rounded-lg shadow p-4 flex items-center">
+                        <div class="rounded-full bg-red-100 p-3 mr-4">
+                            <i class="fas fa-user-times text-red-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Inactive Users</p>
+                            <p class="text-2xl font-bold" id="inactive-count">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
+            <!-- GIG Users Table -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                    <h2 class="text-lg font-medium text-gray-800 flex items-center">
+                        <i class="fas fa-filter mr-2 text-blue-600"></i>
+                        GIG Role Users
+                    </h2>
+                    <div class="text-sm text-gray-500">
+                        Total: <span id="gig-total">0</span>
+                    </div>
+                </div>
+                
+                <div id="loading" class="p-8 text-center">
+                    <div class="loader mx-auto h-8 w-8 border-4 border-gray-200 rounded-full"></div>
+                    <p class="mt-4 text-gray-500">Loading users...</p>
+                </div>
+                
+                <div id="table-container" class="overflow-x-auto hidden">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DOB</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="users-table-body">
+                            <!-- Table rows will be inserted here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div id="no-data" class="p-8 text-center hidden">
+                    <p class="text-gray-500">No GIG role users found</p>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
 </section>
@@ -854,6 +936,7 @@ nav {
 <script src="controller/userSetting.js"></script>
 <script src="controller/categoryController.js"></script>
 <script src="controller/subCategory.js"></script>
+<script src="controller/gigController.js"></script>
 <!-- <script src="assests/script/mainContain.js"></script> -->
  <script>
     // Navigation and Sidebar Toggle
