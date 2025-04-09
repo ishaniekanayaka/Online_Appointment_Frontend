@@ -1346,118 +1346,70 @@
         }
     }
     
-    // Function to display notifications in dropdown
-    // function displayNotifications(appointments) {
-    //     const notificationList = document.getElementById('notificationList');
-    //     const notificationCount = document.getElementById('notificationCount');
+     // Function to display notifications in dropdown
+     function displayNotifications(appointments) {
+        const notificationList = document.getElementById('notificationList');
+        const notificationCount = document.getElementById('notificationCount');
         
-    //     // Clear existing notifications (except the header)
-    //     const itemsToRemove = notificationList.querySelectorAll('.notification-item, .notification-empty');
-    //     itemsToRemove.forEach(item => item.remove());
+        // Clear existing notifications (except the header)
+        const itemsToRemove = notificationList.querySelectorAll('.notification-item, .notification-empty');
+        itemsToRemove.forEach(item => item.remove());
         
-    //     if (appointments.length === 0) {
-    //         const emptyItem = document.createElement('li');
-    //         emptyItem.className = 'notification-empty';
-    //         emptyItem.textContent = 'No appointments found';
-    //         notificationList.appendChild(emptyItem);
-    //         notificationCount.style.display = 'none';
-    //         return;
-    //     }
+        if (appointments.length === 0) {
+            const emptyItem = document.createElement('li');
+            emptyItem.className = 'notification-empty';
+            emptyItem.textContent = 'No appointments found';
+            notificationList.appendChild(emptyItem);
+            notificationCount.style.display = 'none';
+            return;
+        }
         
-    //     // Sort appointments by date (newest first)
-    //     appointments.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+        // Sort appointments by date (newest first)
+        appointments.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
         
-    //     // Add each appointment as a notification item
-    //     appointments.forEach(appointment => {
-    //         const notificationItem = document.createElement('li');
-    //         notificationItem.className = 'notification-item';
+        // Add each appointment as a notification item
+        appointments.forEach(appointment => {
+            const notificationItem = document.createElement('li');
+            notificationItem.className = 'notification-item';
             
-    //         // Format the date/time
-    //         const appointmentDate = new Date(appointment.dateTime);
-    //         const formattedDate = appointmentDate.toLocaleDateString();
-    //         const formattedTime = appointmentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            // Format the date/time
+            const appointmentDate = new Date(appointment.dateTime);
+            const formattedDate = appointmentDate.toLocaleDateString();
+            const formattedTime = appointmentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             
-    //         // Determine status class
-    //         let statusClass = '';
-    //         if (appointment.status === 'PENDING') statusClass = 'status-pending';
-    //         else if (appointment.status === 'ACCEPTED') statusClass = 'status-accepted';
-    //         else if (appointment.status === 'REJECTED') statusClass = 'status-rejected';
+            // Determine status class
+            let statusClass = '';
+            if (appointment.status === 'PENDING') statusClass = 'status-pending';
+            else if (appointment.status === 'ACCEPTED') statusClass = 'status-accepted';
+            else if (appointment.status === 'REJECTED') statusClass = 'status-rejected';
             
-    //         notificationItem.innerHTML = `
-    //             <div class="notification-gig">${appointment.gigName}</div>
-    //             <div class="notification-time">${formattedDate} at ${formattedTime}</div>
-    //             <span class="notification-status ${statusClass}">${appointment.status}</span>
-    //         `;
+            notificationItem.innerHTML = `
+                <div class="notification-gig">${appointment.gigName}</div>
+                <div class="notification-time">${formattedDate} at ${formattedTime}</div>
+                <span class="notification-status ${statusClass}">${appointment.status}</span>
+                ${appointment.status === 'ACCEPTED' ? 
+                    `<button class="btn btn-sm btn-success auto-pay-btn" data-appointment-id="${appointment.id}">
+                        Auto Pay (Rs.${appointment.amountCharge.toFixed(2)})
+                    </button>` : ''}
+            `;
             
-    //         notificationList.appendChild(notificationItem);
-    //     });
-        
-    //     // Update badge count
-    //     notificationCount.textContent = appointments.length;
-    //     notificationCount.style.display = appointments.length > 0 ? 'block' : 'none';
-    // }
-    function displayNotifications(appointments) {
-    const notificationList = document.getElementById('notificationList');
-    const notificationCount = document.getElementById('notificationCount');
-    
-    // Clear existing notifications (except the header)
-    const itemsToRemove = notificationList.querySelectorAll('.notification-item, .notification-empty');
-    itemsToRemove.forEach(item => item.remove());
-    
-    if (appointments.length === 0) {
-        const emptyItem = document.createElement('li');
-        emptyItem.className = 'notification-empty';
-        emptyItem.textContent = 'No appointments found';
-        notificationList.appendChild(emptyItem);
-        notificationCount.style.display = 'none';
-        return;
-    }
-    
-    // Sort appointments by date (newest first)
-    appointments.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
-    
-    // Add each appointment as a notification item
-    appointments.forEach(appointment => {
-        const notificationItem = document.createElement('li');
-        notificationItem.className = 'notification-item';
-        
-        // Format the date/time
-        const appointmentDate = new Date(appointment.dateTime);
-        const formattedDate = appointmentDate.toLocaleDateString();
-        const formattedTime = appointmentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        
-        // Determine status class
-        let statusClass = '';
-        if (appointment.status === 'PENDING') statusClass = 'status-pending';
-        else if (appointment.status === 'ACCEPTED') statusClass = 'status-accepted';
-        else if (appointment.status === 'REJECTED') statusClass = 'status-rejected';
-        
-        notificationItem.innerHTML = `
-            <div class="notification-gig">${appointment.gigName}</div>
-            <div class="notification-time">${formattedDate} at ${formattedTime}</div>
-            <span class="notification-status ${statusClass}">${appointment.status}</span>
-            ${appointment.status === 'ACCEPTED' ? 
-                `<button class="btn btn-sm btn-success auto-pay-btn" data-appointment-id="${appointment.id}">
-                    Auto Pay (Rs.${appointment.amountCharge.toFixed(2)})
-                </button>` : ''}
-        `;
-        
-        notificationList.appendChild(notificationItem);
-    });
-    
-    // Update badge count
-    notificationCount.textContent = appointments.length;
-    notificationCount.style.display = appointments.length > 0 ? 'block' : 'none';
-    
-    // Add event listeners to auto pay buttons
-    document.querySelectorAll('.auto-pay-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const appointmentId = e.target.dataset.appointmentId;
-            handleAutoPay(appointmentId);
+            notificationList.appendChild(notificationItem);
         });
-    });
-}
+        
+        // Update badge count
+        notificationCount.textContent = appointments.length;
+        notificationCount.style.display = appointments.length > 0 ? 'block' : 'none';
+        
+        // Add event listeners to auto pay buttons
+        document.querySelectorAll('.auto-pay-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const appointmentId = e.target.dataset.appointmentId;
+                handleAutoPay(appointmentId);
+            });
+        });
+    }
+
     // Initialize WebSocket for real-time notifications
     function initializeWebSocket() {
         const authToken = localStorage.getItem('authToken');
@@ -1469,15 +1421,35 @@
             const data = JSON.parse(event.data);
             if (data.type === 'APPOINTMENT_UPDATE') {
                 fetchUserAppointments(); // Refresh notifications
-                showToastNotification(data.message || "Appointment status updated");
+                
+                // Special handling for accepted appointments
+                if (data.status === 'ACCEPTED') {
+                    showToastNotification(
+                        `Your appointment with ${data.gigName} has been accepted!`, 
+                        data.appointmentId,
+                        data.amountCharge
+                    );
+                } else {
+                    showToastNotification(data.message || "Appointment status updated");
+                }
             }
         };
     }
     
-    function showToastNotification(message) {
+    function showToastNotification(message, appointmentId = null, amount = null) {
         const toast = document.createElement('div');
         toast.className = 'position-fixed bottom-0 end-0 p-3';
         toast.style.zIndex = '11';
+        
+        let actionButton = '';
+        if (appointmentId && amount) {
+            actionButton = `
+                <button class="btn btn-sm btn-success mt-2 auto-pay-toast-btn" 
+                    data-appointment-id="${appointmentId}">
+                    Auto Pay (Rs.${amount.toFixed(2)})
+                </button>
+            `;
+        }
         
         toast.innerHTML = `
             <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
@@ -1488,18 +1460,29 @@
                 </div>
                 <div class="toast-body">
                     ${message}
+                    ${actionButton}
                 </div>
             </div>
         `;
         
         document.body.appendChild(toast);
         
-        // Remove toast after 5 seconds
+        // Add event listener to the button if it exists
+        if (appointmentId) {
+            const payBtn = toast.querySelector('.auto-pay-toast-btn');
+            payBtn.addEventListener('click', () => {
+                handleAutoPay(appointmentId);
+                toast.remove();
+            });
+        }
+        
+        // Remove toast after 10 seconds (longer for important notifications)
         setTimeout(() => {
-            toast.remove();
-        }, 5000);
+            if (document.body.contains(toast)) {
+                toast.remove();
+            }
+        }, 10000);
     }
-
     /* ==================== CHAT BOT FUNCTIONS ==================== */
 
     // Open chat bot
