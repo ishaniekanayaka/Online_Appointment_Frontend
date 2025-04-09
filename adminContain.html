@@ -607,10 +607,10 @@ nav {
     <ul class="nav-links">
         <li><a id="dashboardPage" href="#" class="active"><i id="dashboardIcon" class='bx bx-grid-alt'></i><span id="dashboardName" class="links_name">Dashboard</span></a></li>
         <li><a id="customerPage" href="#"><i id="customerIcon" class='bx bx-user'></i><span id="userName" class="links_name">Category</span></a></li>
-        <li><a id="productsPage" href="#"><i id="productsIcon" class='bx bx-box'></i><span id="categoryName" class="links_name">Sub Category</span></a></li>
-        <li><a id="orderPage" href="#"><i id="orderIcon" class='bx bx-list-ul'></i><span id="orderName" class="links_name">Orders</span></a></li>
+        <li><a id="productsPage" href="#"><i id="productsIcon" class='bx bx-box'></i><span id="categoryName" class="links_name">Gigs Manage</span></a></li>
+        <li><a id="orderPage" href="#"><i id="orderIcon" class='bx bx-list-ul'></i><span id="orderName" class="links_name">User Manage</span></a></li>
         <li><a id="stockPage" href="#"><i id="stockIcon" class='bx bx-pie-chart-alt-2'></i><span id="stockName" class="links_name">Analytics</span></a></li>
-        <li><a id="supplierPage" href="#"><i id="supplierIcon" class='bx bx-coin-stack'></i><span id="supplierName" class="links_name">Suppliers</span></a></li>
+        <li><a id="supplierPage" href="#"><i id="supplierIcon" class='bx bx-coin-stack'></i><span id="supplierName" class="links_name">Sub Category</span></a></li>
         <li><a id="employeePage" href="#"><i id="employeeIcon" class='bx bx-book-alt'></i><span id="employeeName" class="links_name">Employees</span></a></li>
         <li class="log_out"><a href="index.html"><i class='bx bx-log-out'></i><span class="links_name">Log out</span></a></li>
     </ul>
@@ -851,6 +851,8 @@ nav {
             </section>
         </div>
 
+      
+
         <!--=============================Subcategory2 CONTENT=============-->
         <div class="subCategory-content" id="products">
           <div class="container mx-auto p-6">
@@ -919,7 +921,80 @@ nav {
                 <div id="no-data" class="p-8 text-center hidden">
                     <p class="text-gray-500">No GIG role users found</p>
                 </div>
+            </div> </div>
+        </div>
+
+        <div class="subCategory-content" id="order">
+         
+          <div class="container mx-auto p-6">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-gray-800">User Management</h1>
+                
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div class="stats-card bg-white rounded-lg shadow p-4 flex items-center">
+                        <div class="rounded-full bg-green-100 p-3 mr-4">
+                            <i class="fas fa-user-check text-green-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Active AllUsers</p>
+                            <p class="text-2xl font-bold" id="all-active-count">0</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-card bg-white rounded-lg shadow p-4 flex items-center">
+                        <div class="rounded-full bg-red-100 p-3 mr-4">
+                            <i class="fas fa-user-times text-red-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Inactive AllUsers</p>
+                            <p class="text-2xl font-bold" id="all-inactive-count">0</p>
+                        </div>
+                    </div>
+                </div>
             </div>
+            
+            <!-- All Users Table -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                    <h2 class="text-lg font-medium text-gray-800 flex items-center">
+                        <i class="fas fa-users mr-2 text-blue-600"></i>
+                        All Users
+                    </h2>
+                    <div class="text-sm text-gray-500">
+                        Total: <span id="all-users-total">0</span>
+                    </div>
+                </div>
+                
+                <div id="all-loading" class="p-8 text-center">
+                    <div class="loader mx-auto h-8 w-8 border-4 border-gray-200 rounded-full"></div>
+                    <p class="mt-4 text-gray-500">Loading users...</p>
+                </div>
+                
+                <div id="all-table-container" class="overflow-x-auto hidden">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DOB</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="all-users-table-body">
+                            <!-- Table rows will be inserted here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div id="all-no-data" class="p-8 text-center hidden">
+                    <p class="text-gray-500">No users found</p>
+                </div>
+            </div>
+        </div>
         </div>
         </div>
     </div>
@@ -937,12 +1012,13 @@ nav {
 <script src="controller/categoryController.js"></script>
 <script src="controller/subCategory.js"></script>
 <script src="controller/gigController.js"></script>
+<script src="controller/userTableController.js"></script>
 <!-- <script src="assests/script/mainContain.js"></script> -->
  <script>
     // Navigation and Sidebar Toggle
 $(document).ready(function() {
     // Hide all content sections except the dashboard initially
-    $('.category-content, .subCategory-content').hide();
+    $('.category-content, .subCategory-content, .user-content').hide();
     $('.home-content').show();
 
     // Make the dashboard link active initially
@@ -982,21 +1058,21 @@ $(document).ready(function() {
         e.preventDefault();
         showSection('products');
         updateActiveLink(this);
-        updatePageTitle('Sub Category Management');
+        updatePageTitle('Gig Management');
     });
 
     $('#orderPage').click(function(e) {
         e.preventDefault();
         showSection('order');
         updateActiveLink(this);
-        updatePageTitle('Orders');
+        updatePageTitle('User Manage');
     });
 
     $('#stockPage').click(function(e) {
         e.preventDefault();
         showSection('stock');
         updateActiveLink(this);
-        updatePageTitle('Analytics');
+        updatePageTitle('users');
     });
 
     $('#supplierPage').click(function(e) {
@@ -1146,10 +1222,14 @@ function showSection(sectionId) {
         $('.home-content').fadeIn();
     } else if (sectionId === 'customer') {
         $('#customer.category-content').fadeIn();
+      } else if (sectionId === 'Users') {
+        $('#customer.category-content').fadeIn();    
     } else if (sectionId === 'products') {
         $('#products.subCategory-content').fadeIn();
     } else if (sectionId === 'supplier') {
         $('#supplier.subCategory-content').fadeIn();
+      } else if (sectionId === 'order') {
+        $('#order.subCategory-content').fadeIn();    
     } else {
         // For sections not yet implemented, show home as fallback
         $('.home-content').fadeIn();
