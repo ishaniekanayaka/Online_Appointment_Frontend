@@ -85,11 +85,23 @@ async function fetchUsers() {
 
 // Update the statistics counters
 function updateStatistics(users) {
-    const activeUsers = users.filter(user => user.active).length;
-    const inactiveUsers = users.filter(user => !user.active).length;
+    // Count only ACTIVE GIG users
+    const activeGigUsers = users.filter(user => 
+        user.active && user.role === "GIG"
+    ).length;
+
+    // Count only INACTIVE GIG users
+    const inactiveGigUsers = users.filter(user => 
+        !user.active && user.role === "GIG"
+    ).length;
+
+    // Update the UI
+    activeCountElement.textContent = activeGigUsers;
+    inactiveCountElement.textContent = inactiveGigUsers;
     
-    activeCountElement.textContent = activeUsers;
-    inactiveCountElement.textContent = inactiveUsers;
+    // (Optional) Update total GIG users count (active + inactive)
+    const totalGigUsers = users.filter(user => user.role === "GIG").length;
+    gigTotalElement.textContent = totalGigUsers;
 }
 
 // Render the users table
