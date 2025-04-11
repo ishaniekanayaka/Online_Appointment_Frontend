@@ -1,938 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="User settings and management dashboard">
-    <meta name="author" content="">
-    <title>User Settings - Admin Dashboard</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>GIG Appointments</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
     <style>
-
-        /* Background Styling */
-    body {
-        background: linear-gradient(135deg, #470b2b 0%, #031c43 100%);
-        min-height: 100vh;
-        background-attachment: fixed;
-        background-size: cover;
-    }
-
-    /* Optional: Add a subtle pattern overlay */
-    body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: radial-gradient(rgba(108, 92, 231, 0.1) 1px, transparent 1px);
-        background-size: 20px 20px;
-        pointer-events: none;
-        z-index: -1;
-    }
-
-    /* Card Styling to complement background */
-    .card {
-        border: none;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        overflow: hidden;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(5px);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-    }
-
-    /* Header Styling */
-    .card-header {
-        background: linear-gradient(135deg, #6c5ce7 0%, #8c7ae6 100%);
-        color: white;
-        border-bottom: none;
-        padding: 1.25rem 1.5rem;
-    }
-
-    /* Search Box Styling */
-    .input-group {
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        border-radius: 10px;
-        overflow: hidden;
-    }
-
-    /* Modal Styling */
-    .modal-content {
-        border: none;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-    }
-
-    .modal-header {
-        background: linear-gradient(135deg, #6c5ce7 0%, #8c7ae6 100%);
-        color: white;
-    }
-
-    /* Animation for table rows */
-    @keyframes fadeInRow {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    #userTableBody tr {
-        animation: fadeInRow 0.4s ease forwards;
-        opacity: 0;
-    }
-
-    /* Create staggered animation */
-    #userTableBody tr:nth-child(1) { animation-delay: 0.1s; }
-    #userTableBody tr:nth-child(2) { animation-delay: 0.2s; }
-    #userTableBody tr:nth-child(3) { animation-delay: 0.3s; }
-    #userTableBody tr:nth-child(4) { animation-delay: 0.4s; }
-    #userTableBody tr:nth-child(5) { animation-delay: 0.5s; }
-            /* Table Styling Enhancements */
-        #userTable {
-            --table-bg: #ffffff;
-            --header-bg: #f8f9fa;
-            --border-color: #e9ecef;
-            --hover-bg: #f1f3f5;
-            --primary-color: #6c5ce7;
-            --success-color: #00b894;
-            --danger-color: #d63031;
-            --warning-color: #fdcb6e;
-            --info-color: #0984e3;
-            --text-color: #495057;
-            --light-text: #868e96;
+        .loader {
+            border-top-color: #3490dc;
+            animation: spin 1s linear infinite;
         }
-
-        #userTable {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            background-color: var(--table-bg);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            margin-bottom: 0;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
-
-        #userTable thead {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        #userTable thead tr {
-            background: linear-gradient(135deg, var(--primary-color), #8c7ae6);
-        }
-
-        #userTable thead th {
-            color: white;
-            font-weight: 600;
-            padding: 15px;
-            text-align: left;
-            border-bottom: none;
-            position: relative;
-        }
-
-        #userTable thead th:not(:last-child)::after {
-            content: "";
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            height: 60%;
-            width: 1px;
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        #userTable tbody tr {
-            transition: all 0.2s ease;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        #userTable tbody tr:last-child {
-            border-bottom: none;
-        }
-
-        #userTable tbody tr:hover {
-            background-color: var(--hover-bg);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        #userTable tbody td {
-            padding: 15px;
-            color: var(--text-color);
-            vertical-align: middle;
-            border-top: none;
-        }
-
-        #userTable tbody tr:nth-child(even) {
-            background-color: rgba(241, 243, 245, 0.5);
-        }
-
-        /* Status Badges */
-        .badge {
-            font-weight: 500;
-            padding: 6px 12px;
-            font-size: 0.75rem;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .badge.bg-success {
-            background-color: var(--success-color) !important;
-        }
-
-        .badge.bg-danger {
-            background-color: var(--danger-color) !important;
-        }
-
-        /* Action Buttons */
-        .btn-group {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-sm {
-            padding: 0.35rem 0.65rem;
-            font-size: 0.75rem;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            transition: all 0.2s ease;
-        }
-
-        .btn-sm:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        /* .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        } */
-
-        .btn-danger {
-            background-color: var(--danger-color);
-            border-color: var(--danger-color);
-        }
-
-        .btn-success {
-            background-color: var(--success-color);
-            border-color: var(--success-color);
-        }
-
-        .btn-warning {
-            background-color: var(--warning-color);
-            border-color: var(--warning-color);
-            color: #333;
-        }
-
-        /* Empty State */
-        #emptyState {
-            background-color: var(--table-bg);
-            border-radius: 10px;
-            padding: 40px;
-            margin-top: -1px;
-        }
-
-        #emptyState i {
-            font-size: 3rem;
-            color: var(--light-text);
-            margin-bottom: 1rem;
-            opacity: 0.6;
-        }
-
-        #emptyState p {
-            color: var(--light-text);
-            font-size: 1.1rem;
-        }
-
-        /* Search Box Styling */
-        #searchInput {
-            border-radius: 8px;
-            padding: 12px 15px;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-
-        #searchInput:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
-        }
-
-        .input-group-text {
-            border-radius: 8px 0 0 8px !important;
-            background-color: white;
-            border-right: none;
-        }
-
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-        #userTable thead {
-            display: none;
-        }
-
-        #userTable tbody tr {
-            display: block;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-        }
-
-        #userTable tbody td {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        #userTable tbody td::before {
-            content: attr(data-label);
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-right: 15px;
-            flex: 1;
-        }
-
-        #userTable tbody td:last-child {
-            border-bottom: none;
-        }
-
-        .btn-group {
-            justify-content: flex-end;
-            width: 100%;
-        }
-    }
     </style>
 </head>
-
-<body class="bg-light">
-<div id="loadingOverlay" class="position-fixed top-0 start-0 w-100 h-100 bg-white bg-opacity-75 d-flex justify-content-center align-items-center d-none" style="z-index: 9999;">
-    <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-    </div>
+<body class="bg-gray-100 text-gray-800">
+    <!-- Back Button -->
+<div class="p-4">
+    <button onclick="window.history.back()"
+            class="bg-white text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white shadow rounded-full p-2 transition duration-300">
+        <i class="fas fa-arrow-left"></i>
+    </button>
 </div>
 
-<div class="toast-container position-fixed top-0 end-0 p-3">
-    <div class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="successToast">
-        <div class="d-flex">
-            <div class="toast-body">
-                Operation completed successfully!
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    </div>
 
-    <div class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" id="errorToast">
-        <div class="d-flex">
-            <div class="toast-body" id="errorToastMessage">
-                An error occurred.
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    </div>
-</div>
+    <div class="subCategory-content" id="appointments-container">
+        <div class="container mx-auto p-6">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-gray-800">GIG Appointments</h1>
 
-<div class="container-fluid py-4 " >
-    <div class="row justify-content-center" style="margin-top: 100px;">
-        <div class="col-12 col-lg-10">
-            <div class="card shadow-sm border-0 rounded-3 animate__animated animate__fadeIn">
-                <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
-                    <h5 class="mb-0 fw-bold">Users</h5>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                        <i class="fas fa-plus me-1"></i> Add User
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
+                    <div class="stats-card bg-white rounded-lg shadow p-4 flex items-center">
+                        <div class="rounded-full bg-blue-100 p-3 mr-4">
+                            <i class="fas fa-calendar-plus text-blue-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Booked</p>
+                            <p class="text-2xl font-bold" id="booked-count">0</p>
+                        </div>
+                    </div>
+
+                    <div class="stats-card bg-white rounded-lg shadow p-4 flex items-center">
+                        <div class="rounded-full bg-yellow-100 p-3 mr-4">
+                            <i class="fas fa-clock text-yellow-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Cancelled</p>
+                            <p class="text-2xl font-bold" id="pending-count">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GIG Appointments Table -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="p-4 border-b border-gray-200 flex justify-between items-center flex-wrap gap-2">
+                    <h2 class="text-lg font-medium text-gray-800 flex items-center">
+                        <i class="fas fa-calendar-alt mr-2 text-blue-600"></i>
+                        GIG Appointments
+                    </h2>
+                    <div class="text-sm text-gray-500">
+                        Total: <span id="appointments-total">0</span>
+                    </div>
+                    <button id="refresh-appointments" class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <i class="fas fa-sync-alt mr-1"></i> Refresh
                     </button>
                 </div>
-                <div class="card-body">
-                    <div class="position-relative mb-4">
-                        <div class="input-group">
-                                <span class="input-group-text bg-white border-end-0">
-                                    <i class="fas fa-search text-muted"></i>
-                                </span>
-                            <input type="text" class="form-control border-start-0" id="searchInput" placeholder="Search users...">
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle" id="userTable">
-                            <thead class="bg-light">
+
+                <!-- Loading -->
+                <div id="loading" class="p-8 text-center">
+                    <div class="loader mx-auto h-8 w-8 border-4 border-gray-200 rounded-full border-t-blue-500"></div>
+                    <p class="mt-4 text-gray-500">Loading appointments...</p>
+                </div>
+
+                <!-- Table -->
+                <div id="table-container" class="overflow-x-auto hidden">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Time</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">GIG Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                             </tr>
-                            </thead>
-                            <tbody id="userTableBody">
-                            <!-- Table data will be populated dynamically -->
-                            </tbody>
-                        </table>
-                        <div id="emptyState" class="text-center py-5 text-muted">
-                            <i class="fas fa-users-slash fs-1 mb-3"></i>
-                            <p>No users found</p>
-                        </div>
-                    </div>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="appointments-table-body">
+                            <!-- Table rows will be inserted here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- No data -->
+                <div id="no-data" class="p-8 text-center hidden">
+                    <p class="text-gray-500">No appointments found</p>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Add User Modal -->
-<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow">
-            <div class="modal-header bg-light">
-                <h5 class="modal-title fw-bold" id="addUserModalLabel">Add New User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="addUserForm">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="dob" class="form-label">Date of Birth</label>
-                        <input type="date" class="form-control" id="dob" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="role" class="form-label">Role</label>
-                        <select class="form-select" id="role">
-                            <option value="USER">USER</option>
-                            <option value="ADMIN">ADMIN</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer bg-light">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="saveUserBtn">Save User</button>
-            </div>
-        </div>
-    </div>
-</div>
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const bookedCountElement = document.getElementById('booked-count');
+            const pendingCountElement = document.getElementById('pending-count');
+            const appointmentsTotalElement = document.getElementById('appointments-total');
+            const loadingElement = document.getElementById('loading');
+            const tableContainer = document.getElementById('table-container');
+            const noDataElement = document.getElementById('no-data');
+            const appointmentsTableBody = document.getElementById('appointments-table-body');
+            const refreshButton = document.getElementById('refresh-appointments');
 
-<!-- Edit User Modal -->
-<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow">
-            <div class="modal-header bg-light">
-                <h5 class="modal-title fw-bold" id="editUserModalLabel">Edit User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editUserForm">
-                    <input type="hidden" id="editUserId">
-                    <div class="mb-3">
-                        <label for="editName" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="editName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="editEmail" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editDob" class="form-label">Date of Birth</label>
-                        <input type="date" class="form-control" id="editDob" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editPW" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="editPW" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editRole" class="form-label">Role</label>
-                        <select class="form-select" id="editRole">
-                            <option value="USER">USER</option>
-                            <option value="ADMIN">ADMIN</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer bg-light">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="updateUserBtn">Update User</button>
-            </div>
-        </div>
-    </div>
-</div>
+            function loadAppointmentsData() {
+                loadingElement.classList.remove('hidden');
+                tableContainer.classList.add('hidden');
+                noDataElement.classList.add('hidden');
 
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow">
-            <div class="modal-header bg-light">
-                <h5 class="modal-title fw-bold" id="deleteUserModalLabel">Confirm Delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete this user? This action cannot be undone.</p>
-                <input type="hidden" id="deleteUserId">
-            </div>
-            <div class="modal-footer bg-light">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
-            </div>
-        </div>
-    </div>
-</div>
+                const token = localStorage.getItem('authToken') || '';
 
-<!-- Scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+                fetch('http://localhost:8080/api/v1/availability/all', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': token ? `Bearer ${token}` : ''
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data || data.length === 0) {
+                            showNoDataMessage();
+                            return;
+                        }
 
-<script>
-    // Global variables
-    const API_URL = 'http://localhost:8080/api/v1/user';
-    let userData = [];
-    let successToast;
-    let errorToast;
+                        const booked = data.filter(item => item.status === "BOOKING").length;
+                        const cancelled = data.filter(item => item.status === "CANCELLED").length;
 
-    // Initialize when document is ready
-    $(document).ready(function() {
-        // Check if user is authenticated
-        const authToken = localStorage.getItem('authToken');
-        if (!authToken) {
-            // Redirect to login page if not authenticated
-            window.location.href = '/index.html';
-            return;
-        }
+                        bookedCountElement.textContent = booked;
+                        pendingCountElement.textContent = cancelled;
+                        appointmentsTotalElement.textContent = data.length;
 
-        // Initialize Toasts
-        successToast = new bootstrap.Toast(document.getElementById('successToast'));
-        errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
+                        appointmentsTableBody.innerHTML = '';
 
-        loadUsers();
+                        data.forEach(appointment => {
+                            const row = document.createElement('tr');
+                            const date = new Date(appointment.dateTime);
+                            const formattedDate = date.toLocaleString();
 
-        // Event listeners
-        $('#saveUserBtn').on('click', saveUser);
-        $('#updateUserBtn').on('click', updateUser);
-        $('#confirmDeleteBtn').on('click', deleteUser);
+                            let statusClass = '';
+                            if (appointment.status === 'BOOKING') {
+                                statusClass = 'bg-green-100 text-green-800';
+                            } else if (appointment.status === 'CANCELLED') {
+                                statusClass = 'bg-red-100 text-red-800';
+                            }
 
-        // Search functionality
-        $('#searchInput').on('keyup', function() {
-            const searchTerm = $(this).val().toLowerCase();
-            filterUsers(searchTerm);
+                            row.innerHTML = `
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${appointment.id}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${formattedDate}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${appointment.userFullName}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${appointment.gigName}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">
+                                        ${appointment.status}
+                                    </span>
+                                </td>
+                            `;
+                            appointmentsTableBody.appendChild(row);
+                        });
+
+                        tableContainer.classList.remove('hidden');
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        showNoDataMessage();
+                    })
+                    .finally(() => {
+                        loadingElement.classList.add('hidden');
+                    });
+            }
+
+            function showNoDataMessage() {
+                tableContainer.classList.add('hidden');
+                noDataElement.classList.remove('hidden');
+                bookedCountElement.textContent = '0';
+                pendingCountElement.textContent = '0';
+                appointmentsTotalElement.textContent = '0';
+            }
+
+            refreshButton.addEventListener('click', loadAppointmentsData);
+            loadAppointmentsData();
         });
-
-        // Delegate events for dynamic buttons
-        $('#userTable').on('click', '.edit-btn', function() {
-            const userId = $(this).data('id');
-            fillEditForm(userId);
-        });
-
-        $('#userTable').on('click', '.delete-btn', function() {
-            const userId = $(this).data('id');
-            $('#deleteUserId').val(userId);
-            $('#deleteUserModal').modal('show');
-        });
-
-        $('#userTable').on('click', '.activate-btn', function() {
-            const userId = $(this).data('id');
-            activateUser(userId);
-        });
-
-        $('#userTable').on('click', '.deactivate-btn', function() {
-            const userId = $(this).data('id');
-            deactivateUser(userId);
-        });
-    });
-
-    // Show/hide loading overlay
-    function toggleLoading(show) {
-        if (show) {
-            $('#loadingOverlay').removeClass('d-none');
-        } else {
-            $('#loadingOverlay').addClass('d-none');
-        }
-    }
-
-    // Show success toast
-    function showSuccess(message = 'Operation completed successfully!') {
-        $('#successToast .toast-body').text(message);
-        successToast.show();
-    }
-
-    // Show error toast
-    function showError(message = 'An error occurred. Please try again.') {
-        $('#errorToastMessage').text(message);
-        errorToast.show();
-    }
-
-    // Get auth token for API requests
-    function getAuthHeaders() {
-        const authToken = localStorage.getItem('authToken');
-        return {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
-        };
-    }
-
-    // Handle unauthorized responses
-    function handleUnauthorized() {
-        localStorage.removeItem('authToken');
-        window.location.href = '/login.html';
-    }
-
-    // Filter users based on search term
-    function filterUsers(searchTerm) {
-        const filteredUsers = userData.filter(user =>
-            user.name.toLowerCase().includes(searchTerm) ||
-            user.email.toLowerCase().includes(searchTerm) ||
-            user.role.toLowerCase().includes(searchTerm)
-        );
-
-        renderUserTable(filteredUsers);
-    }
-
-    // Render user table with provided data
-    function renderUserTable(users) {
-        const tableBody = $('#userTableBody');
-        tableBody.empty();
-
-        if (users.length === 0) {
-            $('#emptyState').show();
-            return;
-        }
-
-        $('#emptyState').hide();
-
-        users.forEach((user, index) => {
-            const statusBadge = user.active
-                ? '<span class="badge bg-success rounded-pill px-3">Active</span>'
-                : '<span class="badge bg-danger rounded-pill px-3">Inactive</span>';
-
-            const activeButton = user.active
-                ? `<button class="btn btn-sm btn-warning deactivate-btn" data-id="${user.id}"><i class="fas fa-user-slash"></i></button>`
-                : `<button class="btn btn-sm btn-success activate-btn" data-id="${user.id}"><i class="fas fa-user-check"></i></button>`;
-
-            const row = `
-                    <tr class="animate__animated animate__fadeIn animate__faster" style="animation-delay: ${index * 0.05}s">
-                        <td>${user.id}</td>
-                        <td>${user.name}</td>
-                        <td>${user.email}</td>
-                        <td>${user.role}</td>
-                        <td>${statusBadge}</td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                ${activeButton}
-                                <button class="btn btn-sm btn-primary edit-btn" data-id="${user.id}">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger delete-btn" data-id="${user.id}">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            tableBody.append(row);
-        });
-    }
-
-    // Load all users
-    function loadUsers() {
-        toggleLoading(true);
-
-        fetch(`${API_URL}/getAll`, {
-            method: 'GET',
-            headers: getAuthHeaders()
-        })
-            .then(response => {
-                if (response.status === 401) {
-                    handleUnauthorized();
-                    return null;
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (!data) return;
-
-                if (data.code === 201 && data.data) {
-                    userData = data.data;
-                    renderUserTable(userData);
-                } else {
-                    showError('Failed to load users');
-                    $('#emptyState').show();
-                }
-            })
-            .catch(error => {
-                console.error('Error loading users:', error);
-                showError('Failed to load users');
-                $('#emptyState').show();
-            })
-            .finally(() => {
-                toggleLoading(false);
-            });
-    }
-
-    // Save new user
-    function saveUser() {
-        // Validate form
-        const addUserForm = document.getElementById('addUserForm');
-        if (!addUserForm.checkValidity()) {
-            addUserForm.reportValidity();
-            return;
-        }
-
-        // Get form data
-        const userData = {
-            name: $('#name').val(),
-            email: $('#email').val(),
-            password: $('#password').val(),
-            dob: $('#dob').val(),
-            role: $('#role').val(),
-            active: true
-        };
-
-        toggleLoading(true);
-
-        // Send API request
-        fetch(`${API_URL}/register`, {
-            method: 'POST',
-            headers: getAuthHeaders(),
-            body: JSON.stringify(userData)
-        })
-            .then(response => {
-                if (response.status === 401) {
-                    handleUnauthorized();
-                    return null;
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (!data) return;
-
-                if (data.code === 201) {
-                    // Success
-                    $('#addUserModal').modal('hide');
-                    addUserForm.reset();
-                    showSuccess('User added successfully');
-                    loadUsers();
-                } else {
-                    // Error
-                    showError(data.message || 'Failed to add user');
-                }
-            })
-            .catch(error => {
-                console.error('Error adding user:', error);
-                showError('Failed to add user');
-            })
-            .finally(() => {
-                toggleLoading(false);
-            });
-    }
-
-    // Fill edit form with user data
-    function fillEditForm(userId) {
-        const user = userData.find(user => user.id == userId);
-
-        if (user) {
-            $('#editUserId').val(user.id);
-            $('#editName').val(user.name);
-            $('#editEmail').val(user.email);
-            $('#editPW').val(user.password);
-            $('#editDob').val(user.dob);
-            $('#editRole').val(user.role);
-
-            $('#editUserModal').modal('show');
-        }
-    }
-
-    // Update user
-    function updateUser() {
-        // Validate form
-        const editUserForm = document.getElementById('editUserForm');
-        if (!editUserForm.checkValidity()) {
-            editUserForm.reportValidity();
-            return;
-        }
-
-        // Get form data
-        const userData = {
-            id: $('#editUserId').val(),
-            name: $('#editName').val(),
-            email: $('#editEmail').val(),
-            password: $('#editPW').val(),
-            dob: $('#editDob').val(),
-            role: $('#editRole').val()
-        };
-
-        toggleLoading(true);
-
-        // Send API request
-        fetch(`${API_URL}/update`, {
-            method: 'PUT',
-            headers: getAuthHeaders(),
-            body: JSON.stringify(userData)
-        })
-            .then(response => {
-                if (response.status === 401) {
-                    handleUnauthorized();
-                    return null;
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (!data) return;
-
-                if (data.code === 201) {
-                    // Success
-                    $('#editUserModal').modal('hide');
-                    showSuccess('User updated successfully');
-                    loadUsers();
-                } else {
-                    // Error
-                    showError(data.message || 'Failed to update user');
-                }
-            })
-            .catch(error => {
-                console.error('Error updating user:', error);
-                showError('Failed to update user');
-            })
-            .finally(() => {
-                toggleLoading(false);
-            });
-    }
-
-    // Delete user (using deactivate in this case as there's no direct delete endpoint)
-    function deleteUser() {
-        const userId = $('#deleteUserId').val();
-
-        toggleLoading(true);
-
-        // Using deactivate as delete alternative
-        fetch(`${API_URL}/deactivate/${userId}`, {
-            method: 'PUT',
-            headers: getAuthHeaders()
-        })
-            .then(response => {
-                if (response.status === 401) {
-                    handleUnauthorized();
-                    return null;
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (!data) return;
-
-                if (data.code === 201) {
-                    // Success
-                    $('#deleteUserModal').modal('hide');
-                    showSuccess('User deleted successfully');
-                    loadUsers();
-                } else {
-                    // Error
-                    showError(data.message || 'Failed to delete user');
-                }
-            })
-            .catch(error => {
-                console.error('Error deleting user:', error);
-                showError('Failed to delete user');
-            })
-            .finally(() => {
-                toggleLoading(false);
-            });
-    }
-
-    // Activate user
-    function activateUser(userId) {
-        toggleLoading(true);
-
-        fetch(`${API_URL}/activate/${userId}`, {
-            method: 'PUT',
-            headers: getAuthHeaders()
-        })
-            .then(response => {
-                if (response.status === 401) {
-                    handleUnauthorized();
-                    return null;
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (!data) return;
-
-                if (data.code === 201) {
-                    // Success
-                    showSuccess('User activated successfully');
-                    loadUsers();
-                } else {
-                    // Error
-                    showError(data.message || 'Failed to activate user');
-                }
-            })
-            .catch(error => {
-                console.error('Error activating user:', error);
-                showError('Failed to activate user');
-            })
-            .finally(() => {
-                toggleLoading(false);
-            });
-    }
-
-    // Deactivate user
-    function deactivateUser(userId) {
-        toggleLoading(true);
-
-        fetch(`${API_URL}/deactivate/${userId}`, {
-            method: 'PUT',
-            headers: getAuthHeaders()
-        })
-            .then(response => {
-                if (response.status === 401) {
-                    handleUnauthorized();
-                    return null;
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (!data) return;
-
-                if (data.code === 201) {
-                    // Success
-                    showSuccess('User deactivated successfully');
-                    loadUsers();
-                } else {
-                    // Error
-                    showError(data.message || 'Failed to deactivate user');
-                }
-            })
-            .catch(error => {
-                console.error('Error deactivating user:', error);
-                showError('Failed to deactivate user');
-            })
-            .finally(() => {
-                toggleLoading(false);
-            });
-    }
-
-    // Logout function
-    function logout() {
-        localStorage.removeItem('authToken');
-        window.location.href = '/login.html';
-    }
-</script>
+    </script>
 </body>
-
 </html>
