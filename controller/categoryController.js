@@ -25,6 +25,7 @@ function getHeaders(isMultipart = false) {
 }
 
 
+
 // ✅ Save Category
 function saveCategory() {
     const name = document.getElementById('name').value;

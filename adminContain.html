@@ -591,6 +591,8 @@ nav {
             100% { transform: rotate(360deg); }
         }
 }
+
+
     </style>
 </head>
 <body>
@@ -609,7 +611,7 @@ nav {
         <li><a id="customerPage" href="#"><i id="customerIcon" class='bx bx-user'></i><span id="userName" class="links_name">Category</span></a></li>
         <li><a id="productsPage" href="#"><i id="productsIcon" class='bx bx-box'></i><span id="categoryName" class="links_name">Gigs Manage</span></a></li>
         <li><a id="orderPage" href="#"><i id="orderIcon" class='bx bx-list-ul'></i><span id="orderName" class="links_name">User Manage</span></a></li>
-        <li><a id="stockPage" href="#"><i id="stockIcon" class='bx bx-pie-chart-alt-2'></i><span id="stockName" class="links_name">Analytics</span></a></li>
+        <li><a id="stockPage" href="#"><i id="stockIcon" class='bx bx-pie-chart-alt-2'></i><span id="stockName" class="links_name">Appointments</span></a></li>
         <li><a id="supplierPage" href="#"><i id="supplierIcon" class='bx bx-coin-stack'></i><span id="supplierName" class="links_name">Sub Category</span></a></li>
         <li><a id="employeePage" href="#"><i id="employeeIcon" class='bx bx-book-alt'></i><span id="employeeName" class="links_name">Employees</span></a></li>
         <li class="log_out"><a href="index.html"><i class='bx bx-log-out'></i><span class="links_name">Log out</span></a></li>
@@ -851,13 +853,13 @@ nav {
             </section>
         </div>
 
-      
+    
 
-        <!--=============================Subcategory2 CONTENT=============-->
+        <!--=============================Gig Manage CONTENT=============-->
         <div class="subCategory-content" id="products">
           <div class="container mx-auto p-6">
             <div class="mb-6">
-                <h1 class="text-2xl font-bold text-gray-800">User Management</h1>
+                <h1 class="text-2xl font-bold text-gray-800">GIG Management</h1>
                 
                 <!-- Stats Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
@@ -893,6 +895,9 @@ nav {
                     <div class="text-sm text-gray-500">
                         Total: <span id="gig-total">0</span>
                     </div>
+                    <button id="view-appointments" class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <i class="fas fa-sync-alt mr-1"></i> view Appointments
+                    </button>
                 </div>
                 
                 <div id="loading" class="p-8 text-center">
@@ -924,6 +929,8 @@ nav {
             </div> </div>
         </div>
 
+
+        <!--============================User Manage CONTENT=============-->
         <div class="subCategory-content" id="order">
          
           <div class="container mx-auto p-6">
@@ -996,6 +1003,81 @@ nav {
             </div>
         </div>
         </div>
+
+
+        <!--=============================Appointment CONTENT=============-->
+        <div class="subCategory-content" id="stock">
+         
+            <div class="container mx-auto p-6">
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold text-gray-800">GIG Appointments</h1>
+                    
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
+                        <div class="stats-card bg-white rounded-lg shadow p-4 flex items-center">
+                            <div class="rounded-full bg-blue-100 p-3 mr-4">
+                                <i class="fas fa-calendar-plus text-blue-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Booked</p>
+                                <p class="text-2xl font-bold" id="booked-count">0</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card bg-white rounded-lg shadow p-4 flex items-center">
+                            <div class="rounded-full bg-yellow-100 p-3 mr-4">
+                                <i class="fas fa-clock text-yellow-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Pending</p>
+                                <p class="text-2xl font-bold" id="pending-count">0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- GIG Appointments Table -->
+                <div class="bg-white rounded-lg shadow">
+                    <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                        <h2 class="text-lg font-medium text-gray-800 flex items-center">
+                            <i class="fas fa-calendar-alt mr-2 text-blue-600"></i>
+                            GIG Appointments
+                        </h2>
+                        <div class="text-sm text-gray-500">
+                            Total: <span id="appointments-total">0</span>
+                        </div>
+                        <button id="refresh-appointments" class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                            <i class="fas fa-sync-alt mr-1"></i> Refresh
+                        </button>
+                    </div>
+                    
+                    <div id="loading" class="p-8 text-center">
+                        <div class="loader mx-auto h-8 w-8 border-4 border-gray-200 rounded-full border-t-blue-500 animate-spin"></div>
+                        <p class="mt-4 text-gray-500">Loading appointments...</p>
+                    </div>
+                    
+                    <div id="table-container" class="overflow-x-auto hidden">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Time</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User Name</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">GIG Name</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="appointments-table-body">
+                                <!-- Table rows will be inserted here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="no-data" class="p-8 text-center hidden">
+                        <p class="text-gray-500">No appointments found</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -1013,6 +1095,18 @@ nav {
 <script src="controller/subCategory.js"></script>
 <script src="controller/gigController.js"></script>
 <script src="controller/userTableController.js"></script>
+<script src="controller/Appointments.js"></script>
+
+<script>
+    document.getElementById('view-appointments').addEventListener('click', function () {
+        // Store "View" in localStorage or pass via query param
+        localStorage.setItem('buttonName', 'View');
+
+        // Redirect to settings.html
+        window.location.href = 'userSetting.html';
+    });
+</script>
+
 <!-- <script src="assests/script/mainContain.js"></script> -->
  <script>
     // Navigation and Sidebar Toggle
@@ -1072,7 +1166,7 @@ $(document).ready(function() {
         e.preventDefault();
         showSection('stock');
         updateActiveLink(this);
-        updatePageTitle('users');
+        updatePageTitle('Appointments Details');
     });
 
     $('#supplierPage').click(function(e) {
@@ -1229,7 +1323,9 @@ function showSection(sectionId) {
     } else if (sectionId === 'supplier') {
         $('#supplier.subCategory-content').fadeIn();
       } else if (sectionId === 'order') {
-        $('#order.subCategory-content').fadeIn();    
+        $('#order.subCategory-content').fadeIn(); 
+      } else if (sectionId === 'stock') {
+        $('#stock.subCategory-content').fadeIn();    
     } else {
         // For sections not yet implemented, show home as fallback
         $('.home-content').fadeIn();
