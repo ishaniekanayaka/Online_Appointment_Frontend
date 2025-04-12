@@ -593,6 +593,8 @@ nav {
 }
 
 
+
+
     </style>
 </head>
 <body>
@@ -857,78 +859,100 @@ nav {
 
         <!--=============================Gig Manage CONTENT=============-->
         <div class="subCategory-content" id="products">
-          <div class="container mx-auto p-6">
-            <div class="mb-6">
-                <h1 class="text-2xl font-bold text-gray-800">GIG Management</h1>
-                
-                <!-- Stats Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                    <div class="stats-card bg-white rounded-lg shadow p-4 flex items-center">
-                        <div class="rounded-full bg-green-100 p-3 mr-4">
-                            <i class="fas fa-user-check text-green-600"></i>
+            <div class="container mx-auto p-6">
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold text-gray-800">GIG Management</h1>
+                    
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div class="stats-card bg-white rounded-lg shadow p-4 flex items-center">
+                            <div class="rounded-full bg-green-100 p-3 mr-4">
+                                <i class="fas fa-user-check text-green-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Active Users</p>
+                                <p class="text-2xl font-bold" id="active-count">0</p>
+                            </div>
                         </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Active Users</p>
-                            <p class="text-2xl font-bold" id="active-count">0</p>
+                        
+                        <div class="stats-card bg-white rounded-lg shadow p-4 flex items-center">
+                            <div class="rounded-full bg-red-100 p-3 mr-4">
+                                <i class="fas fa-user-times text-red-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Inactive Users</p>
+                                <p class="text-2xl font-bold" id="inactive-count">0</p>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="stats-card bg-white rounded-lg shadow p-4 flex items-center">
-                        <div class="rounded-full bg-red-100 p-3 mr-4">
-                            <i class="fas fa-user-times text-red-600"></i>
+                </div>
+                
+                <!-- GIG Users Table -->
+                <div class="bg-white rounded-lg shadow">
+                    <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                        <h2 class="text-lg font-medium text-gray-800 flex items-center">
+                            <i class="fas fa-filter mr-2 text-blue-600"></i>
+                            GIG Role Users
+                        </h2>
+                        <div class="text-sm text-gray-500">
+                            Total: <span id="gig-total">0</span>
                         </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Inactive Users</p>
-                            <p class="text-2xl font-bold" id="inactive-count">0</p>
+                        <button id="view-appointments" class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                            <i class="fas fa-sync-alt mr-1"></i> view Appointments
+                        </button>
+                    </div>
+                    
+                    <div id="loading" class="p-8 text-center">
+                        <div class="loader mx-auto h-8 w-8 border-4 border-gray-200 rounded-full"></div>
+                        <p class="mt-4 text-gray-500">Loading users...</p>
+                    </div>
+                    
+                    <div id="table-container" class="overflow-x-auto hidden">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DOB</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="users-table-body">
+                                <!-- Table rows will be inserted here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="no-data" class="p-8 text-center hidden">
+                        <p class="text-gray-500">No GIG role users found</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Gig Details Modal -->
+        <div id="gig-details-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center border-b pb-4">
+                        <h3 class="text-xl font-bold text-gray-800">Gig Details</h3>
+                        <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div id="gig-details-content" class="py-4">
+                        <!-- Gig details will be loaded here -->
+                        <div class="text-center py-8">
+                            <div class="loader mx-auto h-8 w-8 border-4 border-gray-200 rounded-full"></div>
+                            <p class="mt-4 text-gray-500">Loading gig details...</p>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- GIG Users Table -->
-            <div class="bg-white rounded-lg shadow">
-                <div class="p-4 border-b border-gray-200 flex justify-between items-center">
-                    <h2 class="text-lg font-medium text-gray-800 flex items-center">
-                        <i class="fas fa-filter mr-2 text-blue-600"></i>
-                        GIG Role Users
-                    </h2>
-                    <div class="text-sm text-gray-500">
-                        Total: <span id="gig-total">0</span>
-                    </div>
-                    <button id="view-appointments" class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
-                        <i class="fas fa-sync-alt mr-1"></i> view Appointments
-                    </button>
-                </div>
-                
-                <div id="loading" class="p-8 text-center">
-                    <div class="loader mx-auto h-8 w-8 border-4 border-gray-200 rounded-full"></div>
-                    <p class="mt-4 text-gray-500">Loading users...</p>
-                </div>
-                
-                <div id="table-container" class="overflow-x-auto hidden">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DOB</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200" id="users-table-body">
-                            <!-- Table rows will be inserted here by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div id="no-data" class="p-8 text-center hidden">
-                    <p class="text-gray-500">No GIG role users found</p>
-                </div>
-            </div> </div>
         </div>
-
 
         <!--============================User Manage CONTENT=============-->
         <div class="subCategory-content" id="order">
@@ -1090,7 +1114,7 @@ nav {
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script src="controller/userSetting.js"></script>
+
 <script src="controller/categoryController.js"></script>
 <script src="controller/subCategory.js"></script>
 <script src="controller/gigController.js"></script>
@@ -1103,7 +1127,7 @@ nav {
         localStorage.setItem('buttonName', 'View');
 
         // Redirect to settings.html
-        window.location.href = 'userSetting.html';
+        window.location.href = 'showAppointments.html';
     });
 </script>
 
