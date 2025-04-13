@@ -175,7 +175,7 @@
         .category-card h3, .gig-card h3 {
             padding: 15px;
             margin: 0;
-            color: #4361ee;
+            color: #8a1445;
         }
 
         .category-card p, .gig-card p {
@@ -198,24 +198,25 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 8px;
+            margin-bottom: 2px;
+            margin-top: -10px;
         }
 
         .gig-card-body i {
             color: #4361ee;
-            width: 20px;
+            width: 10px;
             text-align: center;
         }
 
         .gig-card-footer {
-            padding: 15px;
+            padding: 5px;
             border-top: 1px solid #eee;
             display: flex;
             justify-content: center;
         }
 
         .book-appointment {
-            background: #4361ee;
+            background: #8a1445;
             border: none;
             padding: 8px 20px;
             border-radius: 50px;
@@ -926,8 +927,8 @@
 
             const cardColumn = document.createElement("div");
             cardColumn.classList.add(
-                "col-lg-4",
-                "col-md-6",
+                "col-lg-3",
+                "col-md-5",
                 "animate__animated",
                 "animate__fadeInUp"
             );
@@ -977,12 +978,12 @@
 
         gigs.forEach((gig, index) => {
             const delay = index * 0.1;
-            const imageUrl = gig.image ? `http://localhost:8080/${gig.image}` : 'https://source.unsplash.com/random/600x400/?professional';
+            const imageUrl = gig.image ? `http://localhost:8080/${gig.image}` : 'https://source.unsplash.com/random/100x50/?professional';
 
             const cardColumn = document.createElement("div");
             cardColumn.classList.add(
-                "col-lg-4",
-                "col-md-6",
+                "col-lg-3",
+                "col-md-3",
                 "animate__animated",
                 "animate__fadeInUp"
             );
@@ -1010,6 +1011,7 @@
                         <p><i class="fas fa-money-bill-wave"></i> Rs.${gig.amountCharge.toFixed(2)} per session</p>
                         <p><i class="fas fa-map-marker-alt"></i> ${gig.location}</p>
                         <p><i class="fas fa-phone"></i> ${gig.contactNumber}</p>
+                         <p><i class="fas fa-star"></i> ${gig.star}</p>
                         <p><i class="fas fa-calendar-check"></i> Max ${gig.maxAppointmentsPerDay} appointments/day</p>
                     </div>
                     <div class="gig-card-footer">
