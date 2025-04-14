@@ -636,6 +636,30 @@
         .toast-error {
             background-color: #F44336;
         }
+
+        .like-button {
+    margin-right: 10px;
+    transition: all 0.3s;
+}
+
+.like-button:hover {
+    transform: scale(1.05);
+}
+
+.like-button.liked {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+
+.like-button.liked i {
+    color: #ffc107;
+}
+
+.star-count {
+    font-weight: bold;
+    color: #ffc107;
+}
     </style>
 </head>
 <body>
@@ -972,6 +996,7 @@
         });
     }
 
+
     // Function to display gig cards
     function displayGigs(gigs) {
         gigsContainer.innerHTML = '';
@@ -1014,10 +1039,20 @@
                          <p><i class="fas fa-star"></i> ${gig.star}</p>
                         <p><i class="fas fa-calendar-check"></i> Max ${gig.maxAppointmentsPerDay} appointments/day</p>
                     </div>
-                    <div class="gig-card-footer">
-                        <button class="btn btn-primary book-appointment">Book Appointment</button>
-                    </div>
+                     <div class="gig-card-footer">
+                    <button class="btn btn-outline-primary like-button">
+                        <i class="far fa-star"></i> 
+                    </button>
+                    <button class="btn btn-primary book-appointment">Book Appointment</button>
+                </div>
+                  
                 `;
+
+                 // Add click event for like button
+        card.querySelector('.like-button').addEventListener('click', async (e) => {
+            e.stopPropagation();
+            await likeGig(gig.id, user.id); // Assuming you have access to current user's ID
+        });
 
             // Add click event to show image modal
             card.querySelector('.gig-image').addEventListener('click', (e) => {
@@ -1043,6 +1078,46 @@
             gigsContainer.appendChild(cardColumn);
         });
     }
+
+    async function likeGig(gigId, userId) {
+    try {
+        const response = await fetch('http://localhost:8080/api/v1/reviews', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // Add any auth headers if needed
+            },
+            body: JSON.stringify({
+                userId: userId,
+                gigId: gigId
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to like gig');
+        }
+
+        // Update the star count in the UI without reloading
+        const starElement = document.querySelector(`.gig-card[data-gig-id="${gigId}"] .star-count span`);
+        if (starElement) {
+            const currentStars = parseInt(starElement.textContent);
+            starElement.textContent = currentStars + 1;
+            
+            // Change the button appearance to show it's been liked
+            const likeButton = document.querySelector(`.gig-card[data-gig-id="${gigId}"] .like-button`);
+            likeButton.innerHTML = '<i class="fas fa-star"></i> Liked';
+            likeButton.classList.add('liked');
+        }
+
+    } catch (error) {
+        console.error('Error liking gig:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to like the gig. Please try again.',
+        });
+    }
+}
 
     // Function to handle appointment booking
     async function bookAppointment(gig) {
@@ -1325,92 +1400,378 @@
             subcategoryContainer.style.transform = 'translateY(0)';
         }, 400);
     }
-
-    async function fetchUserAppointments() {
-        try {
-            const userId = localStorage.getItem('userId');
-            const authToken = localStorage.getItem('authToken');
-            
-            if (!userId || !authToken) return;
-            
-            const response = await fetch(`http://localhost:8080/api/v1/gig/user/${userId}`, {
-                headers: {
-                    "Authorization": `Bearer ${authToken}`
-                }
-            });
-            
-            if (!response.ok) throw new Error('Failed to fetch appointments');
-            
-            const appointments = await response.json();
-            displayNotifications(appointments);
-        } catch (error) {
-            console.error('Error fetching appointments:', error);
-        }
+// Function to display notifications in dropdown
+function displayNotifications(appointments) {
+    const notificationList = document.getElementById('notificationList');
+    const notificationCount = document.getElementById('notificationCount');
+    
+    // Clear existing notifications (except the header)
+    const itemsToRemove = notificationList.querySelectorAll('.notification-item, .notification-empty');
+    itemsToRemove.forEach(item => item.remove());
+    
+    if (appointments.length === 0) {
+        const emptyItem = document.createElement('li');
+        emptyItem.className = 'notification-empty';
+        emptyItem.textContent = 'No appointments found';
+        notificationList.appendChild(emptyItem);
+        notificationCount.style.display = 'none';
+        return;
     }
     
-     // Function to display notifications in dropdown
-     function displayNotifications(appointments) {
-        const notificationList = document.getElementById('notificationList');
-        const notificationCount = document.getElementById('notificationCount');
+    // Sort appointments by date (newest first)
+    appointments.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+    
+    // Add each appointment as a notification item
+    appointments.forEach(appointment => {
+        const notificationItem = document.createElement('li');
+        notificationItem.className = 'notification-item';
         
-        // Clear existing notifications (except the header)
-        const itemsToRemove = notificationList.querySelectorAll('.notification-item, .notification-empty');
-        itemsToRemove.forEach(item => item.remove());
+        // Format the date/time
+        const appointmentDate = new Date(appointment.dateTime);
+        const formattedDate = appointmentDate.toLocaleDateString();
+        const formattedTime = appointmentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         
-        if (appointments.length === 0) {
-            const emptyItem = document.createElement('li');
-            emptyItem.className = 'notification-empty';
-            emptyItem.textContent = 'No appointments found';
-            notificationList.appendChild(emptyItem);
-            notificationCount.style.display = 'none';
-            return;
+        // Determine status class
+        let statusClass = '';
+        if (appointment.status === 'PENDING') statusClass = 'status-pending';
+        else if (appointment.status === 'ACCEPTED') statusClass = 'status-accepted';
+        else if (appointment.status === 'REJECTED') statusClass = 'status-rejected';
+        else if (appointment.status === 'BOOKING') statusClass = 'status-booking';
+        
+        // Create the button container - only show pay button for BOOKING status
+        const payButtonHtml = appointment.status === 'BOOKING' ? 
+            `<div class="pay-button-container">
+                <button class="pay-button" data-appointment-id="${appointment.id}">Pay</button>
+            </div>` : '';
+        
+        notificationItem.innerHTML = `
+            <div class="notification-gig">${appointment.gigName}</div>
+            <div class="notification-time">${formattedDate} at ${formattedTime}</div>
+            <span class="notification-status ${statusClass}">${appointment.status}</span>
+            ${payButtonHtml}
+        `;
+        
+        // Add inline CSS for the pay button if present
+        if (appointment.status === 'BOOKING') {
+            const payButton = notificationItem.querySelector('.pay-button');
+            payButton.style.backgroundColor = '#4CAF50';
+            payButton.style.color = 'white';
+            payButton.style.padding = '8px 15px';
+            payButton.style.border = 'none';
+            payButton.style.borderRadius = '4px';
+            payButton.style.cursor = 'pointer';
+            payButton.style.fontWeight = 'bold';
+            payButton.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+            payButton.style.transition = 'all 0.3s ease';
+            
+            // Add hover effect
+            payButton.onmouseover = function() {
+                this.style.backgroundColor = '#45a049';
+                this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+            };
+            payButton.onmouseout = function() {
+                this.style.backgroundColor = '#4CAF50';
+                this.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+            };
+
+            // Add click event to show custom payment form
+            payButton.onclick = function() {
+                const appointmentId = this.getAttribute('data-appointment-id');
+                showCustomPaymentForm(appointmentId, appointment);
+            };
         }
         
-        // Sort appointments by date (newest first)
-        appointments.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+        notificationList.appendChild(notificationItem);
+    });
+    
+    // Update badge count
+    notificationCount.textContent = appointments.length;
+    notificationCount.style.display = appointments.length > 0 ? 'block' : 'none';
+}
+
+// Function to create and show custom payment form
+function showCustomPaymentForm(appointmentId, appointmentData) {
+    // Create overlay element
+    const overlay = document.createElement('div');
+    overlay.id = 'paymentOverlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.zIndex = '1000';
+    
+    // Format date and amount
+    const appointmentDate = new Date(appointmentData.dateTime);
+    const formattedDate = appointmentDate.toLocaleDateString();
+    const formattedTime = appointmentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const amount = appointmentData.amountCharge || "0.00";
+    
+    // Create payment form container
+    const paymentForm = document.createElement('div');
+    paymentForm.id = 'paymentForm';
+    paymentForm.style.backgroundColor = '#fff';
+    paymentForm.style.borderRadius = '8px';
+    paymentForm.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.2)';
+    paymentForm.style.width = '90%';
+    paymentForm.style.maxWidth = '500px';
+    paymentForm.style.padding = '0';
+    paymentForm.style.overflow = 'hidden';
+    
+    // Payment form content
+    paymentForm.innerHTML = `
+        <div style="background-color: #4a6fa5; color: white; padding: 15px 20px; text-align: center;">
+            <h2 style="margin: 0; font-size: 20px;">Payment Details</h2>
+        </div>
         
-        // Add each appointment as a notification item
-        appointments.forEach(appointment => {
-            const notificationItem = document.createElement('li');
-            notificationItem.className = 'notification-item';
+        <div style="padding: 20px;">
+            <div style="margin-bottom: 15px; display: flex; justify-content: space-between;">
+                <span style="font-weight: bold;">Appointment:</span>
+                <span>${appointmentData.gigName}</span>
+            </div>
             
-            // Format the date/time
-            const appointmentDate = new Date(appointment.dateTime);
-            const formattedDate = appointmentDate.toLocaleDateString();
-            const formattedTime = appointmentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            <div style="margin-bottom: 15px; display: flex; justify-content: space-between;">
+                <span style="font-weight: bold;">Date & Time:</span>
+                <span>${formattedDate} at ${formattedTime}</span>
+            </div>
             
-            // Determine status class
-            let statusClass = '';
-            if (appointment.status === 'PENDING') statusClass = 'status-pending';
-            else if (appointment.status === 'ACCEPTED') statusClass = 'status-accepted';
-            else if (appointment.status === 'REJECTED') statusClass = 'status-rejected';
-            
-            notificationItem.innerHTML = `
-                <div class="notification-gig">${appointment.gigName}</div>
-                <div class="notification-time">${formattedDate} at ${formattedTime}</div>
-                <span class="notification-status ${statusClass}">${appointment.status}</span>
-                ${appointment.status === 'ACCEPTED' ? 
-                    `<button class="btn btn-sm btn-success auto-pay-btn" data-appointment-id="${appointment.id}">
-                        Auto Pay (Rs.${appointment.amountCharge.toFixed(2)})
-                    </button>` : ''}
-            `;
-            
-            notificationList.appendChild(notificationItem);
-        });
+            <div style="margin-bottom: 20px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee; display: flex; justify-content: space-between; font-size: 18px; font-weight: bold;">
+                <span>Total Amount:</span>
+                <span>LKR ${appointmentData.amount}</span>
+            </div>
+        </div>
         
-        // Update badge count
-        notificationCount.textContent = appointments.length;
-        notificationCount.style.display = appointments.length > 0 ? 'block' : 'none';
+        <div style="padding: 20px; background-color: #f9f9f9; border-top: 1px solid #eee;">
+            <h3 style="font-size: 16px; margin-bottom: 15px; color: #333;">Select Payment Method</h3>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <div class="payment-method" data-method="VISA" style="flex-basis: calc(50% - 10px); text-align: center; padding: 12px; border: 2px solid #ddd; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
+                    <img src="https://www.payhere.lk/downloads/images/visa.png" alt="Visa" style="max-height: 30px; margin-bottom: 8px;">
+                    <div style="font-weight: bold;">Visa</div>
+                </div>
+                
+                <div class="payment-method" data-method="MASTER" style="flex-basis: calc(50% - 10px); text-align: center; padding: 12px; border: 2px solid #ddd; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
+                    <img src="https://www.payhere.lk/downloads/images/mastercard.png" alt="Mastercard" style="max-height: 30px; margin-bottom: 8px;">
+                    <div style="font-weight: bold;">Mastercard</div>
+                </div>
+                
+                <div class="payment-method" data-method="AMEX" style="flex-basis: calc(50% - 10px); text-align: center; padding: 12px; border: 2px solid #ddd; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
+                    <img src="https://www.payhere.lk/downloads/images/american-express.png" alt="American Express" style="max-height: 30px; margin-bottom: 8px;">
+                    <div style="font-weight: bold;">American Express</div>
+                </div>
+                
+                <div class="payment-method" data-method="ONLINE_BANKING" style="flex-basis: calc(50% - 10px); text-align: center; padding: 12px; border: 2px solid #ddd; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
+                    <img src="https://www.payhere.lk/downloads/images/bank.png" alt="Online Banking" style="max-height: 30px; margin-bottom: 8px;">
+                    <div style="font-weight: bold;">Online Banking</div>
+                </div>
+            </div>
+        </div>
         
-        // Add event listeners to auto pay buttons
-        document.querySelectorAll('.auto-pay-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const appointmentId = e.target.dataset.appointmentId;
-                handleAutoPay(appointmentId);
+        <div style="padding: 20px; text-align: center;">
+            <button id="payNowButton" disabled style="background-color: #ddd; color: #888; padding: 12px 30px; border: none; border-radius: 4px; cursor: not-allowed; font-weight: bold; font-size: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.3s ease;">
+                Pay Now
+            </button>
+            <button id="cancelPaymentButton" style="background-color: transparent; color: #777; padding: 12px 30px; border: none; cursor: pointer; font-size: 16px; margin-left: 10px;">
+                Cancel
+            </button>
+        </div>
+    `;
+    
+    // Add form to overlay and overlay to document
+    overlay.appendChild(paymentForm);
+    document.body.appendChild(overlay);
+    
+    // Add event listeners to payment methods
+    let selectedMethod = null;
+    const paymentMethods = document.querySelectorAll('.payment-method');
+    const payNowButton = document.getElementById('payNowButton');
+    
+    paymentMethods.forEach(method => {
+        method.addEventListener('click', function() {
+            // Remove selected class from all methods
+            paymentMethods.forEach(m => {
+                m.style.borderColor = '#ddd';
+                m.style.backgroundColor = '';
             });
+            
+            // Add selected class to clicked method
+            this.style.borderColor = '#4a6fa5';
+            this.style.backgroundColor = '#f0f7ff';
+            
+            // Store selected method
+            selectedMethod = this.getAttribute('data-method');
+            
+            // Enable pay button
+            payNowButton.disabled = false;
+            payNowButton.style.backgroundColor = '#4CAF50';
+            payNowButton.style.color = 'white';
+            payNowButton.style.cursor = 'pointer';
+            payNowButton.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
         });
+        
+        // Add hover effect
+        method.addEventListener('mouseover', function() {
+            if (this.getAttribute('data-method') !== selectedMethod) {
+                this.style.borderColor = '#4a6fa5';
+            }
+        });
+        
+        method.addEventListener('mouseout', function() {
+            if (this.getAttribute('data-method') !== selectedMethod) {
+                this.style.borderColor = '#ddd';
+            }
+        });
+    });
+    
+    // Add click event to pay now button
+    payNowButton.addEventListener('click', function() {
+        if (selectedMethod) {
+            closePaymentForm();
+            processPaymentWithPayhere(appointmentId, appointmentData, selectedMethod);
+        }
+    });
+    
+    // Add click event to cancel button
+    document.getElementById('cancelPaymentButton').addEventListener('click', closePaymentForm);
+    
+    // Add click event to overlay (close when clicking outside)
+    overlay.addEventListener('click', function(event) {
+        if (event.target === overlay) {
+            closePaymentForm();
+        }
+    });
+    
+    // Function to close payment form
+    function closePaymentForm() {
+        document.body.removeChild(overlay);
     }
+}
+
+// Function to process payment with PayHere
+function processPaymentWithPayhere(appointmentId, appointmentData, method) {
+    // Payment object
+    const payment = {
+        sandbox: true, // Set to false in production
+        merchant_id: "1230106", // Replace with your actual Payhere merchant ID
+        return_url: window.location.origin + "/payment-success",
+        cancel_url: window.location.origin + "/payment-cancelled",
+        notify_url: "http://localhost:8080/api/v1/payment/payhere-notification", // Replace with your actual API endpoint
+        order_id: appointmentId,
+        items: appointmentData.gigName,
+        amount: appointmentData.amountCharge || "0.00", // Make sure amount is available in appointmentData
+        currency: "LKR",
+        first_name: appointmentData.customerName || "",
+        last_name: "",
+        email: appointmentData.customerEmail || "",
+        phone: appointmentData.customerPhone || "",
+        address: "",
+        city: "",
+        country: "Sri Lanka",
+        delivery_address: "",
+        delivery_city: "",
+        delivery_country: "Sri Lanka",
+        custom_1: appointmentId,
+        custom_2: "",
+        method: method // VISA, MASTER, AMEX, ONLINE_BANKING etc.
+    };
+
+    // Show the payhere.js popup
+    if (typeof payhere !== 'undefined') {
+        payhere.startPayment(payment);
+    } else {
+        console.error("Payhere.js is not loaded. Make sure to include the script in your HTML.");
+        alert("Payment system is not available. Please try again later.");
+    }
+}
+
+// Original PayHere integration function (kept for reference but not used)
+function loadPayhere(appointmentId, appointmentData) {
+    // Payment object
+    const payment = {
+        sandbox: true, // Set to false in production
+        merchant_id: "1230106", // Replace with your actual Payhere merchant ID
+        return_url: window.location.origin + "/payment-success",
+        cancel_url: window.location.origin + "/payment-cancelled",
+        notify_url: "http://localhost:8080/api/v1/payment/payhere-notification", // Replace with your actual API endpoint
+        order_id: appointmentId,
+        items: appointmentData.gigName,
+        amount: appointmentData.amountCharge || "0.00", // Make sure amount is available in appointmentData
+        currency: "LKR",
+        first_name: appointmentData.customerName || "",
+        last_name: "",
+        email: appointmentData.customerEmail || "",
+        phone: appointmentData.customerPhone || "",
+        address: "",
+        city: "",
+        country: "Sri Lanka",
+        delivery_address: "",
+        delivery_city: "",
+        delivery_country: "Sri Lanka",
+        custom_1: appointmentId,
+        custom_2: ""
+    };
+
+    // Show the payhere.js popup
+    if (typeof payhere !== 'undefined') {
+        payhere.startPayment(payment);
+    } else {
+        console.error("Payhere.js is not loaded. Make sure to include the script in your HTML.");
+        alert("Payment system is not available. Please try again later.");
+    }
+}
+
+// Function to fetch appointments from the server using API
+async function fetchUserAppointments() {
+    try {
+        const userId = localStorage.getItem('userId');
+        const authToken = localStorage.getItem('authToken');
+        
+        if (!userId || !authToken) return;
+        
+        const response = await fetch(`http://localhost:8080/api/v1/gig/user/${userId}`, {
+            headers: {
+                "Authorization": `Bearer ${authToken}`
+            }
+        });
+        
+        if (!response.ok) throw new Error('Failed to fetch appointments');
+        
+        const appointments = await response.json();
+        displayNotifications(appointments);
+    } catch (error) {
+        console.error('Error fetching appointments:', error);
+    }
+}
+
+// Initialize when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Add the PayHere script to the page if not already included
+    if (typeof payhere === 'undefined') {
+        const script = document.createElement('script');
+        script.src = 'https://www.payhere.lk/lib/payhere.js';
+        document.head.appendChild(script);
+    }
+    
+    // Fetch appointments
+    fetchUserAppointments();
+    
+    // Add CSS for payment methods hover effect
+    const style = document.createElement('style');
+    style.textContent = `
+        .payment-method:hover {
+            border-color: #4a6fa5 !important;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Optional: Refresh data periodically
+    // setInterval(fetchUserAppointments, 60000); // Refresh every minute
+});
+
 
     // Initialize WebSocket for real-time notifications
     function initializeWebSocket() {
