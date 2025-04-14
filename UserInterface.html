@@ -756,6 +756,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://www.payhere.lk/lib/payhere.js"></script>
 <script>
     // API Base URL
     const API_BASE_URL = "http://localhost:8080/api/v1";
@@ -998,129 +999,166 @@
 
 
     // Function to display gig cards
-    function displayGigs(gigs) {
-        gigsContainer.innerHTML = '';
+   // Function to display gig cards
+function displayGigs(gigs) {
+    gigsContainer.innerHTML = '';
 
-        gigs.forEach((gig, index) => {
-            const delay = index * 0.1;
-            const imageUrl = gig.image ? `http://localhost:8080/${gig.image}` : 'https://source.unsplash.com/random/100x50/?professional';
+    gigs.forEach((gig, index) => {
+        const delay = index * 0.1;
+        const imageUrl = gig.image ? `http://localhost:8080/${gig.image}` : 'https://source.unsplash.com/random/100x50/?professional';
 
-            const cardColumn = document.createElement("div");
-            cardColumn.classList.add(
-                "col-lg-3",
-                "col-md-3",
-                "animate__animated",
-                "animate__fadeInUp"
-            );
-            cardColumn.style.animationDelay = `${delay}s`;
+        const cardColumn = document.createElement("div");
+        cardColumn.classList.add(
+            "col-lg-3",
+            "col-md-3",
+            "animate__animated",
+            "animate__fadeInUp"
+        );
+        cardColumn.style.animationDelay = `${delay}s`;
 
-            const card = document.createElement("div");
-            card.classList.add("gig-card", "h-100");
-            card.dataset.gigId = gig.id;
+        const card = document.createElement("div");
+        card.classList.add("gig-card", "h-100");
+        card.dataset.gigId = gig.id;
 
-            card.innerHTML = `
-                    <div class="gig-card-header">
-                        <img src="${imageUrl}" alt="${gig.fullName}" class="img-fluid gig-image">
-                        <h3>${gig.fullName}</h3>
-                        <div class="gig-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                    </div>
-                    <div class="gig-card-body">
-                        <p><i class="fas fa-graduation-cap"></i> ${gig.degree}</p>
-                        <p><i class="fas fa-briefcase"></i> ${gig.experience} years experience</p>
-                        <p><i class="fas fa-money-bill-wave"></i> Rs.${gig.amountCharge.toFixed(2)} per session</p>
-                        <p><i class="fas fa-map-marker-alt"></i> ${gig.location}</p>
-                        <p><i class="fas fa-phone"></i> ${gig.contactNumber}</p>
-                         <p><i class="fas fa-star"></i> ${gig.star}</p>
-                        <p><i class="fas fa-calendar-check"></i> Max ${gig.maxAppointmentsPerDay} appointments/day</p>
-                    </div>
-                     <div class="gig-card-footer">
-                    <button class="btn btn-outline-primary like-button">
-                        <i class="far fa-star"></i> 
-                    </button>
+        // Simple star display (not clickable stars, just showing the count)
+        const starRatingHTML = `
+            <div class="gig-rating" data-gig-id="${gig.id}">
+                <i class="fas fa-star text-warning"></i>
+                <span class="ms-1">${gig.star || 0}</span>
+                <button class="btn btn-sm btn-outline-primary ms-2 give-star">
+                    <i class="fas fa-thumbs-up"></i> Like
+                </button>
+            </div>
+        `;
+
+        card.innerHTML = `
+                <div class="gig-card-header">
+                    <img src="${imageUrl}" alt="${gig.fullName}" class="img-fluid gig-image">
+                    <h3>${gig.fullName}</h3>
+                    ${starRatingHTML}
+                </div>
+                <div class="gig-card-body">
+                    <p><i class="fas fa-graduation-cap"></i> ${gig.degree}</p>
+                    <p><i class="fas fa-briefcase"></i> ${gig.experience} years experience</p>
+                    <p><i class="fas fa-money-bill-wave"></i> Rs.${gig.amountCharge.toFixed(2)} per session</p>
+                    <p><i class="fas fa-map-marker-alt"></i> ${gig.location}</p>
+                    <p><i class="fas fa-phone"></i> ${gig.contactNumber}</p>
+                    <p><i class="fas fa-calendar-check"></i> Max ${gig.maxAppointmentsPerDay} appointments/day</p>
+                </div>
+                <div class="gig-card-footer">
                     <button class="btn btn-primary book-appointment">Book Appointment</button>
                 </div>
-                  
-                `;
+        `;
+        card.querySelector('.book-appointment').addEventListener('click', () => {
+    bookAppointment(gig); // Call your function with current gig
+});
 
-                 // Add click event for like button
-        card.querySelector('.like-button').addEventListener('click', async (e) => {
-            e.stopPropagation();
-            await likeGig(gig.id, user.id); // Assuming you have access to current user's ID
-        });
+        card.querySelector('.give-star').addEventListener('click', async (e) => {
+    e.stopPropagation();
+    // Add event listener for the Book Appointment button
 
-            // Add click event to show image modal
-            card.querySelector('.gig-image').addEventListener('click', (e) => {
-                e.stopPropagation();
-                modalImage.src = imageUrl;
-                modalImage.alt = gig.fullName;
-                imageModal.classList.add('show');
-                
-                // Auto-open chat bot and send message
-                openChatBot();
-                setTimeout(() => {
-                    addBotMessage(`You're viewing ${gig.fullName}'s profile. Would you like to book an appointment or ask any questions?`);
-                }, 1000);
-            });
+    
+    
+    // First verify user email
+    const { value: userEmail } = await Swal.fire({
+        title: 'Verify Your Email',
+        input: 'email',
+        inputPlaceholder: 'your@email.com',
+        showCancelButton: true,
+        confirmButtonText: 'Verify',
+        confirmButtonColor: '#4361ee',
+        inputValidator: (value) => {
+            if (!value) {
+                return 'You need to enter your email!';
+            }
+            if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+                return 'Please enter a valid email address!';
+            }
+        }
+    });
 
-            // Add click event for booking appointment
-            card.querySelector('.book-appointment').addEventListener('click', (e) => {
-                e.stopPropagation();
-                bookAppointment(gig);
-            });
+    if (!userEmail) return;
 
-            cardColumn.appendChild(card);
-            gigsContainer.appendChild(cardColumn);
-        });
-    }
-
-    async function likeGig(gigId, userId) {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/reviews', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                // Add any auth headers if needed
-            },
+        // Show loading state
+        Swal.fire({
+            title: 'Processing...',
+            text: 'Verifying your information',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        // Check if user exists by email
+        const userResponse = await fetch(`${API_BASE_URL}/user/email/${encodeURIComponent(userEmail)}`, {
+            method: "GET",
+            headers: getHeaders()
+        });
+
+        if (!userResponse.ok) {
+            throw new Error("User not found with this email.");
+        }
+
+        const userData = await userResponse.json();
+        const userId = userData.data.id;
+
+        // Submit the review (which will increment star count by 1)
+        const reviewResponse = await fetch(`${API_BASE_URL}/reviews`, {
+            method: "POST",
+            headers: getHeaders(),
             body: JSON.stringify({
                 userId: userId,
-                gigId: gigId
+                gigId: gig.id
+                // No rating field needed as per your backend
             })
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to like gig');
+        if (!reviewResponse.ok) {
+            const errorText = await reviewResponse.text();
+            throw new Error(errorText || "Failed to submit star");
         }
 
-        // Update the star count in the UI without reloading
-        const starElement = document.querySelector(`.gig-card[data-gig-id="${gigId}"] .star-count span`);
-        if (starElement) {
-            const currentStars = parseInt(starElement.textContent);
-            starElement.textContent = currentStars + 1;
-            
-            // Change the button appearance to show it's been liked
-            const likeButton = document.querySelector(`.gig-card[data-gig-id="${gigId}"] .like-button`);
-            likeButton.innerHTML = '<i class="fas fa-star"></i> Liked';
-            likeButton.classList.add('liked');
-        }
+        // Close loading dialog
+        Swal.close();
+
+        // Update the UI
+        const starCountElement = card.querySelector('.gig-rating span');
+        const currentStars = parseInt(starCountElement.textContent) || 0;
+        starCountElement.textContent = currentStars + 1;
+
+        // Disable the button to prevent multiple likes
+        const likeButton = card.querySelector('.give-star');
+        likeButton.disabled = true;
+        likeButton.innerHTML = '<i class="fas fa-check"></i> Liked';
+        likeButton.classList.remove('btn-outline-primary');
+        likeButton.classList.add('btn-success');
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Thank You!',
+            text: `You gave a star to ${gig.fullName}.`,
+            confirmButtonColor: '#4361ee'
+        });
 
     } catch (error) {
-        console.error('Error liking gig:', error);
+        console.error("Star error:", error);
         Swal.fire({
             icon: 'error',
-            title: 'Error',
-            text: 'Failed to like the gig. Please try again.',
+            title: 'Failed to Give Star',
+            text: error.message || "An error occurred while giving a star",
+            confirmButtonColor: '#4361ee'
         });
     }
-}
+});
 
-    // Function to handle appointment booking
-    async function bookAppointment(gig) {
+        cardColumn.appendChild(card);
+        gigsContainer.appendChild(cardColumn);
+    });
+} // Function to handle appointment booking
+   
+
+async function bookAppointment(gig) {
         try {
             // First show email search dialog
             const { value: userEmail } = await Swal.fire({
@@ -1659,7 +1697,7 @@ function processPaymentWithPayhere(appointmentId, appointmentData, method) {
         merchant_id: "1230106", // Replace with your actual Payhere merchant ID
         return_url: window.location.origin + "/payment-success",
         cancel_url: window.location.origin + "/payment-cancelled",
-        notify_url: "http://localhost:8080/api/v1/payment/payhere-notification", // Replace with your actual API endpoint
+        notify_url: "http://localhost:8080/api/v1/payment/payhere", // Replace with your actual API endpoint
         order_id: appointmentId,
         items: appointmentData.gigName,
         amount: appointmentData.amountCharge || "0.00", // Make sure amount is available in appointmentData
