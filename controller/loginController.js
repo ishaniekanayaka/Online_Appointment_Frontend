@@ -94,7 +94,7 @@
                             }, 1500);
                         } else if (roleData.role === "GIG") {
                             setTimeout(() => {
-                                window.location.href = "../practice.html";
+                                window.location.href = "../gigProfile.html";
                             }, 1500);
                         } else {
                             showToast("User role not recognized.", "error");
