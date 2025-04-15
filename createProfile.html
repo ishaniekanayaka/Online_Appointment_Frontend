@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile Register</title>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assests/styles/register.css" />
+</head>
+<body>
+  <form id="userProfileForm" enctype="multipart/form-data">
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="email" class="form-label">Search by Email</label>
+        <div class="input-group">
+          <input type="email" class="form-control" id="email" name="email" required />
+          <button type="button" class="btn btn-primary" onclick="fetchUserByEmail()">Search</button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="userId" class="form-label">User ID</label>
+        <input type="text" class="form-control" id="userId" name="userId" readonly />
+      </div>
+    </div>
+
+    <label for="profilePicture">Profile Picture:</label>
+    <input type="file" id="profilePicture" accept="image/*" />
+    <div id="imagePreview">
+      <i class="fa fa-user-circle" style="font-size: 3rem; color: #9ca3af;"></i>
+    </div>
+
+    <button type="submit">Save Profile</button>
+  </form>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+  <script>
+    const BASE_URL = "http://localhost:8080/api/v1";
+    const AUTH_TOKEN = localStorage.getItem("authToken");
+
+    document.addEventListener("DOMContentLoaded", function () {
+      checkAuth();
+
+      document.getElementById("profilePicture").addEventListener("change", previewImage);
+
+      document.getElementById("userProfileForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        saveUserProfile();
+      });
+    });
+
+    function checkAuth() {
+      if (!AUTH_TOKEN) {
+        Swal.fire({
+          title: "Unauthorized",
+          text: "Please login to access this page.",
+          icon: "warning",
+          confirmButtonText: "Go to Login"
+        }).then(() => {
+          window.location.href = "/login.html";
+        });
+      }
+    }
+
+    function fetchUserByEmail() {
+      const email = document.getElementById("email").value;
+      if (!email) return;
+
+      fetch(`${BASE_URL}/user/email/${encodeURIComponent(email)}`, {
+        headers: {
+          Authorization: `Bearer ${AUTH_TOKEN}`
+        }
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          const user = data.data;
+          document.getElementById("userId").value = user.id || "";
+
+          if (user.profilePictureUrl) {
+            document.getElementById("imagePreview").innerHTML = `<img src="${user.profilePictureUrl}" alt="Profile" width="100" />`;
+          } else {
+            document.getElementById("imagePreview").innerHTML = `<i class="fa fa-user-circle" style="font-size: 3rem; color: #9ca3af;"></i>`;
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching user:", err);
+          Swal.fire("Error", "Could not fetch user by email.", "error");
+        });
+    }
+
+    function previewImage(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          document.getElementById("imagePreview").innerHTML = `<img src="${event.target.result}" alt="Preview" width="100" />`;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function saveUserProfile() {
+      const formData = new FormData();
+      formData.append("userId", document.getElementById("userId").value);
+      formData.append("imageFile", document.getElementById("profilePicture").files[0]);
+
+      Swal.fire({
+        title: "Saving...",
+        text: "Please wait",
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      fetch(`${BASE_URL}/profile/upload`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${AUTH_TOKEN}`
+        },
+        body: formData
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          Swal.fire("Success", result.message || "Profile saved!", "success");
+          document.getElementById("userProfileForm").reset();
+          document.getElementById("imagePreview").innerHTML =
+            '<i class="fa fa-user-circle" style="font-size: 3rem; color: #9ca3af;"></i>';
+        })
+        .catch((error) => {
+          console.error("Profile save error:", error);
+          Swal.fire("Error", "Failed to save profile.", "error");
+        });
+    }
+  </script>
+</body>
+</html>
