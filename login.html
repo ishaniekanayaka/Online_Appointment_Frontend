@@ -914,10 +914,45 @@
                         localStorage.setItem("userId", userId);
                         
                         // Handle role-based redirection
-                        if (role === "ADMIN") {
-                            setTimeout(() => window.location.href = "adminContain.html", 1500);
-                        } else if (role === "USER") {
-                            setTimeout(() => window.location.href = "userInterface.html", 1500);
+                        // if (role === "ADMIN") {
+                        //     setTimeout(() => window.location.href = "adminContain.html", 1500);
+                        // } else if (role === "USER") {
+                        //     setTimeout(() => window.location.href = "userInterface.html", 1500);
+                        if (role === "USER" || role === "ADMIN") {
+                                // Check if profile exists
+                                fetch(`http://localhost:8080/api/v1/profile/exists/${userId}`, {
+                                    headers: {
+                                        "Authorization": `Bearer ${response.data.token}`
+                                    }
+                                })
+                                .then(profileResponse => {
+                                    if (!profileResponse.ok) throw new Error('Failed to check profile');
+                                    return profileResponse.json();
+                                })
+                                .then(profileExists => {
+                                    if (profileExists) {
+                                        setTimeout(() => {
+                                            if (role === "USER") {
+                                                window.location.href = "userInterface.html";
+                                            } else {
+                                                window.location.href = "adminContain.html";
+                                            }
+                                        }, 1500);
+                                    } else {
+                                        // No profile – go to profile creation page
+                                        setTimeout(() => {
+                                            window.location.href = "createProfile.html"; // 👈 your profile form page
+                                        }, 1500);
+                                    }
+                                })
+                                .catch(profileError => {
+                                    console.error("Profile check error:", profileError);
+                                    showToast("Error checking profile", "error");
+                                    loginButton.innerHTML = 'Login';
+                                    loginButton.disabled = false;
+                                });
+                            
+
                         } else if (role === "GIG") {
                             // Fetch gig details for this user
                             fetch(`http://localhost:8080/api/v1/user/${userId}/gigs`, {
