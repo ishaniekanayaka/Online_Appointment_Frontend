@@ -633,17 +633,19 @@ nav {
         </div>
         
 </div>
-        <div class="profile-details">
-            <img src="images/my.jpg" alt="profile">
-            <span class="admin_name">Isha Ekanayake</span>
-            <i class='bx bx-chevron-down'></i>
-            <div class="dropdown-menu">
-                <a href="#"><i class='bx bx-user'></i> My Profile</a>
-                <a href="/userSetting.html"><i class='bx bx-cog'></i> Settings</a>
-                <a href="index.html"><i class='bx bx-log-out'></i> Logout</a>
-                
-            </div>
-        </div>
+<div class="profile-details">
+    <img id="profileImg" src="images/default.jpg" alt="profile">
+    <span id="adminName">Isha Ekanayake</span>
+    <i class="bx bx-chevron-down"></i>
+    <div class="dropdown-menu">
+        <a href="#"><i class='bx bx-user'></i> My Profile</a>
+        <a href="/userSetting.html"><i class='bx bx-cog'></i> Settings</a>
+        <a href="index.html"><i class='bx bx-log-out'></i> Logout</a>
+    </div>
+</div>
+
+</div>
+
     </nav>
 
     <div class="content">
@@ -1121,7 +1123,7 @@ nav {
 <script src="controller/gigController.js"></script>
 <script src="controller/userTableController.js"></script>
 <script src="controller/Appointments.js"></script>
-
+<script></script>
 <script>
     document.getElementById('view-appointments').addEventListener('click', function () {
         // Store "View" in localStorage or pass via query param
