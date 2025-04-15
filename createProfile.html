@@ -3,41 +3,298 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Profile Register</title>
+  <title>Create Your Profile</title>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assests/styles/register.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-color: #4e73df;
+      --secondary-color: #f8f9fc;
+      --accent-color: #2e59d9;
+      --text-color: #5a5c69;
+      --success-color: #1cc88a;
+      --error-color: #e74a3b;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--secondary-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .profile-container {
+      max-width: 800px;
+      margin: auto;
+      padding: 3rem;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .profile-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    }
+    
+    .header-animation {
+      text-align: center;
+      margin-bottom: 3rem;
+      overflow: hidden;
+    }
+    
+    .header-animation h1 {
+      font-weight: 700;
+      color: var(--primary-color);
+      animation: slideIn 0.8s ease-out;
+      position: relative;
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .header-animation h1::after {
+      content: "";
+      display: block;
+      width: 120px;
+      height: 4px;
+      background: var(--accent-color);
+      margin: 15px auto;
+      border-radius: 2px;
+      animation: expand 1.2s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateY(-30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes expand {
+      from {
+        width: 0;
+        opacity: 0;
+      }
+      to {
+        width: 120px;
+        opacity: 1;
+      }
+    }
+    
+    .image-upload {
+      text-align: center;
+      margin: 2.5rem 0;
+    }
+    
+    #imagePreview {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 1.5rem auto;
+      overflow: hidden;
+      border: 4px solid var(--primary-color);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+    }
+    
+    #imagePreview:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    #imagePreview i {
+      font-size: 5.5rem;
+      color: #adb5bd;
+    }
+    
+    #imagePreview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+      padding: 0.6rem 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.3s;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .form-label {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+    
+    .form-control {
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #d1d3e2;
+      transition: border-color 0.3s;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+    }
+    
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .input-group-text {
+      background-color: #f8f9fc;
+      border-color: #d1d3e2;
+    }
+    
+    .submit-btn {
+      display: block;
+      width: 220px;
+      margin: 3rem auto 0;
+      padding: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.3s;
+      border-radius: 50px;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+    
+    #profilePicture {
+      display: none;
+    }
+    
+    .upload-label {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .upload-label:hover {
+      background: var(--accent-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+    
+    .upload-label i {
+      margin-right: 8px;
+    }
+    
+    /* Custom SweetAlert styles */
+    .swal2-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+    }
+    
+    .swal2-confirm {
+      background-color: var(--primary-color) !important;
+    }
+    
+    .swal2-success {
+      border-color: var(--success-color) !important;
+    }
+    
+    .swal2-error {
+      border-color: var(--error-color) !important;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .profile-container {
+        padding: 2rem;
+        margin: 1rem;
+      }
+      
+      .header-animation h1 {
+        font-size: 1.8rem;
+      }
+      
+      #imagePreview {
+        width: 140px;
+        height: 140px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <form id="userProfileForm" enctype="multipart/form-data">
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label for="email" class="form-label">Search by Email</label>
-        <div class="input-group">
-          <input type="email" class="form-control" id="email" name="email" required />
-          <button type="button" class="btn btn-primary" onclick="fetchUserByEmail()">Search</button>
+  <div class="container my-5">
+    <div class="profile-container">
+      <div class="header-animation">
+        <h1>Create Your Profile</h1>
+      </div>
+      
+      <form id="userProfileForm" enctype="multipart/form-data">
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label for="email" class="form-label">Search by Email</label>
+            <div class="input-group">
+              <input type="email" class="form-control" id="email" name="email" required placeholder="Enter user email" />
+              <button type="button" class="btn btn-primary" onclick="fetchUserByEmail()">
+                <i class="fas fa-search me-1"></i> Search
+              </button>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="userId" class="form-label">User ID</label>
+            <input type="text" class="form-control" id="userId" name="userId" readonly placeholder="Will be auto-filled" />
+          </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <label for="userId" class="form-label">User ID</label>
-        <input type="text" class="form-control" id="userId" name="userId" readonly />
-      </div>
-    </div>
 
-    <label for="profilePicture">Profile Picture:</label>
-    <input type="file" id="profilePicture" accept="image/*" />
-    <div id="imagePreview">
-      <i class="fa fa-user-circle" style="font-size: 3rem; color: #9ca3af;"></i>
-    </div>
+        <div class="image-upload">
+          <label for="profilePicture" class="upload-label">
+            <i class="fas fa-camera me-1"></i> Choose Profile Picture
+          </label>
+          <input type="file" id="profilePicture" accept="image/*" />
+          <div id="imagePreview">
+            <i class="fas fa-user-circle"></i>
+          </div>
+        </div>
 
-    <button type="submit">Save Profile</button>
-  </form>
+        <button type="submit" class="btn btn-primary submit-btn">
+          <i class="fas fa-save me-2"></i> Save Profile
+        </button>
+      </form>
+    </div>
+  </div>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
     const BASE_URL = "http://localhost:8080/api/v1";
@@ -45,6 +302,11 @@
 
     document.addEventListener("DOMContentLoaded", function () {
       checkAuth();
+
+      // Trigger file input when clicking on the upload label
+      document.querySelector('.upload-label').addEventListener('click', function() {
+        document.getElementById('profilePicture').click();
+      });
 
       document.getElementById("profilePicture").addEventListener("change", previewImage);
 
@@ -57,10 +319,23 @@
     function checkAuth() {
       if (!AUTH_TOKEN) {
         Swal.fire({
-          title: "Unauthorized",
-          text: "Please login to access this page.",
+          title: "Session Expired",
+          text: "Please login to continue",
           icon: "warning",
-          confirmButtonText: "Go to Login"
+          confirmButtonText: "Go to Login",
+          background: '#ffffff',
+          backdrop: `
+            rgba(0,0,0,0.4)
+            url("/images/loading.gif")
+            center top
+            no-repeat
+          `,
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
         }).then(() => {
           window.location.href = "/login.html";
         });
@@ -68,53 +343,90 @@
     }
 
     function fetchUserByEmail() {
-      const email = document.getElementById("email").value;
-      if (!email) return;
+      const email = document.getElementById("email").value.trim();
+      if (!email) {
+        showErrorAlert("Input Required", "Please enter a valid email address");
+        return;
+      }
+
+      showLoadingAlert("Searching User", "Please wait while we find the user");
 
       fetch(`${BASE_URL}/user/email/${encodeURIComponent(email)}`, {
         headers: {
           Authorization: `Bearer ${AUTH_TOKEN}`
         }
       })
-        .then((res) => res.json())
+        .then(async (res) => {
+          if (!res.ok) {
+            const errorData = await res.json();
+            throw new Error(errorData.message || "User not found");
+          }
+          return res.json();
+        })
         .then((data) => {
+          Swal.close();
           const user = data.data;
           document.getElementById("userId").value = user.id || "";
 
           if (user.profilePictureUrl) {
-            document.getElementById("imagePreview").innerHTML = `<img src="${user.profilePictureUrl}" alt="Profile" width="100" />`;
+            document.getElementById("imagePreview").innerHTML = `<img src="${user.profilePictureUrl}" alt="Profile" class="img-fluid" />`;
+            showSuccessToast("User found! Profile picture loaded");
           } else {
-            document.getElementById("imagePreview").innerHTML = `<i class="fa fa-user-circle" style="font-size: 3rem; color: #9ca3af;"></i>`;
+            document.getElementById("imagePreview").innerHTML = `<i class="fas fa-user-circle"></i>`;
+            showSuccessToast("User found! Please upload a profile picture");
           }
         })
         .catch((err) => {
           console.error("Error fetching user:", err);
-          Swal.fire("Error", "Could not fetch user by email.", "error");
+          showErrorAlert("User Not Found", err.message || "Could not find user with that email");
         });
     }
 
     function previewImage(e) {
       const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (event) {
-          document.getElementById("imagePreview").innerHTML = `<img src="${event.target.result}" alt="Preview" width="100" />`;
-        };
-        reader.readAsDataURL(file);
+      if (!file) return;
+
+      // Validate file type
+      if (!file.type.match('image.*')) {
+        showErrorAlert("Invalid File", "Please select an image file (JPEG, PNG, etc.)");
+        e.target.value = '';
+        return;
       }
+
+      // Validate file size (max 2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        showErrorAlert("File Too Large", "Please select an image smaller than 2MB");
+        e.target.value = '';
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        document.getElementById("imagePreview").innerHTML = `<img src="${event.target.result}" alt="Preview" class="img-fluid" />`;
+        showSuccessToast("Image selected and ready to upload");
+      };
+      reader.readAsDataURL(file);
     }
 
     function saveUserProfile() {
-      const formData = new FormData();
-      formData.append("userId", document.getElementById("userId").value);
-      formData.append("imageFile", document.getElementById("profilePicture").files[0]);
+      const userId = document.getElementById("userId").value;
+      const fileInput = document.getElementById("profilePicture");
+      
+      if (!userId) {
+        showErrorAlert("User Required", "Please search for a user first");
+        return;
+      }
+      
+      if (!fileInput.files || fileInput.files.length === 0) {
+        showErrorAlert("Image Required", "Please select a profile picture to upload");
+        return;
+      }
 
-      Swal.fire({
-        title: "Saving...",
-        text: "Please wait",
-        allowOutsideClick: false,
-        didOpen: () => Swal.showLoading()
-      });
+      const formData = new FormData();
+      formData.append("userId", userId);
+      formData.append("imageFile", fileInput.files[0]);
+
+      showLoadingAlert("Saving Profile", "Please wait while we save your profile");
 
       fetch(`${BASE_URL}/profile/upload`, {
         method: "POST",
@@ -123,17 +435,93 @@
         },
         body: formData
       })
-        .then((response) => response.json())
+        .then(async (response) => {
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Failed to save profile");
+          }
+          return response.json();
+        })
         .then((result) => {
-          Swal.fire("Success", result.message || "Profile saved!", "success");
-          document.getElementById("userProfileForm").reset();
-          document.getElementById("imagePreview").innerHTML =
-            '<i class="fa fa-user-circle" style="font-size: 3rem; color: #9ca3af;"></i>';
+          showSuccessAlert(
+            "Profile Saved Successfully", 
+            "Your profile picture has been updated successfully",
+            result.profilePictureUrl || null
+          ).then(() => {
+            window.location.href = "/login.html";
+          });
         })
         .catch((error) => {
           console.error("Profile save error:", error);
-          Swal.fire("Error", "Failed to save profile.", "error");
+          showErrorAlert("Save Failed", error.message || "Failed to save profile. Please try again.");
         });
+    }
+
+    // Custom Alert Functions
+    function showLoadingAlert(title, text) {
+      Swal.fire({
+        title: title,
+        html: text,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+        background: '#ffffff',
+        showConfirmButton: false
+      });
+    }
+
+    function showSuccessAlert(title, text, imageUrl = null) {
+      return Swal.fire({
+        title: title,
+        text: text,
+        icon: 'success',
+        imageUrl: imageUrl,
+        imageWidth: 150,
+        imageAlt: 'Profile picture',
+        confirmButtonText: 'Continue',
+        confirmButtonColor: '#4e73df',
+        background: '#ffffff',
+        showClass: {
+          popup: 'animate__animated animate__zoomIn'
+        },
+        timer: 3000
+      });
+    }
+
+    function showErrorAlert(title, text) {
+      Swal.fire({
+        title: title,
+        text: text,
+        icon: 'error',
+        confirmButtonText: 'Try Again',
+        confirmButtonColor: '#e74a3b',
+        background: '#ffffff',
+        showClass: {
+          popup: 'animate__animated animate__headShake'
+        }
+      });
+    }
+
+    function showSuccessToast(message) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        },
+        background: '#f8f9fc',
+        iconColor: '#1cc88a'
+      });
+      
+      Toast.fire({
+        icon: 'success',
+        title: message
+      });
     }
   </script>
 </body>
