@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ගෙවීම් පිටුව - PayHere</title>
+   <style>
+    .forgot-link:hover {
+            color: #6e8efb;
+            text-decoration: underline;
+        }
+
+        /* Submit Button */
+        button {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 15px rgba(110, 142, 251, 0.3);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out 1.6s forwards;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(110, 142, 251, 0.4);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        button:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        button:hover:after {
+            transform: translateX(100%);
+        }
+
+        /* Register Link */
+        .register-link {
+            font-size: 14px;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out 2.2s forwards;
+        }
+
+        .register-link a {
+            color: #6e8efb;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .register-link a:hover {
+            color: #a777e3;
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+            }
+
+            .form-section {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+        }
+
+        /* Keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.error {
+            background-color: #f44336;
+        }
+
+        .toast.success {
+            background-color: #4CAF50;
+        }
+
+
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(-20px);
+            transition: transform 0.3s;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: white;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .modal-btn-primary {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+        }
+
+        .modal-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-btn:active {
+            transform: translateY(0);
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .otp-inputs {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 18px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .otp-input:focus {
+            outline: none;
+            border-color: #6e8efb;
+            box-shadow: 0 0 0 2px rgba(110, 142, 251, 0.3);
+        }
+
+        .resend-otp {
+            color: #6e8efb;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .resend-otp:hover {
+            text-decoration: underline;
+        }
+
+        .resend-otp.disabled {
+            color: rgba(255, 255, 255, 0.5);
+            cursor: not-allowed;
+        }
+
+        .countdown {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            margin-top: 10px;
+        }
+   </style>
+   </head>
+   <body>
+
+  
+        <a href="#" class="forgot-link">Forgot password?</a>
+   
+
+    <!-- Forgot Password Modal -->
+<div id="forgotModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Reset Password</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <!-- Step 1: Email Input -->
+            <div id="step1" class="step active">
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">
+                    Enter your email address and we'll send you an OTP to reset your password.
+                </p>
+                <div class="form-group">
+                    <input type="email" id="forgotEmail" placeholder="Email Address" required>
+                    <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                </div>
+            </div>
+
+            <!-- Step 2: OTP Verification -->
+            <div id="step2" class="step">
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">
+                    We've sent a 6-digit OTP to your email. Please enter it below.
+                </p>
+                <div class="form-group">
+                    <div class="otp-inputs">
+                        <input type="text" class="otp-input" maxlength="1" data-index="1">
+                        <input type="text" class="otp-input" maxlength="1" data-index="2">
+                        <input type="text" class="otp-input" maxlength="1" data-index="3">
+                        <input type="text" class="otp-input" maxlength="1" data-index="4">
+                        <input type="text" class="otp-input" maxlength="1" data-index="5">
+                        <input type="text" class="otp-input" maxlength="1" data-index="6">
+                    </div>
+                    <div id="otpError" style="color: #f44336; font-size: 13px; margin-top: 5px; display: none;">
+                        Invalid OTP. Please try again.
+                    </div>
+                    <a id="resendOtp" class="resend-otp">Resend OTP</a>
+                    <div id="countdown" class="countdown">Resend available in 1:00</div>
+                </div>
+            </div>
+
+            <!-- Step 3: New Password -->
+            <div id="step3" class="step">
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">
+                    Please enter your new password.
+                </p>
+                <div class="form-group">
+                    <input type="password" id="newPassword" placeholder="New Password" required>
+                    <span class="input-icon"><i class="fas fa-lock"></i></span>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="confirmPassword" placeholder="Confirm New Password" required>
+                    <span class="input-icon"><i class="fas fa-lock"></i></span>
+                    <div id="passwordError" style="color: #f44336; font-size: 13px; margin-top: 5px; display: none;">
+                        Passwords don't match.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="prevBtn" class="modal-btn modal-btn-secondary" style="display: none;">Back</button>
+            <button id="nextBtn" class="modal-btn modal-btn-primary">Next</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
+
+
+    <!-- PayHere JS Library -->
+    <script>
+             // Toast Notification Function
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast';
+            
+            if (type === 'error') {
+                toast.classList.add('error');
+            } else if (type === 'success') {
+                toast.classList.add('success');
+            }
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Password Reset Modal Logic
+        const forgotModal = document.getElementById('forgotModal');
+        const forgotLink = document.querySelector('.forgot-link');
+        const closeModal = document.querySelector('.close-modal');
+        const steps = document.querySelectorAll('.step');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const forgotEmail = document.getElementById('forgotEmail');
+        const otpInputs = document.querySelectorAll('.otp-input');
+        const newPassword = document.getElementById('newPassword');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const resendOtp = document.getElementById('resendOtp');
+        const countdown = document.getElementById('countdown');
+        const otpError = document.getElementById('otpError');
+        const passwordError = document.getElementById('passwordError');
+
+        let currentStep = 1;
+        let email = '';
+        let countdownInterval;
+        let timeLeft = 60;
+
+        // Open modal when forgot password is clicked
+        forgotLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            forgotModal.classList.add('show');
+        });
+
+        // Close modal
+        closeModal.addEventListener('click', () => {
+            closeForgotModal();
+        });
+
+        // Close modal when clicking outside
+        forgotModal.addEventListener('click', (e) => {
+            if (e.target === forgotModal) {
+                closeForgotModal();
+            }
+        });
+
+        function closeForgotModal() {
+            forgotModal.classList.remove('show');
+            resetModal();
+        }
+
+        function resetModal() {
+            currentStep = 1;
+            updateSteps();
+            forgotEmail.value = '';
+            otpInputs.forEach(input => input.value = '');
+            newPassword.value = '';
+            confirmPassword.value = '';
+            otpError.style.display = 'none';
+            passwordError.style.display = 'none';
+            clearInterval(countdownInterval);
+            timeLeft = 60;
+            updateCountdown();
+        }
+
+        function updateSteps() {
+            steps.forEach(step => step.classList.remove('active'));
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            
+            prevBtn.style.display = currentStep === 1 ? 'none' : 'block';
+            
+            if (currentStep === 3) {
+                nextBtn.textContent = 'Reset Password';
+            } else {
+                nextBtn.textContent = 'Next';
+            }
+        }
+
+        function startCountdown() {
+            clearInterval(countdownInterval);
+            timeLeft = 60;
+            updateCountdown();
+            resendOtp.classList.add('disabled');
+            
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                updateCountdown();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    resendOtp.classList.remove('disabled');
+                }
+            }, 1000);
+        }
+
+        function updateCountdown() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            countdown.textContent = `Resend available in ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+        }
+
+        function getOtp() {
+            let otp = '';
+            otpInputs.forEach(input => {
+                otp += input.value;
+            });
+            return otp;
+        }
+
+        // OTP input auto-focus
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            });
+            
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && index > 0 && e.target.value.length === 0) {
+                    otpInputs[index - 1].focus();
+                }
+            });
+        });
+
+        // Next/Previous button logic
+        nextBtn.addEventListener('click', async () => {
+            if (currentStep === 1) {
+                // Step 1: Send OTP
+                email = forgotEmail.value.trim();
+                if (!email) {
+                    showToast('Please enter your email address', 'error');
+                    return;
+                }
+                
+                try {
+                    nextBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending';
+                    nextBtn.disabled = true;
+                    
+                    const response = await fetch('http://localhost:8080/api/v1/auth/send-otp', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to send OTP');
+                    }
+                    
+                    currentStep++;
+                    updateSteps();
+                    startCountdown();
+                    showToast('OTP sent to your email', 'success');
+                } catch (error) {
+                    showToast(error.message || 'Failed to send OTP', 'error');
+                } finally {
+                    nextBtn.innerHTML = 'Next';
+                    nextBtn.disabled = false;
+                }
+            } else if (currentStep === 2) {
+                // Step 2: Verify OTP
+                const otp = getOtp();
+                if (otp.length !== 6) {
+                    otpError.textContent = 'Please enter a 6-digit OTP';
+                    otpError.style.display = 'block';
+                    return;
+                }
+                
+                // Move to password step without verification yet
+                currentStep++;
+                updateSteps();
+                otpError.style.display = 'none';
+                
+            } else if (currentStep === 3) {
+                // Step 3: Verify OTP and Reset Password (combined as per your backend)
+                const otp = getOtp();
+                const password = newPassword.value;
+                const confirm = confirmPassword.value;
+                
+                if (password !== confirm) {
+                    passwordError.textContent = 'Passwords do not match';
+                    passwordError.style.display = 'block';
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    passwordError.textContent = 'Password must be at least 6 characters';
+                    passwordError.style.display = 'block';
+                    return;
+                }
+                
+                try {
+                    nextBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Resetting';
+                    nextBtn.disabled = true;
+                    
+                    const response = await fetch('http://localhost:8080/api/v1/auth/verify-otp', {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            email: email, 
+                            otp: otp,
+                            newPassword: password
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        const data = await response.json();
+                        throw new Error(data.message || 'Failed to reset password');
+                    }
+                    
+                    showToast('Password reset successfully!', 'success');
+                    
+                    // Auto-fill the login form with the reset credentials
+                    document.getElementById('email').value = email;
+                    document.getElementById('password').value = password;
+                    
+                    setTimeout(() => {
+                        closeForgotModal();
+                    }, 1500);
+                } catch (error) {
+                    showToast(error.message, 'error');
+                } finally {
+                    nextBtn.innerHTML = 'Reset Password';
+                    nextBtn.disabled = false;
+                }
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateSteps();
+            }
+        });
+
+        // Resend OTP
+        resendOtp.addEventListener('click', async () => {
+            if (resendOtp.classList.contains('disabled')) return;
+            
+            try {
+                resendOtp.classList.add('disabled');
+                showToast('Resending OTP...', 'info');
+                
+                const response = await fetch('http://localhost:8080/api/v1/auth/send-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to resend OTP');
+                }
+                
+                startCountdown();
+                showToast('OTP resent to your email', 'success');
+            } catch (error) {
+                showToast(error.message || 'Failed to resend OTP', 'error');
+                resendOtp.classList.remove('disabled');
+            }
+        });
+
+    </script>
+</body>
+</html>
