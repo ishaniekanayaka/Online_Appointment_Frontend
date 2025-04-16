@@ -679,7 +679,7 @@
 <nav id="category-nav" class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <i class="fas fa-boxes"></i>Category Explorer
+            <i class="fas fa-boxes"></i>MeetUpPro
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
             <i class="fas fa-bars text-white"></i>
@@ -757,6 +757,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://www.payhere.lk/lib/payhere.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
 <script>
     // API Base URL
     const API_BASE_URL = "http://localhost:8080/api/v1";
@@ -1425,20 +1427,608 @@ async function bookAppointment(gig) {
             confirmButtonColor: '#4361ee'
         });
     }
-
-    // Animate content transition
-    function animateContentTransition(callback) {
-        subcategoryContainer.style.opacity = '0';
-        subcategoryContainer.style.transform = 'translateY(20px)';
-        subcategoryContainer.style.transition = 'all 0.4s ease';
-
-        setTimeout(() => {
-            callback();
-            subcategoryContainer.style.opacity = '1';
-            subcategoryContainer.style.transform = 'translateY(0)';
-        }, 400);
+// Function to create and show custom payment form with improved design
+function showCustomPaymentForm(appointmentId, appointmentData) {
+    // Debug log to see what data we're working with
+    console.log("Opening payment form with data:", { appointmentId, appointmentData });
+    
+    // Create overlay element
+    const overlay = document.createElement('div');
+    overlay.id = 'paymentOverlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.zIndex = '1000';
+    
+    // Format date and amount
+    const appointmentDate = new Date(appointmentData.dateTime);
+    const formattedDate = appointmentDate.toLocaleDateString();
+    const formattedTime = appointmentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    // Clean up the amount value
+    let cleanAmount = "0.00";
+    if (appointmentData.amountCharge) {
+        cleanAmount = appointmentData.amountCharge.toString().replace(/[^0-9.]/g, '');
     }
-// Function to display notifications in dropdown
+    
+    // Create payment form container with enhanced design
+    const paymentForm = document.createElement('div');
+    paymentForm.id = 'paymentForm';
+    paymentForm.style.backgroundColor = '#fff';
+    paymentForm.style.borderRadius = '12px';
+    paymentForm.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.25)';
+    paymentForm.style.width = '90%';
+    paymentForm.style.maxWidth = '550px';
+    paymentForm.style.padding = '0';
+    paymentForm.style.overflow = 'hidden';
+    paymentForm.style.animation = 'fadeInScale 0.4s ease-out forwards';
+    
+    // Add animation styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .payment-method {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .payment-method:hover:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(74, 111, 165, 0.05);
+            border-radius: 6px;
+        }
+        
+        .payment-method.selected {
+            border-color: #4a6fa5 !important;
+            background-color: #f0f7ff !important;
+            box-shadow: 0 2px 8px rgba(74, 111, 165, 0.2);
+        }
+        
+        #payNowButton {
+            transition: all 0.3s ease;
+        }
+        
+        #payNowButton:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    `;
+    document.head.appendChild(styleElement);
+    
+    // Payment form content with improved design
+    paymentForm.innerHTML = `
+        <div style="background: linear-gradient(135deg, #4a6fa5, #3a5a8c); color: white; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <h2 style="margin: 0; font-size: 24px; font-weight: 600;">Payment Details</h2>
+        </div>
+        
+        <div style="padding: 25px; background-color: #fff;">
+            <div style="margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 600; color: #444; font-size: 15px;">Appointment:</span>
+                <span style="color: #333; font-size: 15px;">${appointmentData.gigName}</span>
+            </div>
+            
+            <div style="margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 600; color: #444; font-size: 15px;">Date & Time:</span>
+                <span style="color: #333; font-size: 15px;">${formattedDate} at ${formattedTime}</span>
+            </div>
+            
+            <div style="margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 600; color: #444; font-size: 15px;">Appointment ID:</span>
+                <span style="color: #333; font-size: 15px;">${appointmentId}</span>
+            </div>
+            
+            <div style="margin-top: 28px; padding-top: 18px; border-top: 1px solid #eee; display: flex; justify-content: space-between; font-size: 20px; font-weight: bold; color: #333;">
+                <span>Total Amount:</span>
+                <span style="color: #4a6fa5;">LKR ${appointmentData.amountCharge}</span>
+            </div>
+        </div>
+        
+        <div style="padding: 25px; background-color: #f8fafd; border-top: 1px solid #eee;">
+            <h3 style="font-size: 18px; margin-bottom: 20px; color: #333; font-weight: 600;">Select Payment Method</h3>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+                
+                <div class="payment-method" data-method="AMEX" style="flex: 1 1 calc(50% - 8px); min-width: 140px; max-width: 200px; text-align: center; padding: 20px; border: 2px solid #e0e0e0; border-radius: 10px; cursor: pointer; background: white;">
+                    <div class="payment-logo" style="height: 30px; margin-bottom: 12px; display: flex; justify-content: center; align-items: center;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/American_Express_logo.svg/1200px-American_Express_logo.svg.png" alt="American Express" style="height: 100%; width: auto;" onerror="this.src='https://via.placeholder.com/80x50?text=AMEX'">
+                    </div>
+                    <div style="font-weight: 600; color: #333; font-size: 14px;">Visa</div>
+                </div>
+                
+                <div class="payment-method" data-method="ONLINE_BANKING" style="flex: 1 1 calc(50% - 8px); min-width: 140px; max-width: 200px; text-align: center; padding: 20px; border: 2px solid #e0e0e0; border-radius: 10px; cursor: pointer; background: white;">
+                    <div class="payment-logo" style="height: 30px; margin-bottom: 12px; display: flex; justify-content: center; align-items: center;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/265/265680.png" alt="Online Banking" style="height: 100%; width: auto;" onerror="this.src='https://via.placeholder.com/80x50?text=ONLINE+BANKING'">
+                    </div>
+                    <div style="font-weight: 600; color: #333; font-size: 14px;">Online Banking</div>
+                </div>
+                <div class="payment-method" data-method="AMEX" style="flex: 1 1 calc(50% - 8px); min-width: 140px; max-width: 200px; text-align: center; padding: 20px; border: 2px solid #e0e0e0; border-radius: 10px; cursor: pointer; background: white;">
+                    <div class="payment-logo" style="height: 30px; margin-bottom: 12px; display: flex; justify-content: center; align-items: center;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/American_Express_logo.svg/1200px-American_Express_logo.svg.png" alt="American Express" style="height: 100%; width: auto;" onerror="this.src='https://via.placeholder.com/80x50?text=AMEX'">
+                    </div>
+                    <div style="font-weight: 600; color: #333; font-size: 14px;">Amazon</div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="padding: 25px; text-align: center; background-color: #fff; border-top: 1px solid #eee;">
+            <button id="payNowButton" disabled style="width: 60%; background-color: #ddd; color: #888; padding: 14px 30px; border: none; border-radius: 50px; cursor: not-allowed; font-weight: bold; font-size: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                Pay Now
+            </button>
+            <button id="cancelPaymentButton" style="background-color: transparent; color: #777; padding: 14px 25px; border: none; cursor: pointer; font-size: 16px; margin-left: 10px; transition: all 0.3s ease;">
+                Cancel
+            </button>
+        </div>
+    `;
+    
+    // Add form to overlay and overlay to document
+    overlay.appendChild(paymentForm);
+    document.body.appendChild(overlay);
+    
+    // Add event listeners to payment methods
+    let selectedMethod = null;
+    const paymentMethods = document.querySelectorAll('.payment-method');
+    const payNowButton = document.getElementById('payNowButton');
+    
+    paymentMethods.forEach(method => {
+        method.addEventListener('click', function() {
+            // Remove selected class from all methods
+            paymentMethods.forEach(m => {
+                m.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked method
+            this.classList.add('selected');
+            
+            // Store selected method
+            selectedMethod = this.getAttribute('data-method');
+            
+            // Enable pay button with animation
+            payNowButton.disabled = false;
+            payNowButton.style.backgroundColor = '#4CAF50';
+            payNowButton.style.color = 'white';
+            payNowButton.style.cursor = 'pointer';
+            payNowButton.style.boxShadow = '0 4px 8px rgba(76, 175, 80, 0.25)';
+            
+            // Add a subtle pulse animation
+            payNowButton.style.animation = 'pulse 0.5s ease';
+            setTimeout(() => {
+                payNowButton.style.animation = '';
+            }, 500);
+        });
+    });
+    
+    // Add click event to pay now button
+    payNowButton.addEventListener('click', function() {
+        if (selectedMethod) {
+            // Show loading indicator
+            this.innerHTML = '<span style="display: inline-block; margin-right: 10px;">Processing</span> <div class="loader" style="display: inline-block; width: 16px; height: 16px; border: 2px solid #fff; border-radius: 50%; border-top-color: transparent; animation: spin 0.6s linear infinite;"></div>';
+            this.disabled = true;
+            
+            // Extract all necessary data for payment
+            processPayment(appointmentId, appointmentData, selectedMethod);
+        }
+    });
+    
+    // Add click event to cancel button
+    document.getElementById('cancelPaymentButton').addEventListener('click', closePaymentForm);
+    document.getElementById('cancelPaymentButton').addEventListener('mouseover', function() {
+        this.style.color = '#333';
+    });
+    document.getElementById('cancelPaymentButton').addEventListener('mouseout', function() {
+        this.style.color = '#777';
+    });
+    
+    // Add click event to overlay (close when clicking outside)
+    overlay.addEventListener('click', function(event) {
+        if (event.target === overlay) {
+            closePaymentForm();
+        }
+    });
+    
+    // Function to close payment form with animation
+    function closePaymentForm() {
+        overlay.style.opacity = '1';
+        paymentForm.style.animation = 'fadeInScale 0.3s ease-in reverse forwards';
+        
+        setTimeout(() => {
+            document.body.removeChild(overlay);
+        }, 300);
+
+        // Fade out overlay
+        overlay.style.transition = 'opacity 0.3s ease';
+        overlay.style.opacity = '0';
+    }
+    
+    // Function to handle payment processing
+    function processPayment(appointmentId, appointmentData, selectedMethod) {
+        // Get user ID from localStorage
+        const userId = localStorage.getItem('userId');
+        
+        // Determine gigId from appointmentData
+        let gigId = null;
+        
+        // First check if gigId exists directly in appointmentData
+        if (appointmentData.gigId) {
+            gigId = appointmentData.gigId;
+        } 
+        // Check if there's a gig object
+        else if (appointmentData.gig && appointmentData.gig.id) {
+            gigId = appointmentData.gig.id;
+        }
+        // Try to extract from gigName (if it contains a number at the end)
+        else if (appointmentData.gigName) {
+            const match = appointmentData.gigName.match(/(\d+)$/);
+            if (match && match[1]) {
+                gigId = match[1];
+            }
+        }
+        
+        // Clean up the amount value
+        let cleanAmount = 0;
+        if (appointmentData.amountCharge) {
+            cleanAmount = appointmentData.amountCharge.toString().replace(/[^0-9.]/g, '');
+            cleanAmount = parseFloat(cleanAmount);
+        }
+        
+        // Prepare payment data
+        const paymentData = {
+            availabilityId: appointmentId,
+            userId: userId,
+            gigId: gigId,
+            amount: cleanAmount
+        };
+        
+        console.log("Payment request data:", paymentData);
+        
+        // Call backend to process payment
+        makeBackendPayment(paymentData)
+            .then(result => {
+                if (result.success) {
+                    console.log("Backend payment successful:", result);
+                    closePaymentForm();
+                    
+                    // Process with PayHere
+                    initializePayHerePayment(appointmentId, appointmentData, selectedMethod);
+                } else {
+                    // Display error
+                    alert("Payment processing failed: " + (result.error || "Unknown error"));
+                    
+                    // Reset button
+                    payNowButton.innerHTML = 'Pay Now';
+                    payNowButton.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error("Payment error:", error);
+                alert("Payment error: " + error.message);
+                
+                // Reset button
+                payNowButton.innerHTML = 'Pay Now';
+                payNowButton.disabled = false;
+            });
+    }
+}
+
+// Function to handle payment processing
+function processPayment(appointmentId, appointmentData, selectedMethod) {
+    // Get user ID from localStorage
+    const userId = localStorage.getItem('userId');
+    
+    // Determine gigId from appointmentData
+    let gigId = null;
+    
+    // First check if gigId exists directly in appointmentData
+    if (appointmentData.gigId) {
+        gigId = appointmentData.gigId;
+    } 
+    // Check if there's a gig object
+    else if (appointmentData.gig && appointmentData.gig.id) {
+        gigId = appointmentData.gig.id;
+    }
+    // If you have gigName and a separate API to fetch gigId by name
+    else if (appointmentData.gigName) {
+        // Option 1: Extract ID if gigName is in format "Name #123"
+        const match = appointmentData.gigName.match(/(\d+)$/);
+        if (match && match[1]) {
+            gigId = match[1];
+        } 
+        // Option 2: Make an API call to get gigId by name
+        else {
+            // This needs to be done asynchronously - we'll return a promise
+            return fetchGigIdByName(appointmentData.gigName)
+                .then(id => {
+                    if (id) {
+                        gigId = id;
+                        return continuePaymentProcess(appointmentId, appointmentData, userId, gigId, selectedMethod);
+                    } else {
+                        throw new Error("Could not find gigId for: " + appointmentData.gigName);
+                    }
+                });
+        }
+    }
+    
+    // If we're here, we either have gigId or couldn't get it
+    return continuePaymentProcess(appointmentId, appointmentData, userId, gigId, selectedMethod);
+}
+
+// Helper function to get gigId by name
+async function fetchGigIdByName(gigName) {
+    try {
+        const authToken = localStorage.getItem('authToken');
+        
+        if (!authToken) {
+            throw new Error('Authentication token not found');
+        }
+        
+        // Call your API endpoint that can find a gig by name
+        const response = await fetch(`http://localhost:8080/api/v1/gig/search?name=${encodeURIComponent(gigName)}`, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Failed to fetch gig id (${response.status})`);
+        }
+        
+        const results = await response.json();
+        
+        // Check if we got results and return the id of the first matching gig
+        if (results && results.length > 0) {
+            return results[0].id;
+        }
+        
+        return null;
+    } catch (error) {
+        console.error('Error fetching gig id by name:', error);
+        return null;
+    }
+}
+
+// Continue the payment process after determining gigId
+function continuePaymentProcess(appointmentId, appointmentData, userId, gigId, selectedMethod) {
+    // Clean up the amount value
+    let cleanAmount = 0;
+    if (appointmentData.amountCharge) {
+        cleanAmount = appointmentData.amountCharge.toString().replace(/[^0-9.]/g, '');
+        cleanAmount = parseFloat(cleanAmount);
+    }
+    
+    // Prepare payment data
+    const paymentData = {
+        availabilityId: appointmentId,
+        userId: userId,
+        gigId: gigId,
+        amount: cleanAmount,
+        gigName: appointmentData.gigName  // Keep the original gigName for reference
+    };
+    
+    console.log("Payment request data:", paymentData);
+    
+    // Call backend to process payment
+    return makeBackendPayment(paymentData)
+        .then(result => {
+            if (result.success) {
+                console.log("Backend payment successful:", result);
+                closePaymentForm();
+                
+                // Process with PayHere
+                initializePayHerePayment(appointmentId, appointmentData, selectedMethod);
+                return true;
+            } else {
+                // Display error
+                alert("Payment processing failed: " + (result.error || "Unknown error"));
+                
+                // Reset button
+                const payNowButton = document.getElementById('payNowButton');
+                payNowButton.innerHTML = 'Pay Now';
+                payNowButton.disabled = false;
+                return false;
+            }
+        })
+        .catch(error => {
+            console.error("Payment error:", error);
+            alert("Payment error: " + error.message);
+            
+            // Reset button
+            const payNowButton = document.getElementById('payNowButton');
+            payNowButton.innerHTML = 'Pay Now';
+            payNowButton.disabled = false;
+            return false;
+        });
+}
+// Function to make the backend payment API call
+async function makeBackendPayment(paymentData) {
+    try {
+        const authToken = localStorage.getItem('authToken');
+        
+        if (!authToken) {
+            throw new Error('Authentication token not found');
+        }
+        
+        // Format data to match backend expectations
+        const formattedData = {
+            availabilityId: paymentData.availabilityId ? String(paymentData.availabilityId) : null,
+            userId: paymentData.userId ? String(paymentData.userId) : null,
+            gigId: paymentData.gigId ? String(paymentData.gigId) : null,
+            amount: paymentData.amount ? Number(paymentData.amount) : 0
+        };
+        
+        console.log("Sending payment data to backend:", formattedData);
+        
+        // Show processing alert
+        Swal.fire({
+            title: 'Processing Payment',
+            html: 'Please wait while we process your payment...',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        
+        const response = await fetch('http://localhost:8080/api/v1/payment/pay', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify(formattedData)
+        });
+        
+        if (!response.ok) {
+            let errorText;
+            try {
+                const errorData = await response.json();
+                errorText = errorData.message || JSON.stringify(errorData);
+            } catch (e) {
+                errorText = await response.text();
+            }
+            
+            console.error("Server error:", {
+                status: response.status,
+                statusText: response.statusText,
+                body: errorText
+            });
+            
+            throw new Error(errorText || `Payment failed (${response.status})`);
+        }
+        
+        const result = await response.json();
+        
+        // Show success message
+        await Swal.fire({
+            icon: 'success',
+            title: 'Payment Successful!',
+            html: `
+                <div style="text-align: left; margin-top: 20px;">
+                    <p><strong>Amount:</strong> LKR ${paymentData.amount.toLocaleString()}</p>
+                    
+                    <p><strong>Reference:</strong> ${result.id || 'N/A'}</p>
+                </div>
+            `,
+            confirmButtonText: 'Done',
+            confirmButtonColor: '#4CAF50'
+        });
+        
+        return { success: true, data: result };
+        
+    } catch (error) {
+        console.error('Payment processing error:', error);
+        
+        // Show error message
+        await Swal.fire({
+            icon: 'error',
+            title: 'Payment Failed',
+            html: `
+                <div style="text-align: left; margin-top: 20px;">
+                    <p>${error.message}</p>
+                    <p>Please try again or contact support if the problem persists.</p>
+                </div>
+            `,
+            confirmButtonText: 'Try Again',
+            confirmButtonColor: '#f44336'
+        });
+        
+        return { success: false, error: error.message };
+    }
+}
+
+// Example usage:
+// makeBackendPayment({
+//     availabilityId: '123',
+//     userId: '456',
+//     gigId: '789',
+//     amount: 10000,
+//     gigName: 'Professional Photography'
+// });
+// Function to initialize PayHere payment
+function initializePayHerePayment(appointmentId, appointmentData, paymentMethod) {
+    // Get user data from localStorage
+    const userId = localStorage.getItem('userId');
+    const userEmail = localStorage.getItem('userEmail') || '';
+    const userName = localStorage.getItem('userName') || '';
+    const userPhone = localStorage.getItem('userPhone') || '';
+    
+    // Clean up the amount value
+    let cleanAmount = "0.00";
+    if (appointmentData.amountCharge) {
+        cleanAmount = appointmentData.amountCharge.toString().replace(/[^0-9.]/g, '');
+    }
+    
+    // Format first and last name
+    let firstName = "", lastName = "";
+    if (userName) {
+        const nameParts = userName.split(' ');
+        firstName = nameParts[0] || "";
+        lastName = nameParts.slice(1).join(' ') || "";
+    }
+    
+    // Build PayHere payment object
+    const payment = {
+        sandbox: true, // Set to false in production
+        merchant_id: "1230106", // Replace with your actual Payhere merchant ID
+        return_url: window.location.origin + "/payment-success",
+        cancel_url: window.location.origin + "/payment-cancelled",
+        notify_url: "http://localhost:8080/api/v1/payment/payhere",
+        order_id: appointmentId,
+        items: appointmentData.gigName,
+        amount: cleanAmount,
+        currency: "LKR",
+        first_name: firstName,
+        last_name: lastName,
+        email: userEmail,
+        phone: userPhone,
+        address: "",
+        city: "",
+        country: "Sri Lanka",
+        delivery_address: "",
+        delivery_city: "",
+        delivery_country: "Sri Lanka",
+        custom_1: userId,
+        custom_2: appointmentId,
+        method: paymentMethod // VISA, MASTER, AMEX, ONLINE_BANKING
+    };
+
+    console.log("Initializing PayHere with data:", payment);
+
+    // Show PayHere payment window
+    if (typeof payhere !== 'undefined') {
+        payhere.startPayment(payment);
+    } else {
+        console.error("PayHere.js is not loaded");
+        alert("Payment gateway not available. Please ensure PayHere.js is loaded properly.");
+    }
+}
+
+// Function to display notifications including appointments with Payment buttons
 function displayNotifications(appointments) {
     const notificationList = document.getElementById('notificationList');
     const notificationCount = document.getElementById('notificationCount');
@@ -1484,6 +2074,14 @@ function displayNotifications(appointments) {
         
         notificationItem.innerHTML = `
             <div class="notification-gig">${appointment.gigName}</div>
+            <div class="notification-gig">${appointment.gigId}</div>
+            <div class="notification-user">
+                <strong>Amount Charge:</strong> ${appointment.amountCharge}
+            </div>
+            <div class="notification-user">
+                <strong>Your available ID:</strong> ${appointment.id}
+            </div>
+
             <div class="notification-time">${formattedDate} at ${formattedTime}</div>
             <span class="notification-status ${statusClass}">${appointment.status}</span>
             ${payButtonHtml}
@@ -1494,22 +2092,24 @@ function displayNotifications(appointments) {
             const payButton = notificationItem.querySelector('.pay-button');
             payButton.style.backgroundColor = '#4CAF50';
             payButton.style.color = 'white';
-            payButton.style.padding = '8px 15px';
+            payButton.style.padding = '10px 18px';
             payButton.style.border = 'none';
-            payButton.style.borderRadius = '4px';
+            payButton.style.borderRadius = '50px';
             payButton.style.cursor = 'pointer';
             payButton.style.fontWeight = 'bold';
-            payButton.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+            payButton.style.boxShadow = '0 2px 6px rgba(0,0,0,0.2)';
             payButton.style.transition = 'all 0.3s ease';
             
             // Add hover effect
             payButton.onmouseover = function() {
                 this.style.backgroundColor = '#45a049';
                 this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+                this.style.transform = 'translateY(-2px)';
             };
             payButton.onmouseout = function() {
                 this.style.backgroundColor = '#4CAF50';
-                this.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+                this.style.boxShadow = '0 2px 6px rgba(0,0,0,0.2)';
+                this.style.transform = 'translateY(0)';
             };
 
             // Add click event to show custom payment form
@@ -1525,241 +2125,6 @@ function displayNotifications(appointments) {
     // Update badge count
     notificationCount.textContent = appointments.length;
     notificationCount.style.display = appointments.length > 0 ? 'block' : 'none';
-}
-
-// Function to create and show custom payment form
-function showCustomPaymentForm(appointmentId, appointmentData) {
-    // Create overlay element
-    const overlay = document.createElement('div');
-    overlay.id = 'paymentOverlay';
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.width = '100%';
-    overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-    overlay.style.display = 'flex';
-    overlay.style.justifyContent = 'center';
-    overlay.style.alignItems = 'center';
-    overlay.style.zIndex = '1000';
-    
-    // Format date and amount
-    const appointmentDate = new Date(appointmentData.dateTime);
-    const formattedDate = appointmentDate.toLocaleDateString();
-    const formattedTime = appointmentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const amount = appointmentData.amountCharge || "0.00";
-    
-    // Create payment form container
-    const paymentForm = document.createElement('div');
-    paymentForm.id = 'paymentForm';
-    paymentForm.style.backgroundColor = '#fff';
-    paymentForm.style.borderRadius = '8px';
-    paymentForm.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.2)';
-    paymentForm.style.width = '90%';
-    paymentForm.style.maxWidth = '500px';
-    paymentForm.style.padding = '0';
-    paymentForm.style.overflow = 'hidden';
-    
-    // Payment form content
-    paymentForm.innerHTML = `
-        <div style="background-color: #4a6fa5; color: white; padding: 15px 20px; text-align: center;">
-            <h2 style="margin: 0; font-size: 20px;">Payment Details</h2>
-        </div>
-        
-        <div style="padding: 20px;">
-            <div style="margin-bottom: 15px; display: flex; justify-content: space-between;">
-                <span style="font-weight: bold;">Appointment:</span>
-                <span>${appointmentData.gigName}</span>
-            </div>
-            
-            <div style="margin-bottom: 15px; display: flex; justify-content: space-between;">
-                <span style="font-weight: bold;">Date & Time:</span>
-                <span>${formattedDate} at ${formattedTime}</span>
-            </div>
-            
-            <div style="margin-bottom: 20px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee; display: flex; justify-content: space-between; font-size: 18px; font-weight: bold;">
-                <span>Total Amount:</span>
-                <span>LKR ${appointmentData.amount}</span>
-            </div>
-        </div>
-        
-        <div style="padding: 20px; background-color: #f9f9f9; border-top: 1px solid #eee;">
-            <h3 style="font-size: 16px; margin-bottom: 15px; color: #333;">Select Payment Method</h3>
-            
-            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-                <div class="payment-method" data-method="VISA" style="flex-basis: calc(50% - 10px); text-align: center; padding: 12px; border: 2px solid #ddd; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
-                    <img src="https://www.payhere.lk/downloads/images/visa.png" alt="Visa" style="max-height: 30px; margin-bottom: 8px;">
-                    <div style="font-weight: bold;">Visa</div>
-                </div>
-                
-                <div class="payment-method" data-method="MASTER" style="flex-basis: calc(50% - 10px); text-align: center; padding: 12px; border: 2px solid #ddd; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
-                    <img src="https://www.payhere.lk/downloads/images/mastercard.png" alt="Mastercard" style="max-height: 30px; margin-bottom: 8px;">
-                    <div style="font-weight: bold;">Mastercard</div>
-                </div>
-                
-                <div class="payment-method" data-method="AMEX" style="flex-basis: calc(50% - 10px); text-align: center; padding: 12px; border: 2px solid #ddd; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
-                    <img src="https://www.payhere.lk/downloads/images/american-express.png" alt="American Express" style="max-height: 30px; margin-bottom: 8px;">
-                    <div style="font-weight: bold;">American Express</div>
-                </div>
-                
-                <div class="payment-method" data-method="ONLINE_BANKING" style="flex-basis: calc(50% - 10px); text-align: center; padding: 12px; border: 2px solid #ddd; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
-                    <img src="https://www.payhere.lk/downloads/images/bank.png" alt="Online Banking" style="max-height: 30px; margin-bottom: 8px;">
-                    <div style="font-weight: bold;">Online Banking</div>
-                </div>
-            </div>
-        </div>
-        
-        <div style="padding: 20px; text-align: center;">
-            <button id="payNowButton" disabled style="background-color: #ddd; color: #888; padding: 12px 30px; border: none; border-radius: 4px; cursor: not-allowed; font-weight: bold; font-size: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.3s ease;">
-                Pay Now
-            </button>
-            <button id="cancelPaymentButton" style="background-color: transparent; color: #777; padding: 12px 30px; border: none; cursor: pointer; font-size: 16px; margin-left: 10px;">
-                Cancel
-            </button>
-        </div>
-    `;
-    
-    // Add form to overlay and overlay to document
-    overlay.appendChild(paymentForm);
-    document.body.appendChild(overlay);
-    
-    // Add event listeners to payment methods
-    let selectedMethod = null;
-    const paymentMethods = document.querySelectorAll('.payment-method');
-    const payNowButton = document.getElementById('payNowButton');
-    
-    paymentMethods.forEach(method => {
-        method.addEventListener('click', function() {
-            // Remove selected class from all methods
-            paymentMethods.forEach(m => {
-                m.style.borderColor = '#ddd';
-                m.style.backgroundColor = '';
-            });
-            
-            // Add selected class to clicked method
-            this.style.borderColor = '#4a6fa5';
-            this.style.backgroundColor = '#f0f7ff';
-            
-            // Store selected method
-            selectedMethod = this.getAttribute('data-method');
-            
-            // Enable pay button
-            payNowButton.disabled = false;
-            payNowButton.style.backgroundColor = '#4CAF50';
-            payNowButton.style.color = 'white';
-            payNowButton.style.cursor = 'pointer';
-            payNowButton.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
-        });
-        
-        // Add hover effect
-        method.addEventListener('mouseover', function() {
-            if (this.getAttribute('data-method') !== selectedMethod) {
-                this.style.borderColor = '#4a6fa5';
-            }
-        });
-        
-        method.addEventListener('mouseout', function() {
-            if (this.getAttribute('data-method') !== selectedMethod) {
-                this.style.borderColor = '#ddd';
-            }
-        });
-    });
-    
-    // Add click event to pay now button
-    payNowButton.addEventListener('click', function() {
-        if (selectedMethod) {
-            closePaymentForm();
-            processPaymentWithPayhere(appointmentId, appointmentData, selectedMethod);
-        }
-    });
-    
-    // Add click event to cancel button
-    document.getElementById('cancelPaymentButton').addEventListener('click', closePaymentForm);
-    
-    // Add click event to overlay (close when clicking outside)
-    overlay.addEventListener('click', function(event) {
-        if (event.target === overlay) {
-            closePaymentForm();
-        }
-    });
-    
-    // Function to close payment form
-    function closePaymentForm() {
-        document.body.removeChild(overlay);
-    }
-}
-
-// Function to process payment with PayHere
-function processPaymentWithPayhere(appointmentId, appointmentData, method) {
-    // Payment object
-    const payment = {
-        sandbox: true, // Set to false in production
-        merchant_id: "1230106", // Replace with your actual Payhere merchant ID
-        return_url: window.location.origin + "/payment-success",
-        cancel_url: window.location.origin + "/payment-cancelled",
-        notify_url: "http://localhost:8080/api/v1/payment/payhere", // Replace with your actual API endpoint
-        order_id: appointmentId,
-        items: appointmentData.gigName,
-        amount: appointmentData.amountCharge || "0.00", // Make sure amount is available in appointmentData
-        currency: "LKR",
-        first_name: appointmentData.customerName || "",
-        last_name: "",
-        email: appointmentData.customerEmail || "",
-        phone: appointmentData.customerPhone || "",
-        address: "",
-        city: "",
-        country: "Sri Lanka",
-        delivery_address: "",
-        delivery_city: "",
-        delivery_country: "Sri Lanka",
-        custom_1: appointmentId,
-        custom_2: "",
-        method: method // VISA, MASTER, AMEX, ONLINE_BANKING etc.
-    };
-
-    // Show the payhere.js popup
-    if (typeof payhere !== 'undefined') {
-        payhere.startPayment(payment);
-    } else {
-        console.error("Payhere.js is not loaded. Make sure to include the script in your HTML.");
-        alert("Payment system is not available. Please try again later.");
-    }
-}
-
-// Original PayHere integration function (kept for reference but not used)
-function loadPayhere(appointmentId, appointmentData) {
-    // Payment object
-    const payment = {
-        sandbox: true, // Set to false in production
-        merchant_id: "1230106", // Replace with your actual Payhere merchant ID
-        return_url: window.location.origin + "/payment-success",
-        cancel_url: window.location.origin + "/payment-cancelled",
-        notify_url: "http://localhost:8080/api/v1/payment/payhere-notification", // Replace with your actual API endpoint
-        order_id: appointmentId,
-        items: appointmentData.gigName,
-        amount: appointmentData.amountCharge || "0.00", // Make sure amount is available in appointmentData
-        currency: "LKR",
-        first_name: appointmentData.customerName || "",
-        last_name: "",
-        email: appointmentData.customerEmail || "",
-        phone: appointmentData.customerPhone || "",
-        address: "",
-        city: "",
-        country: "Sri Lanka",
-        delivery_address: "",
-        delivery_city: "",
-        delivery_country: "Sri Lanka",
-        custom_1: appointmentId,
-        custom_2: ""
-    };
-
-    // Show the payhere.js popup
-    if (typeof payhere !== 'undefined') {
-        payhere.startPayment(payment);
-    } else {
-        console.error("Payhere.js is not loaded. Make sure to include the script in your HTML.");
-        alert("Payment system is not available. Please try again later.");
-    }
 }
 
 // Function to fetch appointments from the server using API
@@ -1785,6 +2150,68 @@ async function fetchUserAppointments() {
     }
 }
 
+// Add this function to animate content transitions
+function animateContentTransition(callback) {
+    const subcategoryContainer = document.getElementById('subcategoryContainer');
+    if (!subcategoryContainer) {
+        if (callback) callback();
+        return;
+    }
+    
+    subcategoryContainer.style.opacity = '0';
+    subcategoryContainer.style.transform = 'translateY(20px)';
+    subcategoryContainer.style.transition = 'all 0.4s ease';
+
+    setTimeout(() => {
+        if (callback) callback();
+        subcategoryContainer.style.opacity = '1';
+        subcategoryContainer.style.transform = 'translateY(0)';
+    }, 400);
+}
+
+// Add event listener to load appointments when document is ready
+document.addEventListener('DOMContentLoaded', () => {
+    fetchUserAppointments();
+});
+
+// Add PayHere script if not already included
+function ensurePayHereScriptLoaded() {
+    if (typeof payhere === 'undefined') {
+        const script = document.createElement('script');
+        script.src = 'https://www.payhere.lk/lib/payhere.js';
+        script.async = true;
+        document.head.appendChild(script);
+        
+        return new Promise((resolve) => {
+            script.onload = () => {
+                console.log("PayHere script loaded");
+                resolve();
+            };
+        });
+    }
+    return Promise.resolve();
+}
+
+// Call this on page load
+ensurePayHereScriptLoaded();
+// Add this function to animate content transitions
+function animateContentTransition(callback) {
+    const subcategoryContainer = document.getElementById('subcategoryContainer');
+    if (!subcategoryContainer) {
+        if (callback) callback();
+        return;
+    }
+    
+    subcategoryContainer.style.opacity = '0';
+    subcategoryContainer.style.transform = 'translateY(20px)';
+    subcategoryContainer.style.transition = 'all 0.4s ease';
+
+    setTimeout(() => {
+        if (callback) callback();
+        subcategoryContainer.style.opacity = '1';
+        subcategoryContainer.style.transform = 'translateY(0)';
+    }, 400);
+}
 // Initialize when the page loads
 document.addEventListener('DOMContentLoaded', function() {
     // Add the PayHere script to the page if not already included
