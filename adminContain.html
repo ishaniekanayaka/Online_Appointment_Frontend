@@ -633,7 +633,7 @@ nav {
         </div>
         
 </div>
-<div class="profile-details">
+<!-- <div class="profile-details">
     <img id="profileImg" src="images/default.jpg" alt="profile">
     <span id="adminName">Isha Ekanayake</span>
     <i class="bx bx-chevron-down"></i>
@@ -642,7 +642,32 @@ nav {
         <a href="/userSetting.html"><i class='bx bx-cog'></i> Settings</a>
         <a href="index.html"><i class='bx bx-log-out'></i> Logout</a>
     </div>
+</div> -->
+<div class="profile-details">
+    <img id="profilePic" src="images/default.jpg" alt="profile">
+    <span class="admin_name" id="admin1Name">Loading...</span>
+    <i class='bx bx-chevron-down'></i>
+    <div class="dropdown-menu">
+        <a href="#" onclick="toggleProfileCard()"><i class='bx bx-user'></i> My Profile</a>
+        <a href="/userSetting.html"><i class='bx bx-cog'></i> Settings</a>
+        <a href="index.html"><i class='bx bx-log-out'></i> Logout</a>
+    </div>
 </div>
+</div>
+<!-- Hidden Profile Card -->
+<div id="profileCard" class="profile-card" style="display:none; position:absolute; top:80px; right:20px; background:#fff; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); z-index:1000;">
+    <img id="cardProfilePic" src="images/default.jpg" alt="Profile" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;">
+    <h3 id="cardName">Full Name</h3>
+    <p>Email: <span id="cardEmail"></span></p>
+    
+    <p>Birthday: <span id="cardBirthday"></span></p>
+    <p>Role: <span id="cardRole"></span></p>
+    <button onclick="location.href='/changePassword.html'" style="margin-top: 10px; padding: 6px 12px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">Change Password</button>
+
+    
+</div>
+
+
 
 </div>
 
@@ -1123,6 +1148,7 @@ nav {
 <script src="controller/gigController.js"></script>
 <script src="controller/userTableController.js"></script>
 <script src="controller/Appointments.js"></script>
+<script src="controller/profile.js"></script>
 <script></script>
 <script>
     document.getElementById('view-appointments').addEventListener('click', function () {
@@ -1217,61 +1243,74 @@ $(document).ready(function() {
     });
 });
 
-$(document).ready(function() {
-        // Toggle dropdown when clicking on profile details
+// $(document).ready(function() {
+//         // Toggle dropdown when clicking on profile details
+//         $('.profile-details').click(function(e) {
+//             e.stopPropagation();
+//             $('.dropdown-menu').toggleClass('show');
+//             $(this).toggleClass('active');
+//         });
+        
+//         // Close dropdown when clicking elsewhere
+//         $(document).click(function() {
+//             $('.dropdown-menu').removeClass('show');
+//             $('.profile-details').removeClass('active');
+//         });
+
+//         // Prevent dropdown from closing when clicking inside it
+//         $('.dropdown-menu').click(function(e) {
+//             e.stopPropagation();
+//         });
+
+//         // Handle dropdown item clicks
+//         $('.dropdown-menu a').click(function(e) {
+//             e.preventDefault();
+//             const action = $(this).attr('href');
+            
+//             // Close dropdown
+//             $('.dropdown-menu').removeClass('show');
+//             $('.profile-details').removeClass('active');
+            
+//             // Handle different actions
+//             if (action === '#') {
+//                 Swal.fire({
+//                     title: 'Profile',
+//                     text: 'Profile page will open here',
+//                     icon: 'info',
+//                     timer: 1500,
+//                     showConfirmButton: false
+//                 });
+//             } else if (action === '/userSetting.html') {
+//                 // Redirect to settings page
+//                 window.location.href = action;
+//             } else if (action === 'index.html') {
+//                 // Handle logout
+//                 Swal.fire({
+//                     title: 'Logout',
+//                     text: 'Are you sure you want to logout?',
+//                     icon: 'question',
+//                     showCancelButton: true,
+//                     confirmButtonText: 'Yes, logout',
+//                     cancelButtonText: 'Cancel'
+//                 }).then((result) => {
+//                     if (result.isConfirmed) {
+//                         window.location.href = action;
+//                     }
+//                 });
+//             }
+//         });
+//     });
+
+    // Profile dropdown functionality - improved version
+    $(document).ready(function() {
         $('.profile-details').click(function(e) {
             e.stopPropagation();
             $('.dropdown-menu').toggleClass('show');
-            $(this).toggleClass('active');
         });
-        
+
         // Close dropdown when clicking elsewhere
         $(document).click(function() {
             $('.dropdown-menu').removeClass('show');
-            $('.profile-details').removeClass('active');
-        });
-
-        // Prevent dropdown from closing when clicking inside it
-        $('.dropdown-menu').click(function(e) {
-            e.stopPropagation();
-        });
-
-        // Handle dropdown item clicks
-        $('.dropdown-menu a').click(function(e) {
-            e.preventDefault();
-            const action = $(this).attr('href');
-            
-            // Close dropdown
-            $('.dropdown-menu').removeClass('show');
-            $('.profile-details').removeClass('active');
-            
-            // Handle different actions
-            if (action === '#') {
-                Swal.fire({
-                    title: 'Profile',
-                    text: 'Profile page will open here',
-                    icon: 'info',
-                    timer: 1500,
-                    showConfirmButton: false
-                });
-            } else if (action === '/userSetting.html') {
-                // Redirect to settings page
-                window.location.href = action;
-            } else if (action === 'index.html') {
-                // Handle logout
-                Swal.fire({
-                    title: 'Logout',
-                    text: 'Are you sure you want to logout?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, logout',
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = action;
-                    }
-                });
-            }
         });
     });
 
@@ -1406,23 +1445,23 @@ function searchContent(searchTerm) {
     }
 }
 
-// Image preview functionality
-function previewImage(event) {
-    const input = event.target;
-    const preview = input.id === 'image' ? 
-                   document.getElementById('imagePreview') : 
-                   document.getElementById('subCategoryImagePreview');
+// // Image preview functionality
+// function previewImage(event) {
+//     const input = event.target;
+//     const preview = input.id === 'image' ? 
+//                    document.getElementById('imagePreview') : 
+//                    document.getElementById('subCategoryImagePreview');
                    
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-}
- </script>
+//     if (input.files && input.files[0]) {
+//         const reader = new FileReader();
+//         reader.onload = function(e) {
+//             preview.src = e.target.result;
+//             preview.style.display = 'block';
+//         };
+//         reader.readAsDataURL(input.files[0]);
+//     }
+// }
+//  </script>
 
  <script src="lib/jquery.min.js"></script>
 </body>
