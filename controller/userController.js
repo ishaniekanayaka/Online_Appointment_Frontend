@@ -57,7 +57,7 @@ document.getElementById("registerForm").addEventListener("submit", function (eve
                         if (roleData.role === "ADMIN") {
                             window.location.href = "../login.html";  // Redirect to Admin Dashboard
                         } else if (roleData.role === "USER") {
-                            window.location.href = "../userSetting.html"; 
+                            window.location.href = "../login.html";  // Redirect to User Dashboard
                         } else if (roleData.role === "GIG") {
                             window.location.href = "../gigRegister.html";  // Redirect to User Dashboard
                         } else {
