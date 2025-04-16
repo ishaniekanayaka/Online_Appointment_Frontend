@@ -279,6 +279,7 @@
             <i class="fas fa-camera me-1"></i> Choose Profile Picture
           </label>
           <input type="file" id="profilePicture" accept="image/*" />
+          
           <div id="imagePreview">
             <i class="fas fa-user-circle"></i>
           </div>
@@ -368,8 +369,8 @@
           const user = data.data;
           document.getElementById("userId").value = user.id || "";
 
-          if (user.profilePictureUrl) {
-            document.getElementById("imagePreview").innerHTML = `<img src="${user.profilePictureUrl}" alt="Profile" class="img-fluid" />`;
+          if (user.imageFile) {
+            document.getElementById("imagePreview").innerHTML = `<img src="${user.imageFile}" alt="Profile" class="img-fluid" />`;
             showSuccessToast("User found! Profile picture loaded");
           } else {
             document.getElementById("imagePreview").innerHTML = `<i class="fas fa-user-circle"></i>`;
@@ -409,55 +410,54 @@
     }
 
     function saveUserProfile() {
-      const userId = document.getElementById("userId").value;
-      const fileInput = document.getElementById("profilePicture");
-      
-      if (!userId) {
-        showErrorAlert("User Required", "Please search for a user first");
-        return;
+  const userId = document.getElementById("userId").value;
+  const fileInput = document.getElementById("profilePicture"); // ✅ Corrected ID
+
+  if (!userId) {
+    showErrorAlert("User Required", "Please search for a user first");
+    return;
+  }
+
+  if (!fileInput.files || fileInput.files.length === 0) {
+    showErrorAlert("Image Required", "Please select a profile picture to upload");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("userId", userId);
+  formData.append("profilePicture", fileInput.files[0]); // ✅ Match backend param name
+
+  showLoadingAlert("Saving Profile", "Please wait while we save your profile");
+
+  fetch(`${BASE_URL}/profile/upload`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${AUTH_TOKEN}` // ❗ Don't add 'Content-Type' here, browser sets it
+    },
+    body: formData
+  })
+    .then(async (response) => {
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to save profile");
       }
-      
-      if (!fileInput.files || fileInput.files.length === 0) {
-        showErrorAlert("Image Required", "Please select a profile picture to upload");
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("userId", userId);
-      formData.append("imageFile", fileInput.files[0]);
-
-      showLoadingAlert("Saving Profile", "Please wait while we save your profile");
-
-      fetch(`${BASE_URL}/profile/upload`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${AUTH_TOKEN}`
-        },
-        body: formData
-      })
-        .then(async (response) => {
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || "Failed to save profile");
-          }
-          return response.json();
-        })
-        .then((result) => {
-          showSuccessAlert(
-            "Profile Saved Successfully", 
-            "Your profile picture has been updated successfully",
-            result.profilePictureUrl || null
-          ).then(() => {
-            window.location.href = "/login.html";
-          });
-        })
-        .catch((error) => {
-          console.error("Profile save error:", error);
-          showErrorAlert("Save Failed", error.message || "Failed to save profile. Please try again.");
-        });
-    }
-
-    // Custom Alert Functions
+      return response.json();
+    })
+    .then((result) => {
+      showSuccessAlert(
+        "Profile Saved Successfully", 
+        "Your profile picture has been updated successfully",
+        result.data || null
+      ).then(() => {
+        window.location.href = "/login.html";
+      });
+    })
+    .catch((error) => {
+      console.error("Profile save error:", error);
+      showErrorAlert("Save Failed", error.message || "Failed to save profile. Please try again.");
+    });
+}
+ // Custom Alert Functions
     function showLoadingAlert(title, text) {
       Swal.fire({
         title: title,
